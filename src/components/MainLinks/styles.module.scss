@@ -1,0 +1,44 @@
+.container {
+  margin: 0 auto;
+  background-color: rgb(45, 52, 54, 0.3);
+  padding: 30px;
+
+  button {
+    padding: 10px 50px;
+    margin: 10px 20px;
+    width: 30%;
+    font-weight: 600;
+    font-size: 1.5em;
+    line-height: 1.5em;
+    border-radius: 25px;
+    border: 2px solid #2d3436;
+    transition: all 0.5s ease-out;
+    box-shadow: rgba(149, 157, 165, 0.5) 0px 8px 14px;
+    text-align: center;
+
+    &:hover {
+      background-color: #0984e3;
+      cursor: pointer;
+    }
+  }
+}
+
+/* On screens that are 992px or less */
+@media screen and (max-width: 992px) {
+  .container button {
+    margin: 10px;
+    width: 45%;
+    padding: 10px;
+  }
+}
+
+/* On screens that are 600px or less */
+@media screen and (max-width: 600px) {
+  .container button {
+    min-width: 30%;
+    margin: 5px;
+    padding: 10px;
+    font-size: 1em;
+    line-height: 1em;
+  }
+}

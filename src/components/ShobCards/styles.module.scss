@@ -1,0 +1,12 @@
+.container {
+  padding: 5px;
+  margin: 20px auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  .card {
+    margin: 10px;
+    max-width: 45%;
+  }
+}

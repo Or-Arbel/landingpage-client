@@ -1,0 +1,52 @@
+.footer {
+  background-color: #1975d2;
+  min-height: 150px;
+  padding: 20px;
+  text-align: center;
+  //make footer stay at the bottom of the web page
+  //   position: fixed;
+  //   bottom: 0;
+  //   width: 100%;
+}
+
+.content {
+  width: 80%;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 auto;
+  justify-content: center;
+}
+
+@media screen and (max-width: 992px) {
+  .content{
+    width: 100%;
+  }
+}
+
+.contact {
+  min-width: 20%;
+  margin: 0 20px;
+  padding: 0 10px;
+  p {
+    font-weight: bold;
+  }
+
+  ul li {
+    text-align: right;
+    color: white;
+    a {
+      text-decoration: none;
+      color: white;
+      &:hover {
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .contact{
+    width: 80%;
+    margin: 0;
+  }
+}

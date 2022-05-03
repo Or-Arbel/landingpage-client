@@ -1,0 +1,48 @@
+.linksContainer {
+  width: 70%;
+  padding: 5px;
+  margin: 20px auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.singleLink {
+  background-color: #74b9ff;
+  margin: 5px;
+  padding: 10px 5px;
+  min-width: 25%;
+  border-radius: 25px;
+  transition: background-color 0.5s ease-out;
+  a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  &:hover {
+    background-color: #0984e3;
+    cursor: pointer;
+  }
+}
+
+/* On screens that are 992px or less */
+@media screen and (max-width: 992px) {
+  .linksContainer {
+    width: 80%;
+    justify-content: space-around;
+    .singleLink {
+      min-width: 40%;
+    }
+  }
+}
+
+/* On screens that are 600px or less */
+@media screen and (max-width: 600px) {
+  .linksContainer {
+    width: 90%;
+    .singleLink {
+      min-width: 100%;
+    }
+  }
+}
