@@ -24,7 +24,10 @@ function App() {
           <Route path="/" element={<Shual />} />
           <Route path="/shob" element={<Shob />} />
           <Route path="/report" element={<Report />} />
-          <Route path="/update" element={<UpdateData />} />
+          <Route path="/update">
+            <Route index={true} element={<UpdateData />} />
+            <Route path=":table" element={<UpdateData />} />
+          </Route>
           <Route path="*" element={<ErrorPage />} />
         </Routes>
         <LoginModal

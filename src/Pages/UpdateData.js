@@ -1,11 +1,12 @@
 import React from 'react';
-// import AdminTableGibuy from '../components/AdminTable_Gibuy/AdminTable';
+import SideNav from '../components/SideNav/SideNav';
+import Data from '../components/Data/Data';
 
 const UpdateData = () => {
   return (
-    <div>
-      <h1>UpdateData</h1>
-      {/* <AdminTableGibuy /> */}
+    <div style={{ height: '100vh', display: 'flex', flexWrap: 'wrap' }}>
+      <SideNav />
+      <Data />
     </div>
   );
 };
