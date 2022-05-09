@@ -1,19 +1,41 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './styles.module.scss';
-import { linksData } from '../linksData';
+// import { linksData } from '../linksData';
+import CircularProgress from '@mui/material/CircularProgress';
+import useHttp from '../../Hooks/use-http';
 
 const LinksList = () => {
+  const [links, setLinks] = useState();
+
+  const { isLoading, error, sendRequest: fetchLinks } = useHttp();
+
+  useEffect(() => {
+    const renderLinks = (fetchedData) => {
+      setLinks(fetchedData.data.links);
+    };
+
+    fetchLinks(
+      { url: `${process.env.REACT_APP_SERVER_URL}api/links` },
+      renderLinks
+    );
+  }, []);
+
   return (
     <div>
-      {/* <h1>Links List</h1> */}
       <div className={styles.linksContainer}>
-        {linksData.map((e, i) => (
-          <div className={styles.singleLink} key={i}>
-            <a href={e.url} target="_blank" rel="noreferrer">
-              {e.name}
-            </a>
-          </div>
-        ))}
+        {isLoading ? <CircularProgress /> : null}
+        {error ? <p>{error}</p> : null}
+
+        {links &&
+          !isLoading &&
+          !error &&
+          links.map((e, i) => (
+            <div className={styles.singleLink} key={i}>
+              <a href={e.url} target="_blank" rel="noreferrer">
+                {e.name}
+              </a>
+            </div>
+          ))}
       </div>
     </div>
   );
