@@ -34,21 +34,21 @@ const Cards = () => {
               className={styles.cardTitle}
               sx={{ backgroundColor: '#b2bec3' }}
             />
-            {/* <CardContent>
-            <div className={styles.linksContainer}>
-              {card.urls.map((e, i) => (
-                <a
-                  key={i}
-                  href={e.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className={styles.singleLink}
-                >
-                  {e.name}
-                </a>
-              ))}
-            </div>
-          </CardContent> */}
+            <CardContent>
+              <div className={styles.linksContainer}>
+                {d.departmentLinks.map((e, i) => (
+                  <a
+                    key={i}
+                    href={e.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className={styles.singleLink}
+                  >
+                    {e.name}
+                  </a>
+                ))}
+              </div>
+            </CardContent>
           </Card>
         ))}
     </div>

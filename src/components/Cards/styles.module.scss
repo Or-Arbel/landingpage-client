@@ -21,7 +21,9 @@
   text-decoration: none;
   color: black;
   margin-bottom: 5px;
+  font-weight: normal;
   &:hover {
-    font-weight: bold;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
   }
 }
