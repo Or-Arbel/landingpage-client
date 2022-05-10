@@ -1,12 +1,15 @@
 .container {
   margin: 0 auto;
   background-color: rgb(45, 52, 54, 0.3);
-  padding: 30px;
+  padding: 100px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 
   button {
     padding: 10px 50px;
     margin: 10px 20px;
-    width: 30%;
+    min-width: 30%;
     font-weight: 600;
     font-size: 1.5em;
     line-height: 1.5em;
@@ -25,20 +28,23 @@
 
 /* On screens that are 992px or less */
 @media screen and (max-width: 992px) {
+  .container {
+    padding: 60px 20px;
+  }
   .container button {
     margin: 10px;
-    width: 45%;
+    min-width: 45%;
     padding: 10px;
   }
 }
 
 /* On screens that are 600px or less */
 @media screen and (max-width: 600px) {
+  .container {
+    padding: 50px 20px;
+  }
   .container button {
-    min-width: 30%;
-    margin: 5px;
+    min-width: 100%;
     padding: 10px;
-    font-size: 1em;
-    line-height: 1em;
   }
 }

@@ -1,5 +1,11 @@
 body {
   text-align: center;
-  background-color: #dfe6e9;
+  /* background-color: #dfe6e9; */
+  background-image: url('./components/Assets/blue-bg.jpg');
+  /* background-image: url('./components/Assets/bg1.jpg'); */
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 100%;
+
   direction: rtl;
 }
