@@ -4,7 +4,14 @@ import Data from '../components/Data/Data';
 
 const UpdateData = () => {
   return (
-    <div style={{ height: '100vh', display: 'flex', flexWrap: 'wrap' }}>
+    <div
+      style={{
+        height: '100vh',
+        display: 'flex',
+        flexFlow: 'column wrap',
+        flexDirection: 'row',
+      }}
+    >
       <SideNav />
       <Data />
     </div>

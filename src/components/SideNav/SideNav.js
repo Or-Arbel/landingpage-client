@@ -27,7 +27,7 @@ const SideNav = () => {
             <Link to="/update/links">לינקים</Link>
           </MenuItem>
           <MenuItem>
-            <Link to="/update/cards">כוחות - Cards</Link>
+            <Link to="/update/departments">מחלקות</Link>
           </MenuItem>
           <MenuItem>
             <Link to="/update/lab">פיתוחי מעבדה</Link>

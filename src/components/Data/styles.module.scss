@@ -1,4 +1,7 @@
 .dataContainer {
   padding: 20px;
   flex-grow: 1;
+  overflow-y: auto;
+  display: flex;
+  justify-content: center;
 }

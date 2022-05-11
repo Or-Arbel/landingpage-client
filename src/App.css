@@ -6,6 +6,6 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   width: 100%;
-
   direction: rtl;
+  box-sizing: border-box;
 }

@@ -34,6 +34,11 @@ const Navbar = (props) => {
               דיווח תקלה ויצירת קשר
             </Link>
           </Button>
+          <Button color="inherit">
+            <Link className={styles.navLink} to="/update">
+              עדכון
+            </Link>
+          </Button>
         </Stack>
         <Button onClick={() => props.setOpenModal(true)} color="inherit">
           התחברות
