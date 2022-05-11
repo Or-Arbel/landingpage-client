@@ -1,53 +1,13 @@
-import React, { useState, forwardRef } from 'react';
+import React, { useState } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import MaterialTable from 'material-table';
+import { TablePagination, Grid, Typography, Divider } from '@material-ui/core';
 import MTableBody from './MTableBody';
 import MTableBodyRow from './MTableBodyRow';
 import hebrewLocalization from './hebrewLocalization';
-
-import AddBox from '@material-ui/icons/AddBox';
-import ArrowDownward from '@material-ui/icons/ArrowDownward';
-import Check from '@material-ui/icons/Check';
-import ChevronLeft from '@material-ui/icons/ChevronLeft';
-import ChevronRight from '@material-ui/icons/ChevronRight';
-import Clear from '@material-ui/icons/Clear';
-import DeleteOutline from '@material-ui/icons/DeleteOutline';
-import Edit from '@material-ui/icons/Edit';
-import FilterList from '@material-ui/icons/FilterList';
-import FirstPage from '@material-ui/icons/FirstPage';
-import LastPage from '@material-ui/icons/LastPage';
-import Remove from '@material-ui/icons/Remove';
-import SaveAlt from '@material-ui/icons/SaveAlt';
-import Search from '@material-ui/icons/Search';
-import ViewColumn from '@material-ui/icons/ViewColumn';
-
+import tableIcons from './MaterialTableIcons';
 import { useParams } from 'react-router-dom';
-
 import './MaterialTable.css';
-
-const tableIcons = {
-  Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
-  Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
-  Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
-  Delete: forwardRef((props, ref) => <DeleteOutline {...props} ref={ref} />),
-  DetailPanel: forwardRef((props, ref) => (
-    <ChevronRight {...props} ref={ref} />
-  )),
-  Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} />),
-  Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
-  Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />),
-  FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
-  LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
-  NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
-  PreviousPage: forwardRef((props, ref) => (
-    <ChevronLeft {...props} ref={ref} />
-  )),
-  ResetSearch: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
-  Search: forwardRef((props, ref) => <Search {...props} ref={ref} />),
-  SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />),
-  ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
-  ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
-};
 
 const MaterialTableComponent = () => {
   let { table } = useParams(); // Get table name from url
@@ -190,53 +150,12 @@ const MaterialTableComponent = () => {
   const [tableData, setTableData] = useState(initialRowsData);
   const [selectedRows, setSelectedRows] = useState([]);
 
-  const columns = [
-    {
-      title: 'order',
-      field: 'order',
-      // defaultSort: 'asc',
-    },
-    {
-      title: 'Name',
-      field: 'name',
-    },
-    { title: 'Email', field: 'email', filterPlaceholder: 'סנן אימייל' },
-    {
-      title: 'Password',
-      field: 'password',
-      filterPlaceholder: 'סנן סיסמה',
-      editComponent: ({ value, onChange }) => (
-        <input
-          type="text"
-          value={value || ''}
-          onChange={(e) => onChange(e.target.value)}
-        />
-      ),
-      render: (rowData) => (
-        <input type="password" value={rowData.password} readOnly />
-      ),
-    },
-    {
-      title: 'Phone Number',
-      field: 'phone',
-      align: 'center',
-    },
-    {
-      title: 'Age',
-      field: 'age',
-      emptyValue: () => <em>null</em>,
-    },
-    { title: 'Gender', field: 'gender', lookup: { M: 'Male', F: 'Female' } },
-    { title: 'City', field: 'city', filterPlaceholder: 'filter' },
-    {
-      title: 'School Fee',
-      field: 'fee',
-      // type: 'currency',
-      // currencySetting: { currencyCode: 'INR', minimumFractionDigits: 1 },
-      // cellStyle: { background: '#009688' },
-      // headerStyle: { color: '#fff' },
-    },
-  ];
+  // const columns =
+  const dataObjectKeys = Object.keys(initialRowsData[0]);
+  const columns = [];
+  for (let i = 0; i < dataObjectKeys.length; i++) {
+    columns.push({ title: dataObjectKeys[i], field: dataObjectKeys[i] });
+  }
 
   const fixOrderHandler = (rowsData, maxIndex = rowsData.length - 1) => {
     for (let i = 0; i <= maxIndex; i++) {
@@ -350,6 +269,19 @@ const MaterialTableComponent = () => {
               }}
             </Draggable>
           ),
+          Pagination: (props) => (
+            <>
+              <Grid container style={{ padding: 15 }}>
+                <Grid sm={12} item align="center">
+                  <Typography variant="subtitle2">
+                    מספר רשומות : {props.count}
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Divider />
+              <TablePagination {...props} />
+            </>
+          ),
         }}
         onSelectionChange={(rows) => setSelectedRows(rows)}
         options={{
@@ -360,9 +292,9 @@ const MaterialTableComponent = () => {
           searchFieldVariant: 'standard',
           filtering: true, // add filtering option
           paging: true, // show pagination
-          pageSizeOptions: [5, 10, 20, 25, 50, 100], // pagination rows length
-          pageSize: 10, // default page size
-          paginationType: 'stepped', // show page number instead of text
+          pageSizeOptions: [5, 10, 20, 25, 50], // pagination rows length
+          pageSize: 5, // default page size
+          // paginationType: 'stepped', // show page number instead of text
           showFirstLastPageButtons: true,
           paginationPosition: 'bottom', // both / top / bottom
           exportButton: true, // show/hide export button
@@ -380,14 +312,25 @@ const MaterialTableComponent = () => {
           grouping: true,
           columnsButton: true,
           rowStyle: (data, index) =>
-            index % 2 === 0 ? { background: '#f5f5f5' } : null,
-          // headerStyle: { background: '#1e78bf', color: '#fff' },
-          headerStyle: { background: '#1e78bf', color: '#fff' },
+            index % 2 === 0
+              ? { background: '#f5f5f5' }
+              : { background: 'white' },
+          headerStyle: {
+            background: '#1e78bf',
+            color: '#fff',
+            textAlign: 'center',
+          },
+          cellStyle: {
+            textAlign: 'center',
+          },
+          footerStyle: {
+            direction: 'ltr',
+          },
         }}
         localization={hebrewLocalization}
         actions={[
           {
-            icon: 'delete',
+            icon: tableIcons.Delete,
             tooltip: 'מחק את כל השורות שנבחרו',
             onClick: () => handleBulkDelete(),
           },

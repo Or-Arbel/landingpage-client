@@ -6,7 +6,7 @@ import styles from './styles.module.scss';
 
 const Navbar = (props) => {
   return (
-    <AppBar position="sticky">
+    <AppBar position="sticky" id={styles.appBar}>
       <Toolbar>
         <IconButton
           size="large"
@@ -40,7 +40,11 @@ const Navbar = (props) => {
             </Link>
           </Button>
         </Stack>
-        <Button onClick={() => props.setOpenModal(true)} color="inherit">
+        <Button
+          style={{ color: 'white' }}
+          onClick={() => props.setOpenModal(true)}
+          className={styles.navLink}
+        >
           התחברות
         </Button>
       </Toolbar>

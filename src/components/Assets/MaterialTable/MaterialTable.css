@@ -1,4 +1,4 @@
-span.MuiTypography-root.MuiTypography-caption {
+/* span.MuiTypography-root.MuiTypography-caption {
   text-align: center;
   direction: rtl;
 }
@@ -8,35 +8,43 @@ span.MuiTypography-root.MuiTypography-caption {
   color: #fff;
 }
 
-.MuiTableRow-head th span:hover {
-  color: white;
-}
+
 
 .MuiFormControl-root.MuiTextField-root.MTableToolbar-searchField-10,
 ul.MuiList-root.MuiMenu-list.MuiList-padding {
   direction: rtl;
 }
+tr.MuiTableRow-root.MuiTableRow-footer,
 .MuiButtonBase-root.MuiChip-root.MuiChip-clickable.MuiChip-deletable {
-  direction: ltr;
+  direction: ltr !important;
 }
 
 input.MuiInputBase-input.MuiInput-input.MuiInputBase-inputAdornedStart.MuiInputBase-inputAdornedEnd {
   padding-right: 5px;
 }
-.MuiTableSortLabel-root.MuiTableSortLabel-active {
-  color: white !important;
-}
 
-.MuiTableSortLabel-root.MuiTableSortLabel-active.MuiTableSortLabel-root.MuiTableSortLabel-active
-  .MuiTableSortLabel-icon {
-  color: white !important;
-}
 
-/* .MuiToolbar-root.MuiToolbar-regular.MuiToolbar-gutters > div {
-  flex-direction: row-reverse;
-} */
+
 
 h6.MuiTypography-root.MuiTypography-h6 {
   direction: rtl;
   text-align: right;
+} */
+.MuiTableRow-head th span:hover {
+  color: white;
+}
+.MuiTableSortLabel-root.MuiTableSortLabel-active {
+  color: white !important;
+}
+.MuiTableSortLabel-root.MuiTableSortLabel-active.MuiTableSortLabel-root.MuiTableSortLabel-active
+  .MuiTableSortLabel-icon {
+  color: white !important;
+}
+/* footer */
+tr.MuiTableRow-root.MuiTableRow-footer {
+  direction: ltr !important;
+}
+/* footer page size */
+.MuiButtonBase-root.MuiChip-root.MuiChip-clickable.MuiChip-deletable {
+  direction: ltr;
 }
