@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import styles from './styles.module.scss';
+import React, { useState, useEffect } from "react";
+import styles from "./styles.module.scss";
 // import { cardsData } from '../cardsData';
-import { Card, CardContent, CardHeader } from '@mui/material';
-import CircularProgress from '@mui/material/CircularProgress';
-import useHttp from '../../Hooks/use-http';
+import { Card, CardContent, CardHeader } from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress";
+import useHttp from "../../Hooks/use-http";
 
 const Cards = () => {
   const [departments, setDepartments] = useState();
@@ -13,6 +13,7 @@ const Cards = () => {
   useEffect(() => {
     const renderDepartments = (fetchedData) => {
       setDepartments(fetchedData.data);
+      console.log(fetchedData.data);
     };
 
     sendRequest(
@@ -28,14 +29,21 @@ const Cards = () => {
         !isLoading &&
         !error &&
         departments.map((d, i) => (
-          <Card sx={{ minWidth: 250, minHeight: 300, margin: '10px' }} key={i}>
+          <Card className={styles.departmentCard} key={i}>
             <CardHeader
               title={d.name}
               className={styles.cardTitle}
-              sx={{ backgroundColor: '#b2bec3' }}
+              style={{ paddingBottom: "40px" }}
             />
             <CardContent>
               <div className={styles.linksContainer}>
+                <div className={styles.imageContainer}>
+                  <img
+                    src={require(`../../images/img${i + 1}.svg`)}
+                    width={50}
+                    height={50}
+                  />
+                </div>
                 {d.departmentLinks.map((e, i) => (
                   <a
                     key={i}

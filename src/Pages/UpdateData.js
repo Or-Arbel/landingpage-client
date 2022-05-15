@@ -8,7 +8,7 @@ const UpdateData = () => {
       style={{
         height: '100vh',
         display: 'flex',
-        flexFlow: 'column wrap',
+        // flexFlow: 'column wrap',
         flexDirection: 'row',
       }}
     >

@@ -14,7 +14,28 @@
 }
 
 .cardTitle {
-  color: #1976d2;
+  color: white;
+  font-weight: 800;
+  background-color: #308f89;
+}
+
+.imageContainer {
+  border: 3px solid white;
+  width: 70px;
+  height: 70px;
+  border-radius: 50px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: wheat;
+  position: relative;
+  top: -50px;
+}
+.departmentCard {
+  min-width: 250px;
+  min-height: 300px;
+  margin: 10px;
 }
 
 .singleLink {

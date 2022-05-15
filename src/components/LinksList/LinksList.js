@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import styles from './styles.module.scss';
+import React, { useState, useEffect } from "react";
+import styles from "./styles.module.scss";
 // import { linksData } from '../linksData';
-import CircularProgress from '@mui/material/CircularProgress';
-import useHttp from '../../Hooks/use-http';
+import CircularProgress from "@mui/material/CircularProgress";
+import useHttp from "../../Hooks/use-http";
 
 const LinksList = () => {
   const [links, setLinks] = useState();
@@ -11,7 +11,7 @@ const LinksList = () => {
 
   useEffect(() => {
     const renderLinks = (fetchedData) => {
-      setLinks(fetchedData.data.links);
+      setLinks(fetchedData.data);
     };
 
     fetchLinks(

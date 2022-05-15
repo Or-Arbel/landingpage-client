@@ -20,7 +20,7 @@ const SideNav = () => {
       </SidebarHeader>
       <Menu iconShape="circle">
         <MenuItem icon={<FaGem />}>
-          <Link to="/update/">לוח בקרה</Link>
+          <Link to="/update">לוח בקרה</Link>
         </MenuItem>
         <SubMenu title="עריכת נתונים" icon={<FaEdit />}>
           <MenuItem>
@@ -30,7 +30,7 @@ const SideNav = () => {
             <Link to="/update/departments">מחלקות</Link>
           </MenuItem>
           <MenuItem>
-            <Link to="/update/lab">פיתוחי מעבדה</Link>
+            <Link to="/update/shobDevelopments">פיתוחי מעבדה</Link>
           </MenuItem>
         </SubMenu>
       </Menu>

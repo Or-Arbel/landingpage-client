@@ -18,7 +18,7 @@ const Navbar = (props) => {
           <EmojiFlagsIcon />
         </IconButton>
 
-        <Stack direction="row" spacing={2}>
+        <Stack direction="row" spacing={4}>
           <Button color="inherit">
             <Link className={styles.navLink} to="/">
               פורטל שוע"ל מפקדות

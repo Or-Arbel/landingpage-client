@@ -6,7 +6,6 @@ export const cardsData = [
       { name: "סטטוס כשירות כוחות ארצי", url: "https://www.google.co.il/" },
       { name: "סטטוס כשירות כוחות ארצי", url: "https://www.google.co.il/" },
       { name: "סטטוס כשירות כוחות ארצי", url: "https://www.google.co.il/" },
-      { name: "סטטוס כשירות כוחות ארצי", url: "https://www.google.co.il/" },
     ],
   },
   {
