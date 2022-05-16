@@ -5,22 +5,22 @@ const hebrewColumns = (tableName) => {
   switch (tableName) {
     case "links":
       return [
-        { title: "סדר", field: "order", defaultSort: "asc" },
+        { title: "סדר", field: "order", defaultSort: "asc", editable: "never" },
         { title: "שם", field: "name" },
         { title: "לינק", field: "url" },
-        { title: "נוצר בתאריך", field: "createdAt" },
-        { title: "עודכן בתאריך", field: "updatedAt" },
+        { title: "נוצר בתאריך", field: "createdAt", editable: "never" },
+        { title: "עודכן בתאריך", field: "updatedAt", editable: "never" },
       ];
     case "departments":
       return [
-        { title: "סדר", field: "order", defaultSort: "asc" },
+        { title: "סדר", field: "order", defaultSort: "asc", editable: "never" },
         { title: "שם", field: "name" },
-        { title: "נוצר בתאריך", field: "createdAt" },
-        { title: "עודכן בתאריך", field: "updatedAt" },
+        { title: "נוצר בתאריך", field: "createdAt", editable: "never" },
+        { title: "עודכן בתאריך", field: "updatedAt", editable: "never" },
       ];
     case "shobDevelopments":
       return [
-        { title: "סדר", field: "order", defaultSort: "asc" },
+        { title: "סדר", field: "order", defaultSort: "asc", editable: "never" },
         { title: "כותרת", field: "title" },
         { title: "כותרת משנה", field: "subTitle" },
         { title: "תיאור", field: "description" },
@@ -31,8 +31,8 @@ const hebrewColumns = (tableName) => {
             <img src={rowData.image} width="50" height="60" />
           ),
         },
-        { title: "נוצר בתאריך", field: "createdAt" },
-        { title: "עודכן בתאריך", field: "updatedAt" },
+        { title: "נוצר בתאריך", field: "createdAt", editable: "never" },
+        { title: "עודכן בתאריך", field: "updatedAt", editable: "never" },
       ];
 
     //   default:

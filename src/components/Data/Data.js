@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./styles.module.scss";
 import { useParams } from "react-router-dom";
-import MaterialTableComponent from "../Assets/MaterialTable/MaterialTable";
+import MaterialTableComponent from "../Assets/MaterialTable/MaterialTableComponent";
 
 const Data = () => {
   let { table } = useParams(); // Get table name from url

@@ -9,7 +9,6 @@ import tableIcons from "./MaterialTableIcons";
 import { useParams } from "react-router-dom";
 import "./MaterialTable.css";
 import useHttp from "../../../Hooks/use-http";
-import createColumnsArr from "./createColumnsArr";
 import hebrewColumns from "./hebrewColumns";
 
 const MaterialTableComponent = () => {
@@ -22,6 +21,7 @@ const MaterialTableComponent = () => {
 
   //Set table data and columns after we get the data from db
   const renderRowsData = (fetchedData) => {
+    console.log(fetchedData);
     setTableData(fetchedData.data);
 
     hasImageColumn =
@@ -79,6 +79,7 @@ const MaterialTableComponent = () => {
 
   return (
     <div style={{ maxWidth: "90%", margin: "auto" }}>
+      {error && error.message}
       {tableData && columns && (
         <MaterialTable
           icons={tableIcons}
@@ -88,9 +89,22 @@ const MaterialTableComponent = () => {
           editable={{
             onRowAdd: (newRow) =>
               new Promise((resolve, reject) => {
-                console.log("onRowAdd");
-                setTableData((prevState) => [...prevState, newRow]);
-                console.log(tableData);
+                let bodyData = newRow;
+                bodyData.order = tableData.length + 1;
+
+                const requestOptions = {
+                  url: `${process.env.REACT_APP_SERVER_URL}api/${table}`,
+                  method: "POST",
+                  body: [bodyData],
+                };
+
+                fetchData(requestOptions, (newRow) => {
+                  console.log(newRow.data.links);
+                  setTableData((prevState) => [
+                    ...prevState,
+                    ...newRow.data.links,
+                  ]);
+                });
                 resolve();
               }),
             onRowUpdate: (newRow, oldRow) =>
