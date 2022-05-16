@@ -1,20 +1,23 @@
-import React from 'react';
-import SideNav from '../components/SideNav/SideNav';
-import Data from '../components/Data/Data';
+import React from "react";
+import SideNav from "../components/SideNav/SideNav";
+import Data from "../components/Data/Data";
+import { motion } from "framer-motion";
 
 const UpdateData = () => {
   return (
-    <div
+    <motion.div
+      // initial={{ opacity: 0 }}
+      // animate={{ opacity: 1 }}
+      // exit={{ opacity: 0 }}
       style={{
-        height: '100vh',
-        display: 'flex',
-        // flexFlow: 'column wrap',
-        flexDirection: 'row',
+        height: "100vh",
+        display: "flex",
+        flexDirection: "row",
       }}
     >
       <SideNav />
       <Data />
-    </div>
+    </motion.div>
   );
 };
 

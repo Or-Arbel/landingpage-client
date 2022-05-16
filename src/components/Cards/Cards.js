@@ -13,7 +13,6 @@ const Cards = () => {
   useEffect(() => {
     const renderDepartments = (fetchedData) => {
       setDepartments(fetchedData.data);
-      console.log(fetchedData.data);
     };
 
     sendRequest(

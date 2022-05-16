@@ -1,15 +1,20 @@
-import React from 'react';
-import Cards from '../components/Cards/Cards';
-import LinksList from '../components/LinksList/LinksList';
-import MainLinks from '../components/MainLinks/MainLinks';
+import { motion } from "framer-motion";
+import React from "react";
+import Cards from "../components/Cards/Cards";
+import LinksList from "../components/LinksList/LinksList";
+import MainLinks from "../components/MainLinks/MainLinks";
 
 const Shual = () => {
   return (
-    <div>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
       <MainLinks />
       <LinksList />
       <Cards />
-    </div>
+    </motion.div>
   );
 };
 
