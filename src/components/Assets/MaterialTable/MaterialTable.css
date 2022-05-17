@@ -48,3 +48,6 @@ tr.MuiTableRow-root.MuiTableRow-footer {
 .MuiButtonBase-root.MuiChip-root.MuiChip-clickable.MuiChip-deletable {
   direction: ltr;
 }
+.MTablePaginationInner-root-18 {
+  direction: rtl;
+}

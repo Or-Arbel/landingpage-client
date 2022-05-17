@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import MaterialTable from "material-table";
 import { TablePagination, Grid, Typography, Divider } from "@material-ui/core";
@@ -10,37 +10,18 @@ import { useParams } from "react-router-dom";
 import "./MaterialTable.css";
 import useHttp from "../../../Hooks/use-http";
 import hebrewColumns from "./hebrewColumns";
+import { TableDataContext } from "../../Data/Data";
 
-const MaterialTableComponent = () => {
+const MaterialTableComponent = (props) => {
   let { table } = useParams(); // Get table name from url
-  const [tableData, setTableData] = useState([]);
-  const [selectedRows, setSelectedRows] = useState([]);
-  const [columns, setColumns] = useState([]);
+
+  const { tableData, setTableData, columns, selectedRows, setSelectedRows } =
+    useContext(TableDataContext);
 
   let hasImageColumn = null;
 
-  //Set table data and columns after we get the data from db
-  const renderRowsData = (fetchedData) => {
-    console.log(fetchedData);
-    setTableData(fetchedData.data);
-
-    hasImageColumn =
-      fetchedData.data[0] && fetchedData.data[0].image
-        ? (rowData) => <img src={rowData.image} />
-        : null;
-  };
-
   //Get table data from db
   const { isLoading, error, sendRequest: fetchData } = useHttp();
-  useEffect(() => {
-    fetchData(
-      { url: `${process.env.REACT_APP_SERVER_URL}api/${table}` },
-      renderRowsData
-    );
-
-    let columnsArr = hebrewColumns(table);
-    setColumns(columnsArr);
-  }, [table]);
 
   const fixOrderHandler = (rowsData, maxIndex = rowsData.length - 1) => {
     for (let i = 0; i <= maxIndex; i++) {
@@ -79,13 +60,12 @@ const MaterialTableComponent = () => {
 
   return (
     <div style={{ maxWidth: "90%", margin: "auto" }}>
-      {error && error.message}
       {tableData && columns && (
         <MaterialTable
           icons={tableIcons}
           columns={columns}
           data={tableData}
-          title={table}
+          title={props.getTitle(table)}
           editable={{
             onRowAdd: (newRow) =>
               new Promise((resolve, reject) => {
@@ -99,20 +79,39 @@ const MaterialTableComponent = () => {
                 };
 
                 fetchData(requestOptions, (newRow) => {
-                  console.log(newRow.data.links);
-                  setTableData((prevState) => [
-                    ...prevState,
-                    ...newRow.data.links,
-                  ]);
+                  setTableData((prevState) => [...prevState, ...newRow.data]);
                 });
                 resolve();
               }),
             onRowUpdate: (newRow, oldRow) =>
               new Promise((resolve, reject) => {
-                console.log("onRowUpdate");
-                const updatedData = [...tableData];
-                updatedData[oldRow.tableData.id] = newRow;
-                setTableData(updatedData);
+                let body = { ...newRow };
+
+                delete body.createdAt;
+                delete body.updatedAt;
+                delete body.id;
+                delete body.order;
+
+                const requestOptions = {
+                  url: `${process.env.REACT_APP_SERVER_URL}api/${table}/${oldRow.id}`,
+
+                  method: "PATCH",
+                  body,
+                };
+
+                fetchData(requestOptions, (res) => {
+                  console.log(res);
+                  const updatedData = [...tableData];
+                  let index = updatedData.indexOf(oldRow);
+                  updatedData[index] = res.data;
+                  setTableData((prevState) => updatedData);
+
+                  // const updatedData = [...tableData];
+                  // newRow.updatedAt = res.updateTime;
+                  // updatedData[oldRow.tableData.id] = newRow;
+                  // setTableData(updatedData);
+                });
+
                 resolve();
               }),
             onRowDelete: (selectedRow) =>
@@ -120,8 +119,8 @@ const MaterialTableComponent = () => {
                 console.log("onRowDelete");
                 const updatedData = [...tableData];
                 updatedData.splice(selectedRow.tableData.id, 1);
-
                 fixOrderHandler(updatedData);
+
                 setTableData(updatedData);
                 resolve();
               }),

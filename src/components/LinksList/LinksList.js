@@ -30,11 +30,15 @@ const LinksList = () => {
           !isLoading &&
           !error &&
           links.map((e, i) => (
-            <div className={styles.singleLink} key={i}>
-              <a href={e.url} target="_blank" rel="noreferrer">
-                {e.name}
-              </a>
-            </div>
+            <a
+              key={i}
+              className={styles.singleLink}
+              href={e.url}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <div>{e.name}</div>
+            </a>
           ))}
       </div>
     </div>

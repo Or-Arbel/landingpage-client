@@ -7,6 +7,7 @@ const useHttp = () => {
   const headers = {
     "Content-Type": "application/json",
     "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "*",
   };
 
   const sendRequest = useCallback(async (requestConfig, applyData) => {
@@ -19,8 +20,8 @@ const useHttp = () => {
       const response = await fetch(requestConfig.url + params, {
         method: requestConfig.method ? requestConfig.method : "GET",
         headers: requestConfig.headers ? requestConfig.headers : headers,
-
         body: requestConfig.body ? JSON.stringify(requestConfig.body) : null,
+        redirect: "follow",
       });
 
       if (!response.ok) {
