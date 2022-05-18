@@ -4,6 +4,8 @@ import styles from "./styles.module.scss";
 const MainLinks = () => {
   return (
     <div className={styles.container}>
+      <h1>פורטל שוע"ל מפקדות</h1>
+      <br />
       <button>שוע"ל מפקדות</button>
       <button>שוע"ל תנופה</button>
       <button>תמונת מצב</button>

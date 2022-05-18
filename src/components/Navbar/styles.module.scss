@@ -1,6 +1,15 @@
 .navLink {
-  color: white;
+  font-size: 16px;
+  color: rgb(230, 245, 241, 0.6);
   text-decoration: none;
+  padding: 10px;
+}
+.activeNavLink {
+  font-size: 16px;
+  color: #e6f4f1;
+  text-decoration: none;
+  border-bottom: 3px solid #e6f4f1;
+  padding: 10px;
 }
 #appBar {
   background-color: #1976d2;

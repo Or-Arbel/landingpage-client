@@ -1,16 +1,16 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
 import {
   ProSidebar,
   SidebarHeader,
   Menu,
   MenuItem,
   SubMenu,
-} from 'react-pro-sidebar';
-import { FaGem, FaEdit } from 'react-icons/fa';
+} from "react-pro-sidebar";
+import { FaGem, FaEdit } from "react-icons/fa";
 
-import 'react-pro-sidebar/dist/css/styles.css';
-import styles from './styles.module.scss';
+import "react-pro-sidebar/dist/css/styles.css";
+import styles from "./styles.module.scss";
 
 const SideNav = () => {
   return (
@@ -22,7 +22,7 @@ const SideNav = () => {
         <MenuItem icon={<FaGem />}>
           <Link to="/update">לוח בקרה</Link>
         </MenuItem>
-        <SubMenu title="עריכת נתונים" icon={<FaEdit />}>
+        <SubMenu title="עריכת נתונים" icon={<FaEdit />} defaultOpen>
           <MenuItem>
             <Link to="/update/links">לינקים</Link>
           </MenuItem>

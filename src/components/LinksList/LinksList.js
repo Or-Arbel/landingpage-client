@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styles from "./styles.module.scss";
 // import { linksData } from '../linksData';
 import CircularProgress from "@mui/material/CircularProgress";
+import LinkIcon from "@mui/icons-material/Link";
 import useHttp from "../../Hooks/use-http";
 
 const LinksList = () => {
@@ -37,6 +38,7 @@ const LinksList = () => {
               target="_blank"
               rel="noreferrer"
             >
+              <LinkIcon />
               <div>{e.name}</div>
             </a>
           ))}

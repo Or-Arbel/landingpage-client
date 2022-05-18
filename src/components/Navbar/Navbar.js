@@ -1,8 +1,8 @@
-import React from 'react';
-import { AppBar, Toolbar, IconButton, Stack, Button } from '@mui/material';
-import EmojiFlagsIcon from '@mui/icons-material/EmojiFlags';
-import { Link } from 'react-router-dom';
-import styles from './styles.module.scss';
+import React from "react";
+import { AppBar, Toolbar, IconButton, Stack, Button } from "@mui/material";
+import EmojiFlagsIcon from "@mui/icons-material/EmojiFlags";
+import { NavLink } from "react-router-dom";
+import styles from "./styles.module.scss";
 
 const Navbar = (props) => {
   return (
@@ -20,33 +20,58 @@ const Navbar = (props) => {
 
         <Stack direction="row" spacing={4}>
           <Button color="inherit">
-            <Link className={styles.navLink} to="/">
+            <NavLink
+              className={({ isActive }) =>
+                !isActive ? styles.navLink : styles.activeNavLink
+              }
+              exact
+              to="/"
+            >
               פורטל שוע"ל מפקדות
-            </Link>
+            </NavLink>
           </Button>
           <Button color="inherit">
-            <Link className={styles.navLink} to="/shob">
+            <NavLink
+              className={({ isActive }) =>
+                !isActive ? styles.navLink : styles.activeNavLink
+              }
+              to="/shob"
+            >
               מעבדת פיתוח שו"ב
-            </Link>
+            </NavLink>
           </Button>
           <Button color="inherit">
-            <Link className={styles.navLink} to="/report">
+            <NavLink
+              className={({ isActive }) =>
+                !isActive ? styles.navLink : styles.activeNavLink
+              }
+              exact
+              activeClassName={styles.activeNavLink}
+              to="/report"
+            >
               דיווח תקלה ויצירת קשר
-            </Link>
+            </NavLink>
           </Button>
           <Button color="inherit">
-            <Link className={styles.navLink} to="/update">
+            <NavLink
+              className={({ isActive }) =>
+                !isActive ? styles.navLink : styles.activeNavLink
+              }
+              exact
+              activeClassName={styles.activeNavLink}
+              to="/update"
+            >
               עדכון
-            </Link>
+            </NavLink>
+          </Button>
+          <Button
+            style={{ color: "rgb(230, 245, 241, 0.6)", fontSize: "16px" }}
+            onClick={() => props.setOpenModal(true)}
+            className={styles.navLink}
+          >
+            התחברות
           </Button>
         </Stack>
-        <Button
-          style={{ color: 'white' }}
-          onClick={() => props.setOpenModal(true)}
-          className={styles.navLink}
-        >
-          התחברות
-        </Button>
       </Toolbar>
     </AppBar>
   );

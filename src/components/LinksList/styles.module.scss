@@ -8,18 +8,27 @@
 }
 
 .singleLink {
-  background-color: #74b9ff;
+  background-color: #aecac7;
+  transition: background-color 0.5s ease-out;
   margin: 5px;
-  padding: 10px 5px;
+  padding: 10px;
   min-width: 25%;
   border-radius: 25px;
-  transition: background-color 0.5s ease-out;
   color: white;
   text-decoration: none;
   font-weight: 500;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: start;
+  svg {
+    padding: 0 10px;
+    border-left: 1px solid gray;
+    margin-left: 10px;
+  }
 
   &:hover {
     background-color: #0984e3;
+
     cursor: pointer;
   }
 }
