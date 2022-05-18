@@ -40,14 +40,8 @@ h6.MuiTypography-root.MuiTypography-h6 {
   .MuiTableSortLabel-icon {
   color: white !important;
 }
-/* footer */
-tr.MuiTableRow-root.MuiTableRow-footer {
-  direction: ltr !important;
-}
-/* footer page size */
-.MuiButtonBase-root.MuiChip-root.MuiChip-clickable.MuiChip-deletable {
-  direction: ltr;
-}
-.MTablePaginationInner-root-18 {
-  direction: rtl;
+
+.paginationDiv {
+  display: flex;
+  justify-content: center;
 }

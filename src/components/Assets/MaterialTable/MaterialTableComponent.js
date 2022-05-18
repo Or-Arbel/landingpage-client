@@ -91,37 +91,37 @@ const MaterialTableComponent = (props) => {
                 delete body.updatedAt;
                 delete body.id;
                 delete body.order;
+                // delete body.departmentLinks;
 
                 const requestOptions = {
                   url: `${process.env.REACT_APP_SERVER_URL}api/${table}/${oldRow.id}`,
-
                   method: "PATCH",
                   body,
                 };
 
                 fetchData(requestOptions, (res) => {
-                  console.log(res);
                   const updatedData = [...tableData];
                   let index = updatedData.indexOf(oldRow);
-                  updatedData[index] = res.data;
+                  updatedData[index] = res.data[1];
                   setTableData((prevState) => updatedData);
-
-                  // const updatedData = [...tableData];
-                  // newRow.updatedAt = res.updateTime;
-                  // updatedData[oldRow.tableData.id] = newRow;
-                  // setTableData(updatedData);
                 });
 
                 resolve();
               }),
             onRowDelete: (selectedRow) =>
               new Promise((resolve, reject) => {
-                console.log("onRowDelete");
-                const updatedData = [...tableData];
-                updatedData.splice(selectedRow.tableData.id, 1);
-                fixOrderHandler(updatedData);
+                const requestOptions = {
+                  url: `${process.env.REACT_APP_SERVER_URL}api/${table}/${selectedRow.id}`,
+                  method: "DELETE",
+                };
 
-                setTableData(updatedData);
+                console.log(selectedRow);
+                fetchData(requestOptions, () => {
+                  const updatedData = [...tableData];
+                  updatedData.splice(selectedRow.tableData.id, 1);
+                  fixOrderHandler(updatedData);
+                  setTableData(updatedData);
+                });
                 resolve();
               }),
             onBulkUpdate: (selectedRows) =>
@@ -173,12 +173,17 @@ const MaterialTableComponent = (props) => {
                 <Grid container style={{ padding: 15 }}>
                   <Grid sm={12} item align="center">
                     <Typography variant="subtitle2">
-                      מספר רשומות : {props.count}
+                      סה"כ רשומות : {props.count}
                     </Typography>
                   </Grid>
                 </Grid>
                 <Divider />
-                <TablePagination {...props} />
+                <div className="paginationDiv">
+                  <TablePagination
+                    {...props}
+                    style={{ direction: "rtl", width: "max-content" }}
+                  />
+                </div>
               </>
             ),
           }}
