@@ -41,6 +41,9 @@ const Data = () => {
       case "departments": {
         return "מחלקות";
       }
+      case "departmentLinks": {
+        return "לינקים לפי מחלקות";
+      }
       case "shobDevelopments": {
         return "פיתוחי מעבדה";
       }

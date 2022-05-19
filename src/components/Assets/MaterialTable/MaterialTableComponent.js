@@ -196,7 +196,7 @@ const MaterialTableComponent = (props) => {
             searchFieldVariant: "standard",
             filtering: true, // add filtering option
             paging: true, // show pagination
-            pageSizeOptions: [5, 10, 20, 25, 50], // pagination rows length
+            pageSizeOptions: [5, 10, 20, 25], // pagination rows length
             pageSize: 5, // default page size
             // paginationType: 'stepped', // show page number instead of text
             showFirstLastPageButtons: true,

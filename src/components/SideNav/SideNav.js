@@ -30,6 +30,9 @@ const SideNav = () => {
             <Link to="/update/departments">מחלקות</Link>
           </MenuItem>
           <MenuItem>
+            <Link to="/update/departmentLinks">לינקים לפי מחלקות</Link>
+          </MenuItem>
+          <MenuItem>
             <Link to="/update/shobDevelopments">פיתוחי מעבדה</Link>
           </MenuItem>
         </SubMenu>
