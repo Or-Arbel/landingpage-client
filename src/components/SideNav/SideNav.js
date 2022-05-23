@@ -14,7 +14,7 @@ import styles from "./styles.module.scss";
 
 const SideNav = () => {
   return (
-    <ProSidebar rtl={true} className={styles.sidenavContainer}>
+    <ProSidebar rtl={true}>
       <SidebarHeader>
         <div className={styles.header}>ניהול נתונים</div>
       </SidebarHeader>

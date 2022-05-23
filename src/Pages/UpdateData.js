@@ -10,7 +10,7 @@ const UpdateData = () => {
       // animate={{ opacity: 1 }}
       // exit={{ opacity: 0 }}
       style={{
-        height: "100vh",
+        height: "calc(100vh - 64px)",
         display: "flex",
         flexDirection: "row",
       }}

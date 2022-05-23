@@ -22,8 +22,6 @@ const Cards = () => {
   }, []);
   return (
     <div className={styles.cardsContainer}>
-      {isLoading ? <CircularProgress /> : null}
-      {error ? <p>{error}</p> : null}
       {departments &&
         !isLoading &&
         !error &&

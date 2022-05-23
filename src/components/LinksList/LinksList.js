@@ -4,6 +4,7 @@ import styles from "./styles.module.scss";
 import CircularProgress from "@mui/material/CircularProgress";
 import LinkIcon from "@mui/icons-material/Link";
 import useHttp from "../../Hooks/use-http";
+import { Alert } from "@mui/material";
 
 const LinksList = () => {
   const [links, setLinks] = useState();
@@ -25,7 +26,11 @@ const LinksList = () => {
     <div>
       <div className={styles.linksContainer}>
         {isLoading ? <CircularProgress /> : null}
-        {error ? <p>{error}</p> : null}
+        {error ? (
+          <Alert severity="error" variant="filled">
+            {error}
+          </Alert>
+        ) : null}
 
         {links &&
           !isLoading &&

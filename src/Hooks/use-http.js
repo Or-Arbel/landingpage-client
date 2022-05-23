@@ -31,7 +31,11 @@ const useHttp = () => {
       const data = await response.json();
       applyData(data);
     } catch (err) {
-      setError(err.message || "Something went wrong!");
+      if (err.message === "Failed to fetch") {
+        setError("ארעה שגיאה בגישה לשרת, נא בדקו את חיבור הרשת ונסו שנית");
+      } else {
+        setError(err.message || "Something went wrong!");
+      }
     }
     setIsLoading(false);
   }, []);

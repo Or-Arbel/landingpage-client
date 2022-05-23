@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import styles from './styles.module.scss';
+import React, { useEffect, useState } from "react";
+import styles from "./styles.module.scss";
 // import { shobData } from '../ShobCardsData';
 import {
   Card,
@@ -7,9 +7,10 @@ import {
   CardContent,
   Typography,
   CardActionArea,
-} from '@mui/material';
-import CircularProgress from '@mui/material/CircularProgress';
-import useHttp from '../../Hooks/use-http';
+  Alert,
+} from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress";
+import useHttp from "../../Hooks/use-http";
 
 const ShobCards = () => {
   const [shobData, setShobData] = useState();
@@ -30,7 +31,11 @@ const ShobCards = () => {
   return (
     <div className={styles.container}>
       {isLoading ? <CircularProgress /> : null}
-      {error ? <p>{error}</p> : null}
+      {error ? (
+        <Alert severity="error" variant="filled">
+          {error}
+        </Alert>
+      ) : null}
 
       {shobData &&
         !isLoading &&

@@ -4,6 +4,8 @@ import { useParams } from "react-router-dom";
 import MaterialTableComponent from "../Assets/MaterialTable/MaterialTableComponent";
 import hebrewColumns from "../Assets/MaterialTable/hebrewColumns";
 import useHttp from "../../Hooks/use-http";
+import LinearIndeterminate from "../Assets/loadingSpinners/LinearIndeterminate";
+import { Alert } from "@mui/material";
 
 export const TableDataContext = React.createContext([]);
 const Data = () => {
@@ -24,13 +26,15 @@ const Data = () => {
   //Get table data from db
   const { isLoading, error, sendRequest: fetchData } = useHttp();
   useEffect(() => {
-    fetchData(
-      { url: `${process.env.REACT_APP_SERVER_URL}api/${table}` },
-      renderRowsData
-    );
+    if (table !== undefined) {
+      fetchData(
+        { url: `${process.env.REACT_APP_SERVER_URL}api/${table}` },
+        renderRowsData
+      );
 
-    let columnsArr = hebrewColumns(table);
-    setColumns(columnsArr);
+      let columnsArr = hebrewColumns(table);
+      setColumns(columnsArr);
+    }
   }, [table]);
 
   const getTitle = (table) => {
@@ -63,15 +67,19 @@ const Data = () => {
       }}
     >
       <div className={styles.dataContainer}>
-        {/* <h2>Data</h2> */}
-        {table ? (
-          <div>
+        {isLoading && <LinearIndeterminate />}
+        {!isLoading && error && (
+          <Alert severity="error" variant="filled">
+            {error}
+          </Alert>
+        )}
+        {!isLoading && !error && table && (
+          <>
             <h3>{getTitle(table)}</h3>
             <MaterialTableComponent getTitle={getTitle} />
-          </div>
-        ) : (
-          <p>כאן יוצגו כל הטבלאות הניתנות לעריכה</p>
+          </>
         )}
+        {!isLoading && !error && !table && <p>מסך מנהל לניהול נתונים</p>}
       </div>
     </TableDataContext.Provider>
   );

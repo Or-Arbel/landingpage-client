@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext, useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import MaterialTable from "material-table";
 import { TablePagination, Grid, Typography, Divider } from "@material-ui/core";
@@ -9,10 +9,24 @@ import tableIcons from "./MaterialTableIcons";
 import { useParams } from "react-router-dom";
 import "./MaterialTable.css";
 import useHttp from "../../../Hooks/use-http";
-import hebrewColumns from "./hebrewColumns";
 import { TableDataContext } from "../../Data/Data";
+// import { Snackbar, Alert } from "@mui/material";
 
 const MaterialTableComponent = (props) => {
+  // const [open, setOpen] = useState(false);
+  // const handleClose = (event, reason) => {
+  //   if (reason === "clickaway") {
+  //     return;
+  //   }
+
+  //   setOpen(false);
+  // };
+  // <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+  //   <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
+  //     This is a success message!
+  //   </Alert>
+  // </Snackbar>;
+
   let { table } = useParams(); // Get table name from url
 
   const { tableData, setTableData, columns, selectedRows, setSelectedRows } =
@@ -59,7 +73,12 @@ const MaterialTableComponent = (props) => {
   };
 
   return (
-    <div style={{ maxWidth: "90%", margin: "auto" }}>
+    <div style={{ width: "100%", margin: "auto" }}>
+      {/* <Snackbar autoHideDuration={1000}>
+        <Alert severity="success" sx={{ width: "100%" }}>
+          This is a success message!
+        </Alert>
+      </Snackbar> */}
       {tableData && columns && (
         <MaterialTable
           icons={tableIcons}
@@ -80,8 +99,9 @@ const MaterialTableComponent = (props) => {
 
                 fetchData(requestOptions, (newRow) => {
                   setTableData((prevState) => [...prevState, ...newRow.data]);
+                  // setOpen(true);
+                  resolve();
                 });
-                resolve();
               }),
             onRowUpdate: (newRow, oldRow) =>
               new Promise((resolve, reject) => {
@@ -102,7 +122,8 @@ const MaterialTableComponent = (props) => {
                 fetchData(requestOptions, (res) => {
                   const updatedData = [...tableData];
                   let index = updatedData.indexOf(oldRow);
-                  updatedData[index] = res.data[1];
+                  updatedData[index] = res.data;
+
                   setTableData((prevState) => updatedData);
                 });
 
