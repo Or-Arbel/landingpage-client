@@ -18,14 +18,14 @@ const ShobCards = () => {
   const { isLoading, error, sendRequest } = useHttp();
 
   useEffect(() => {
-    const renderData = (fetchedData) => {
-      setShobData(fetchedData.data);
+    const renderData = async () => {
+      let { data } = await sendRequest({
+        url: `${process.env.REACT_APP_SERVER_URL}api/shobDevelopments`,
+      });
+      setShobData(data);
     };
 
-    sendRequest(
-      { url: `${process.env.REACT_APP_SERVER_URL}api/shobDevelopments` },
-      renderData
-    );
+    renderData();
   }, []);
 
   return (

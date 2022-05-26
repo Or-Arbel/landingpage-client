@@ -6,6 +6,7 @@ import hebrewColumns from "../Assets/MaterialTable/hebrewColumns";
 import useHttp from "../../Hooks/use-http";
 import LinearIndeterminate from "../Assets/loadingSpinners/LinearIndeterminate";
 import { Alert } from "@mui/material";
+import Snackbar from "../Assets/Snackbar/Snackbar";
 
 export const TableDataContext = React.createContext([]);
 const Data = () => {
@@ -15,25 +16,22 @@ const Data = () => {
 
   let { table } = useParams(); // Get table name from url
 
-  const renderRowsData = (fetchedData) => {
-    setTableData(fetchedData.data);
-    // hasImageColumn =
-    //   fetchedData.data[0] && fetchedData.data[0].image
-    //     ? (rowData) => <img src={rowData.image} />
-    //     : null;
-  };
-
   //Get table data from db
-  const { isLoading, error, sendRequest: fetchData } = useHttp();
+  const { isLoading, error, sendRequest: fetchData, data } = useHttp();
   useEffect(() => {
-    if (table !== undefined) {
-      fetchData(
-        { url: `${process.env.REACT_APP_SERVER_URL}api/${table}` },
-        renderRowsData
-      );
+    const getData = async () => {
+      const data = await fetchData({
+        url: `${process.env.REACT_APP_SERVER_URL}api/${table}`,
+      });
+      if (data.status === "success") {
+        setTableData(data.data);
+      }
+    };
 
-      let columnsArr = hebrewColumns(table);
+    if (table !== undefined) {
+      const columnsArr = hebrewColumns(table);
       setColumns(columnsArr);
+      getData();
     }
   }, [table]);
 
@@ -68,6 +66,7 @@ const Data = () => {
     >
       <div className={styles.dataContainer}>
         {isLoading && <LinearIndeterminate />}
+        {error ? <p>{error}</p> : <p>No error</p>}
         {!isLoading && error && (
           <Alert severity="error" variant="filled">
             {error}

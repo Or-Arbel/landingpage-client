@@ -1,0 +1,15 @@
+.snackbar {
+  .MuiPaper-root {
+    background-color: initial !important;
+    color: white;
+  }
+  .alert {
+    color: white;
+    background-color: green;
+    align-items: center;
+    div {
+      margin: 0;
+      padding: 5px;
+    }
+  }
+}

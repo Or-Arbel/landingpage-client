@@ -10,6 +10,8 @@ const DepartmentsList = [
   { value: "6", label: "מכס כשירות כוחות" },
 ];
 
+const demoImg = require("../../../images/m2e.jpg");
+
 const dateFormat = "dd/MM/yyyy, hh:mm:ss";
 
 const hebrewColumns = (tableName) => {
@@ -21,30 +23,24 @@ const hebrewColumns = (tableName) => {
           title: "שם",
           field: "name",
 
-          validate: (rowData) => {
-            const errorMessage = "נא הזן שם באורך 2-40 תווים";
-            if (rowData.name === undefined) return;
-            if (
-              rowData.name === "" ||
-              rowData.name.length < 2 ||
-              rowData.name.length > 40
-            )
-              return errorMessage;
-          },
+          validate: (rowData) =>
+            rowData.name === undefined ||
+            rowData.name.trim() == "" ||
+            rowData.name.length < 2 ||
+            rowData.name > 40
+              ? "נא הזן שם באורך 2-40 תווים"
+              : true,
         },
         {
           title: "לינק",
           field: "url",
-          validate: (rowData) => {
-            const errorMessage = "נא הזן url באורך 2-40 תווים";
-            if (rowData.url === undefined) return;
-            if (
-              rowData.url === "" ||
-              rowData.url.length < 2 ||
-              rowData.url.length > 40
-            )
-              return errorMessage;
-          },
+          validate: (rowData) =>
+            rowData.url === undefined ||
+            rowData.url.trim() == "" ||
+            rowData.url.length < 2 ||
+            rowData.url > 40
+              ? "נא הזן url באורך 2-40 תווים"
+              : true,
         },
         {
           title: "נוצר בתאריך",
@@ -67,16 +63,13 @@ const hebrewColumns = (tableName) => {
         {
           title: "שם",
           field: "name",
-          validate: (rowData) => {
-            const errorMessage = "נא הזן שם באורך 2-40 תווים";
-            if (rowData.name === undefined) return;
-            if (
-              rowData.name === "" ||
-              rowData.name.length < 2 ||
-              rowData.name.length > 40
-            )
-              return errorMessage;
-          },
+          validate: (rowData) =>
+            rowData.name === undefined ||
+            rowData.name.trim() == "" ||
+            rowData.name.length < 2 ||
+            rowData.name > 40
+              ? "נא הזן שם באורך 2-40 תווים"
+              : true,
         },
         {
           title: "נוצר בתאריך",
@@ -99,51 +92,41 @@ const hebrewColumns = (tableName) => {
         {
           title: "כותרת",
           field: "title",
-
-          validate: (rowData) => {
-            const errorMessage = "נא הזן כותרת באורך 3-40 תווים";
-            if (rowData.title === undefined) return;
-            if (
-              rowData.title === "" ||
-              rowData.title.length < 3 ||
-              rowData.title.length > 40
-            )
-              return errorMessage;
-          },
+          validate: (rowData) =>
+            rowData.title === undefined ||
+            rowData.title.trim() == "" ||
+            rowData.title.length < 3 ||
+            rowData.title > 40
+              ? "נא הזן כותרת באורך 3-40 תווים"
+              : true,
         },
         {
           title: "כותרת משנה",
           field: "subTitle",
-          validate: (rowData) => {
-            const errorMessage = "נא הזן כותרת משנה באורך 3-150 תווים";
-            if (rowData.subTitle === undefined) return;
-            if (
-              rowData.subTitle === "" ||
-              rowData.subTitle.length < 3 ||
-              rowData.subTitle.length > 150
-            )
-              return errorMessage;
-          },
+          validate: (rowData) =>
+            rowData.subTitle === undefined ||
+            rowData.subTitle.trim() == "" ||
+            rowData.subTitle.length < 3 ||
+            rowData.subTitle > 150
+              ? "נא הזן כותרת משנה באורך 3-150 תווים"
+              : true,
         },
         {
           title: "תיאור",
           field: "description",
-          validate: (rowData) => {
-            const errorMessage = "נא הזן תיאור באורך 3-1500 תווים";
-            if (rowData.description === undefined) return;
-            if (
-              rowData.description === "" ||
-              rowData.description.length < 3 ||
-              rowData.description.length > 1500
-            )
-              return errorMessage;
-          },
+          validate: (rowData) =>
+            rowData.description === undefined ||
+            rowData.description.trim() == "" ||
+            rowData.description.length < 3 ||
+            rowData.description > 1500
+              ? "נא הזן תיאור באורך 3-1500 תווים"
+              : true,
         },
         {
           title: "תמונה",
           field: "image",
           render: (rowData) => (
-            <img src={rowData.image} width="50" height="60" />
+            <img src={rowData.image || demoImg} width="50" height="60" />
           ),
         },
         {
@@ -167,18 +150,18 @@ const hebrewColumns = (tableName) => {
         {
           title: "שם",
           field: "name",
-          validate: (rowData) => {
-            if (rowData.name === undefined) return;
-            if (rowData.name === "") return "נא הזן שם";
-          },
+          validate: (rowData) =>
+            rowData.name === undefined || rowData.name.trim() == ""
+              ? "נא הזן שם"
+              : true,
         },
         {
           title: "כתובת url",
           field: "url",
-          validate: (rowData) => {
-            if (rowData.url === undefined) return;
-            if (rowData.url === "") return "נא הזן url";
-          },
+          validate: (rowData) =>
+            rowData.url === undefined || rowData.url.trim() == ""
+              ? "נא הזן url"
+              : true,
         },
         {
           title: "מחלקה",
@@ -198,7 +181,7 @@ const hebrewColumns = (tableName) => {
           validate: (rowData) =>
             rowData.departmentId === null || rowData.departmentId === undefined
               ? "נא בחר מחלקה, לינק צריך להיות משוייך למחלקה"
-              : "",
+              : true,
         },
         {
           title: "נוצר בתאריך",

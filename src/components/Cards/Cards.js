@@ -11,15 +11,29 @@ const Cards = () => {
   const { isLoading, error, sendRequest } = useHttp();
 
   useEffect(() => {
-    const renderDepartments = (fetchedData) => {
-      setDepartments(fetchedData.data);
+    const renderData = async () => {
+      let { data } = await sendRequest({
+        url: `${process.env.REACT_APP_SERVER_URL}api/departments`,
+      });
+      setDepartments(data);
     };
 
-    sendRequest(
-      { url: `${process.env.REACT_APP_SERVER_URL}api/departments` },
-      renderDepartments
-    );
+    renderData();
   }, []);
+
+  const generalImage = require("../../images/general_image.svg");
+
+  const tryRequireImage = (index) => {
+    try {
+      let image = require(`../../images/img${index + 1}.svg`);
+      console.log(image);
+      return image.default;
+    } catch (err) {
+      console.log(generalImage.default);
+      return generalImage.default;
+    }
+  };
+
   return (
     <div className={styles.cardsContainer}>
       {departments &&
@@ -36,7 +50,12 @@ const Cards = () => {
               <div className={styles.linksContainer}>
                 <div className={styles.imageContainer}>
                   <img
-                    src={require(`../../images/img${i + 1}.svg`)}
+                    src={
+                      require(`../../images/img${i + 1}.svg`)
+                      // tryRequireImage(i)
+                      //   ? tryRequireImage(i).default
+                      //   : generalImage.default
+                    }
                     width={50}
                     height={50}
                   />

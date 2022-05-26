@@ -1,35 +1,3 @@
-/* span.MuiTypography-root.MuiTypography-caption {
-  text-align: center;
-  direction: rtl;
-}
-
-.MuiTableRow-head {
-  background: #1e78bf;
-  color: #fff;
-}
-
-
-
-.MuiFormControl-root.MuiTextField-root.MTableToolbar-searchField-10,
-ul.MuiList-root.MuiMenu-list.MuiList-padding {
-  direction: rtl;
-}
-tr.MuiTableRow-root.MuiTableRow-footer,
-.MuiButtonBase-root.MuiChip-root.MuiChip-clickable.MuiChip-deletable {
-  direction: ltr !important;
-}
-
-input.MuiInputBase-input.MuiInput-input.MuiInputBase-inputAdornedStart.MuiInputBase-inputAdornedEnd {
-  padding-right: 5px;
-}
-
-
-
-
-h6.MuiTypography-root.MuiTypography-h6 {
-  direction: rtl;
-  text-align: right;
-} */
 .MuiTableRow-head th span:hover {
   color: white;
 }

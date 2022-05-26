@@ -1,8 +1,11 @@
+import { useContext } from "react";
 import { useState, useCallback } from "react";
+import { SnackbarContext } from "../App";
 
 const useHttp = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const { setOpenSnackbar, setSnackbarMessage } = useContext(SnackbarContext);
 
   const headers = {
     "Content-Type": "application/json",
@@ -10,7 +13,7 @@ const useHttp = () => {
     "Access-Control-Allow-Methods": "*",
   };
 
-  const sendRequest = useCallback(async (requestConfig, applyData) => {
+  const sendRequest = useCallback(async (requestConfig) => {
     const params = ["GET", undefined].includes(requestConfig.method)
       ? "?order=order"
       : "";
@@ -25,19 +28,23 @@ const useHttp = () => {
       });
 
       if (!response.ok) {
-        throw new Error("Request failed!");
+        const error = await response.json();
+        throw new Error(error.message);
       }
 
       const data = await response.json();
-      applyData(data);
+      return data;
     } catch (err) {
-      if (err.message === "Failed to fetch") {
-        setError("ארעה שגיאה בגישה לשרת, נא בדקו את חיבור הרשת ונסו שנית");
-      } else {
-        setError(err.message || "Something went wrong!");
-      }
+      setError(
+        err.message ?? "ארעה שגיאה בגישה לשרת, נא בדקו את חיבור הרשת ונסו שנית"
+      );
+      setOpenSnackbar(true);
+      setSnackbarMessage(
+        err.message ?? "ארעה שגיאה בגישה לשרת, נא בדקו את חיבור הרשת ונסו שנית"
+      );
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   }, []);
 
   return {

@@ -9,17 +9,17 @@ import { Alert } from "@mui/material";
 const LinksList = () => {
   const [links, setLinks] = useState();
 
-  const { isLoading, error, sendRequest: fetchLinks } = useHttp();
+  const { isLoading, error, sendRequest } = useHttp();
 
   useEffect(() => {
-    const renderLinks = (fetchedData) => {
-      setLinks(fetchedData.data);
+    const renderData = async () => {
+      let { data } = await sendRequest({
+        url: `${process.env.REACT_APP_SERVER_URL}api/links`,
+      });
+      setLinks(data);
     };
 
-    fetchLinks(
-      { url: `${process.env.REACT_APP_SERVER_URL}api/links` },
-      renderLinks
-    );
+    renderData();
   }, []);
 
   return (
