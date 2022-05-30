@@ -14,12 +14,17 @@ const Data = () => {
   const [selectedRows, setSelectedRows] = useState([]);
 
   let { table } = useParams(); // Get table name from url
+  const { columnsArr } = useHebrewColumns(table);
+  const { isLoading, error, sendRequest: fetchData } = useHttp();
+
+  //Get columns
+  useEffect(() => {
+    if (columnsArr.length > 0) {
+      setColumns(columnsArr);
+    }
+  }, [columnsArr]);
 
   //Get table data from db
-  const { isLoading, error, sendRequest: fetchData } = useHttp();
-  const { columnsArr } = useHebrewColumns(table);
-  console.log(columnsArr);
-
   useEffect(() => {
     const getData = async () => {
       const data = await fetchData({
@@ -30,8 +35,7 @@ const Data = () => {
       }
     };
 
-    if (table !== undefined && columnsArr) {
-      setColumns(columnsArr);
+    if (table !== undefined) {
       getData();
     }
   }, [table]);
