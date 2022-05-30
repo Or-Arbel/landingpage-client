@@ -5,7 +5,7 @@ import { SnackbarContext } from "../App";
 const useHttp = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const { setOpenSnackbar, setSnackbarMessage } = useContext(SnackbarContext);
+  const { setOpenSnackbar, setSnackbarDetails } = useContext(SnackbarContext);
 
   const headers = {
     "Content-Type": "application/json",
@@ -33,15 +33,20 @@ const useHttp = () => {
       }
 
       const data = await response.json();
+      console.log(data);
       return data;
     } catch (err) {
       setError(
         err.message ?? "ארעה שגיאה בגישה לשרת, נא בדקו את חיבור הרשת ונסו שנית"
       );
       setOpenSnackbar(true);
-      setSnackbarMessage(
-        err.message ?? "ארעה שגיאה בגישה לשרת, נא בדקו את חיבור הרשת ונסו שנית"
-      );
+      setSnackbarDetails({
+        message:
+          err.message ??
+          "ארעה שגיאה בגישה לשרת, נא בדקו את חיבור הרשת ונסו שנית",
+        isError: true,
+      });
+      return err;
     } finally {
       setIsLoading(false);
     }

@@ -17,11 +17,11 @@ const MaterialTableComponent = (props) => {
 
   const { tableData, setTableData, columns, selectedRows, setSelectedRows } =
     useContext(TableDataContext);
-  const { openSnackbar, setOpenSnackbar, snackbarMessage, setSnackbarMessage } =
+  const { setOpenSnackbar, setSnackbarDetails } =
     React.useContext(SnackbarContext);
 
   //Get table data from db
-  let { isLoading, error, sendRequest: fetchData } = useHttp();
+  let { isLoading, error, sendRequest } = useHttp();
 
   const fixOrderHandler = (rowsData, maxIndex = rowsData.length - 1) => {
     for (let i = 0; i <= maxIndex; i++) {
@@ -38,7 +38,6 @@ const MaterialTableComponent = (props) => {
     // set the draged row in the right place
     let copyArray = [...tableData];
     let temp = tableData[source.index];
-    console.log(source.index, destination.index);
     copyArray.splice(source.index, 1);
     copyArray.splice(destination.index, 0, temp);
 
@@ -68,8 +67,8 @@ const MaterialTableComponent = (props) => {
 
   const validateData = (bodyData) => {
     for (let i = 1; i <= columns.length - 3; i++) {
-      console.log("checking " + columns[i].field);
       if (
+        columns[i].validate &&
         columns[i].validate(bodyData) !== true &&
         columns[i].validate(bodyData) !== undefined
       ) {
@@ -79,37 +78,10 @@ const MaterialTableComponent = (props) => {
     return null;
   };
 
-  // const validateData = (newRow) => {
-  //   const fields = Object.keys(newRow);
-  //   const columnsDef = [];
-  //   columns.forEach((column) => {
-  //     if (
-  //       column.field !== "order" &&
-  //       column.field !== "createdAt" &&
-  //       column.field !== "updatedAt"
-  //     ) {
-  //       columnsDef.push(column);
-  //     }
-  //   });
-  //   // check if there no empty fields
-  //   if (columnsDef.length !== fields.length) {
-  //     return "לא כל השדות הוזנו!";
-  //   }
-  //   // check all fields validation
-  //   for (let i = 0; i < columnsDef.length; i++) {
-  //     const isValidate =
-  //       columnsDef[i].validate && columnsDef[i].validate(newRow);
-  //     if (isValidate !== undefined && isValidate !== true) {
-  //       return `הערך שהוזן בשדה "${columnsDef[i].title}" אינו תקין.\n${isValidate}`;
-  //     }
-  //   }
-
-  //   return true;
-  // };
-
   return (
     <div style={{ width: "100%", margin: "auto" }}>
       {error && <p>{error}</p>}
+
       {tableData && columns && (
         <>
           <MaterialTable
@@ -125,7 +97,10 @@ const MaterialTableComponent = (props) => {
                 let validationError = validateData(bodyData);
                 if (validationError) {
                   setOpenSnackbar(true);
-                  setSnackbarMessage(validationError);
+                  setSnackbarDetails({
+                    message: validationError,
+                    isError: true,
+                  });
                   return new Promise.reject();
                 } else {
                   bodyData.order = tableData.length + 1;
@@ -134,17 +109,23 @@ const MaterialTableComponent = (props) => {
                     method: "POST",
                     body: [bodyData],
                   };
-                  const data = await fetchData(requestOptions);
-
-                  if (error) {
+                  const data = await sendRequest(requestOptions);
+                  if (error || data.message) {
                     setOpenSnackbar(true);
-                    setSnackbarMessage(error);
+                    setSnackbarDetails({
+                      message: error || data.message,
+                      isError: true,
+                    });
                     return new Promise.reject();
                   } else {
                     const newRow = data.data && data.data[0];
                     setTableData((prevState) => [...prevState, newRow]);
                     setOpenSnackbar(true);
-                    setSnackbarMessage("הרשומה נוספה בהצלחה");
+                    setSnackbarDetails({
+                      message: "הרשומה נוספה בהצלחה",
+                      isError: false,
+                    });
+
                     return Promise.resolve("תקין");
                   }
                 }
@@ -160,7 +141,10 @@ const MaterialTableComponent = (props) => {
                 let validationError = validateData(body);
                 if (validationError) {
                   setOpenSnackbar(true);
-                  setSnackbarMessage(validationError);
+                  setSnackbarDetails({
+                    message: validationError,
+                    isError: true,
+                  });
                   return new Promise.reject();
                 } else {
                   const requestOptions = {
@@ -169,34 +153,48 @@ const MaterialTableComponent = (props) => {
                     body,
                   };
 
-                  const { data } = await fetchData(requestOptions);
-                  console.log(data);
+                  const { data } = await sendRequest(requestOptions);
                   if (!error) {
-                    // console.log(data);
                     const updatedData = [...tableData];
                     let index = updatedData.indexOf(oldRow);
                     updatedData[index] = data;
-
                     setTableData((prevState) => updatedData);
+                    setOpenSnackbar(true);
+                    setSnackbarDetails({
+                      message: "הרשומה עודכנה בהצלחה",
+                      isError: false,
+                    });
                   }
                 }
               },
-              onRowDelete: (selectedRow) =>
-                new Promise((resolve, reject) => {
-                  const requestOptions = {
-                    url: `${process.env.REACT_APP_SERVER_URL}api/${table}/${selectedRow.id}`,
-                    method: "DELETE",
-                  };
+              onRowDelete: async (selectedRow) => {
+                const requestOptions = {
+                  url: `${process.env.REACT_APP_SERVER_URL}api/${table}/${selectedRow.id}`,
+                  method: "DELETE",
+                };
 
-                  console.log(selectedRow);
-                  fetchData(requestOptions, () => {
-                    const updatedData = [...tableData];
-                    updatedData.splice(selectedRow.tableData.id, 1);
-                    fixOrderHandler(updatedData);
-                    setTableData(updatedData);
+                let data = await sendRequest(requestOptions);
+
+                if (error) {
+                  setOpenSnackbar(true);
+                  setSnackbarDetails({
+                    message: error,
+                    isError: true,
                   });
-                  resolve();
-                }),
+                  return new Promise.reject();
+                } else {
+                  const updatedData = [...tableData];
+                  updatedData.splice(selectedRow.tableData.id, 1);
+                  fixOrderHandler(updatedData);
+                  setTableData(updatedData);
+                  setOpenSnackbar(true);
+                  setSnackbarDetails({
+                    message: data.message || "הרשומה נמחקה בהצלחה",
+                    isError: false,
+                  });
+                  return Promise.resolve("תקין");
+                }
+              },
               onBulkUpdate: (selectedRows) =>
                 new Promise((resolve, reject) => {
                   console.log("onBulkUpdate");

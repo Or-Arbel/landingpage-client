@@ -3,9 +3,19 @@
     background-color: initial !important;
     color: white;
   }
-  .alert {
-    color: white;
+  .success {
     background-color: green;
+    color: white;
+    align-items: center;
+    div {
+      margin: 0;
+      padding: 5px;
+    }
+  }
+
+  .error {
+    background-color: red;
+    color: white;
     align-items: center;
     div {
       margin: 0;

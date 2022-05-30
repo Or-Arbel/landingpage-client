@@ -13,7 +13,10 @@ export const SnackbarContext = createContext({});
 function App() {
   const [openModal, setOpenModal] = useState(false);
   const [openSnackbar, setOpenSnackbar] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState();
+  const [snackbarDetails, setSnackbarDetails] = useState({
+    message: undefined,
+    isError: false,
+  });
 
   return (
     <Router>
@@ -23,8 +26,9 @@ function App() {
           value={{
             openSnackbar,
             setOpenSnackbar,
-            snackbarMessage,
-            setSnackbarMessage,
+
+            snackbarDetails,
+            setSnackbarDetails,
           }}
         >
           <Snackbar />

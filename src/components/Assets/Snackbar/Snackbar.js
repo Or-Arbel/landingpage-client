@@ -8,13 +8,13 @@ import { SnackbarContext } from "../../../App";
 import styles from "./styles.module.scss";
 
 export default function SimpleSnackbar() {
-  const { openSnackbar, setOpenSnackbar, snackbarMessage, setSnackbarMessage } =
+  const { openSnackbar, setOpenSnackbar, snackbarDetails, setSnackbarDetails } =
     React.useContext(SnackbarContext);
   let open = openSnackbar;
 
-  const handleClick = () => {
-    setOpenSnackbar(true);
-  };
+  // const handleClick = () => {
+  //   setOpenSnackbar(true);
+  // };
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -22,7 +22,7 @@ export default function SimpleSnackbar() {
     }
 
     setOpenSnackbar(false);
-    setSnackbarMessage(null);
+    setSnackbarDetails({ message: undefined, isError: false });
   };
 
   const action = (
@@ -41,24 +41,20 @@ export default function SimpleSnackbar() {
 
   return (
     <div>
-      {/* <Button onClick={handleClick}>Open simple snackbar</Button> */}
       <Snackbar
-        open={open}
-        // open={true}
-        autoHideDuration={1000}
+        open={open && snackbarDetails.message}
+        autoHideDuration={3000}
         onClose={handleClose}
         action={action}
-        // message="or"
         className={styles.snackbar}
       >
         <Alert
           onClose={handleClose}
-          // severity="success"
           variant="filled"
           sx={{ width: "100%" }}
-          className={styles.alert}
+          className={snackbarDetails.isError ? styles.error : styles.success}
         >
-          {snackbarMessage ?? "בוצע"}
+          {snackbarDetails.message ?? "בוצע"}
         </Alert>
       </Snackbar>
     </div>

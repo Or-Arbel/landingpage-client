@@ -25,11 +25,13 @@ const Cards = () => {
 
   const tryRequireImage = (index) => {
     try {
-      let image = require(`../../images/img${index + 1}.svg`);
-      console.log(image);
-      return image.default;
+      let img = require(`../../images/img${index + 1}.svg`);
+      if (img) {
+        return require(`../../images/img${index + 1}.svg`);
+      } else {
+        return generalImage.default;
+      }
     } catch (err) {
-      console.log(generalImage.default);
       return generalImage.default;
     }
   };
@@ -49,16 +51,8 @@ const Cards = () => {
             <CardContent>
               <div className={styles.linksContainer}>
                 <div className={styles.imageContainer}>
-                  <img
-                    src={
-                      require(`../../images/img${i + 1}.svg`)
-                      // tryRequireImage(i)
-                      //   ? tryRequireImage(i).default
-                      //   : generalImage.default
-                    }
-                    width={50}
-                    height={50}
-                  />
+                  {/* Image is desplayed from frontend */}
+                  <img src={tryRequireImage(i + 1)} width={50} height={50} />
                 </div>
                 {d.departmentLinks.map((e, i) => (
                   <a
