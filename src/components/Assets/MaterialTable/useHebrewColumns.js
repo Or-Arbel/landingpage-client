@@ -55,7 +55,10 @@ const useHebrewColumns = (tableName) => {
             title: "מחלקה",
             field: "departmentId",
             render: (rowData) => {
-              return departmentsList[rowData.departmentId - 1].label;
+              let department = departmentsList.find(
+                (element) => element.value == rowData.departmentId
+              );
+              return department.label;
             },
             editComponent: ({ value, onChange }) => (
               <Select
