@@ -219,6 +219,15 @@ const useHebrewColumns = (tableName) => {
                 : true,
           },
           {
+            title: "לינק",
+            field: "url",
+            validate: (rowData) =>
+              rowData.description === undefined ||
+              rowData.description.trim() == ""
+                ? "נא הזן url"
+                : true,
+          },
+          {
             title: "תמונה",
             field: "image",
             render: (rowData) => (

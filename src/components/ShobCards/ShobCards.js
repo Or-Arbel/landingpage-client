@@ -11,6 +11,8 @@ import {
 } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import useHttp from "../../Hooks/use-http";
+import NoData from "../Assets/NoData/NoData";
+const demoImage = require("../../images/m2e.jpg");
 
 const ShobCards = () => {
   const [shobData, setShobData] = useState();
@@ -38,15 +40,16 @@ const ShobCards = () => {
       ) : null}
 
       {shobData &&
+        shobData.length > 0 &&
         !isLoading &&
         !error &&
         shobData.map((e, i) => (
           <Card className={styles.card} key={i}>
-            <CardActionArea href="https://google.com" target="_blank">
+            <CardActionArea href={e.url} target="_blank">
               <CardMedia
                 component="img"
                 height="140"
-                image={e.image}
+                image={e.image ?? demoImage}
                 alt={e.title}
               />
               <CardContent>
@@ -61,6 +64,8 @@ const ShobCards = () => {
             </CardActionArea>
           </Card>
         ))}
+
+      {!isLoading && !error && shobData && shobData.length == 0 && <NoData />}
     </div>
   );
 };

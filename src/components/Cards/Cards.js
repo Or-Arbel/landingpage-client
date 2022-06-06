@@ -39,6 +39,7 @@ const Cards = () => {
   return (
     <div className={styles.cardsContainer}>
       {departments &&
+        departments.length > 0 &&
         !isLoading &&
         !error &&
         departments.map((d, i) => (
@@ -52,7 +53,7 @@ const Cards = () => {
               <div className={styles.linksContainer}>
                 <div className={styles.imageContainer}>
                   {/* Image is desplayed from frontend */}
-                  <img src={tryRequireImage(i + 1)} width={50} height={50} />
+                  <img src={tryRequireImage(i)} width={50} height={50} />
                 </div>
                 {d.departmentLinks.map((e, i) => (
                   <a
@@ -69,6 +70,10 @@ const Cards = () => {
             </CardContent>
           </Card>
         ))}
+
+      {!isLoading && !error && departments && departments.length == 0 && (
+        <p>לא נמצאו מחלקות להצגה</p>
+      )}
     </div>
   );
 };

@@ -42,7 +42,7 @@ export default function SimpleSnackbar() {
   return (
     <div>
       <Snackbar
-        open={open && snackbarDetails.message}
+        open={open}
         autoHideDuration={3000}
         onClose={handleClose}
         action={action}
@@ -54,7 +54,7 @@ export default function SimpleSnackbar() {
           sx={{ width: "100%" }}
           className={snackbarDetails.isError ? styles.error : styles.success}
         >
-          {snackbarDetails.message ?? "בוצע"}
+          {snackbarDetails.message}
         </Alert>
       </Snackbar>
     </div>

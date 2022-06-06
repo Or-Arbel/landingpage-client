@@ -5,6 +5,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import LinkIcon from "@mui/icons-material/Link";
 import useHttp from "../../Hooks/use-http";
 import { Alert } from "@mui/material";
+import NoData from "../Assets/NoData/NoData";
 
 const LinksList = () => {
   const [links, setLinks] = useState();
@@ -33,6 +34,7 @@ const LinksList = () => {
         ) : null}
 
         {links &&
+          links.length > 0 &&
           !isLoading &&
           !error &&
           links.map((e, i) => (
@@ -47,6 +49,8 @@ const LinksList = () => {
               <div>{e.name}</div>
             </a>
           ))}
+
+        {!isLoading && !error && links && links.length == 0 && <NoData />}
       </div>
     </div>
   );

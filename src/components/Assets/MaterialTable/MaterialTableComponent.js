@@ -23,59 +23,279 @@ const MaterialTableComponent = (props) => {
   //Get table data from db
   let { isLoading, error, sendRequest } = useHttp();
 
-  const fixOrderHandler = (rowsData, maxIndex = rowsData.length - 1) => {
-    for (let i = 0; i <= maxIndex; i++) {
-      rowsData[i].order = i + 1;
+  const getOrderedData = (
+    array,
+    startIndex = 0,
+    maxIndex = array.length - 1
+  ) => {
+    const copyArray = array.map((row) => {
+      return { ...row };
+    });
+    // get the table rows data ordered and ready to send to backend
+    for (let i = startIndex; i <= maxIndex; i++) {
+      copyArray[i].order = i;
     }
-    return rowsData;
+    return copyArray;
   };
 
-  const onDragEnd = (result) => {
+  const resolvFetch = (successMessage) => {
+    if (successMessage) {
+      setOpenSnackbar(true);
+      setSnackbarDetails({
+        message: successMessage,
+        isError: false,
+      });
+    }
+    Promise.resolve();
+  };
+  const rejectFetch = (errorMessage) => {
+    if (errorMessage) {
+      setOpenSnackbar(true);
+      setSnackbarDetails({
+        message: errorMessage,
+        isError: true,
+      });
+    }
+    Promise.reject();
+  };
+
+  const onDragEnd = async (result) => {
     const { destination, source } = result;
     if (!destination) return;
     if (source.index === destination.index) return;
-
     // set the draged row in the right place
-    let copyArray = [...tableData];
-    let temp = tableData[source.index];
+    const copyArray = [...tableData];
+    let element = tableData[source.index];
     copyArray.splice(source.index, 1);
-    copyArray.splice(destination.index, 0, temp);
+    copyArray.splice(destination.index, 0, element);
 
     //fix order numbers and update state
     const maxIndex =
       source.index > destination.index ? source.index : destination.index;
-    copyArray = fixOrderHandler(copyArray, maxIndex);
-    setTableData(copyArray);
-  };
-
-  const handleBulkDelete = () => {
-    let updatedData = tableData.filter((row, index) => {
-      return !selectedRows.includes(row);
+    const orderedData = getOrderedData(copyArray, 0, maxIndex);
+    const body = orderedData.slice(0, maxIndex + 1).map((row) => {
+      const { tableData, createdAt, updatedAt, ...fields } = row;
+      return fields;
     });
 
-    updatedData = fixOrderHandler(updatedData);
-    setTableData(updatedData);
-  };
+    const patchRequestOptions = {
+      url: `${process.env.REACT_APP_SERVER_URL}api/${table}`,
+      method: "PATCH",
+      body,
+    };
 
-  const resolveFetch = () => {
-    return new Promise((resolve, reject) => resolve());
-  };
+    const { data } = await sendRequest(patchRequestOptions);
+    const updates = [];
+    data.forEach((res, i) => {
+      if (res.status === "success") updates.push(res.data);
+    });
+    if (!data || updates.length === 0) {
+      setTableData(tableData);
+      return;
+    }
 
-  const rejectFetch = () => {
-    return new Promise((resolve, reject) => reject());
+    for (let i = 0; i < updates.length; i++) {
+      updates[i].tableData = { id: i };
+    }
+    const newState = updates.concat(orderedData.slice(maxIndex + 1));
+    setTableData(newState);
   };
 
   const validateData = (bodyData) => {
+    //dont check order/createdAt/updatedAt
     for (let i = 1; i <= columns.length - 3; i++) {
       if (
         columns[i].validate &&
         columns[i].validate(bodyData) !== true &&
         columns[i].validate(bodyData) !== undefined
       ) {
-        return columns[i].validate(bodyData);
+        let errorMessage = columns[i].validate(bodyData);
+        setOpenSnackbar(true);
+        setSnackbarDetails({
+          message: errorMessage,
+          isError: true,
+        });
+        return errorMessage;
       }
     }
     return null;
+  };
+
+  const addRowHandler = async (newRow) => {
+    let bodyData = { ...newRow };
+
+    let validationError = validateData(bodyData);
+    if (validationError) {
+      return new Promise.reject();
+    } else {
+      bodyData.order = tableData.length;
+
+      const requestOptions = {
+        url: `${process.env.REACT_APP_SERVER_URL}api/${table}`,
+        method: "POST",
+        body: [bodyData],
+      };
+
+      const { data, message } = await sendRequest(requestOptions);
+      if (!data) return rejectFetch();
+
+      const newRow = data && data[0];
+      setTableData((prevState) => [...prevState, newRow]);
+      return resolvFetch(message ?? "הרשומה נוספה בהצלחה");
+    }
+  };
+
+  const updateRowHandler = async (newRow, oldRow) => {
+    let body = { ...newRow };
+    delete body.createdAt;
+    delete body.updatedAt;
+    delete body.id;
+    delete body.order;
+    let validationError = validateData(body);
+
+    if (validationError) {
+      return new Promise.reject();
+    } else {
+      const requestOptions = {
+        url: `${process.env.REACT_APP_SERVER_URL}api/${table}/${oldRow.id}`,
+        method: "PATCH",
+        body,
+      };
+
+      const { data } = await sendRequest(requestOptions);
+
+      if (!data) return rejectFetch();
+
+      const updatedData = [...tableData];
+      let index = updatedData.indexOf(oldRow);
+      updatedData[index] = data;
+      setTableData(updatedData);
+      return resolvFetch("הרשומה עודכנה בהצלחה");
+    }
+  };
+
+  const deleteRowHandler = async (selectedRow) => {
+    console.log("delete func");
+    const requestOptions = {
+      url: `${process.env.REACT_APP_SERVER_URL}api/${table}/${selectedRow.id}`,
+      method: "DELETE",
+    };
+
+    const { status, rowsDeleted } = await sendRequest(requestOptions);
+    if (status !== "success" || rowsDeleted === 0) return rejectFetch();
+
+    //delete from state and update other of data in the server
+    const updatedData = [...tableData];
+    const rowIndex = selectedRow.tableData.id;
+    updatedData.splice(rowIndex, 1);
+    const orderedData = getOrderedData(updatedData, rowIndex);
+    const body = orderedData.slice(rowIndex).map((row) => {
+      const { tableData, createdAt, updatedAt, ...fields } = row;
+      return fields;
+    });
+    console.log(body);
+
+    const patchRequestOptions = {
+      url: `${process.env.REACT_APP_SERVER_URL}api/${table}`,
+      method: "PATCH",
+      body,
+    };
+
+    const { data } = await sendRequest(patchRequestOptions);
+    if (!data) return rejectFetch();
+
+    const updates = [];
+    data.forEach((res, i) => {
+      if (res.status === "success") {
+        updates.push(res.data);
+      }
+    });
+
+    const newState = updatedData.slice(0, rowIndex).concat(updates);
+    for (let i = 0; i < newState.length; i++) {
+      newState[i].tableData = { id: i };
+    }
+
+    setTableData(newState);
+    return resolvFetch("הרשומה נמחקה בהצלחה");
+  };
+
+  const bulkUpdateHandler = async (selectedRows) => {
+    console.log(selectedRows);
+    let indexesChanged = Object.keys(selectedRows);
+    indexesChanged = indexesChanged.map((e) => Number(e));
+
+    if (indexesChanged.length == 0) {
+      return rejectFetch("לא בוצעו עדכונים");
+    }
+
+    const body = Object.values(selectedRows).map((row) => {
+      const { tableData, createdAt, updatedAt, ...rowData } = row.newData;
+      return rowData;
+    });
+
+    for (let i = 0; i < body.length; i++) {
+      let errorMessage = validateData(body[i]);
+      if (errorMessage) {
+        return rejectFetch();
+      }
+    }
+
+    const requestOptions = {
+      url: `${process.env.REACT_APP_SERVER_URL}api/${table}`,
+      method: "PATCH",
+      body,
+    };
+
+    const { data, message } = await sendRequest(requestOptions);
+    if (!data) return rejectFetch();
+
+    const newState = [...tableData];
+    data.forEach((res, i) => {
+      if (res.status === "success") {
+        newState[indexesChanged[i]] = res.data;
+      }
+    });
+
+    setTableData(newState);
+    return resolvFetch(message);
+  };
+
+  const bulkDeleteHandler = async (selectedRows) => {
+    // delete array of records from DB
+    const recordsIds = selectedRows.map((row) => row.id);
+    const deleteRequestOptions = {
+      url: `${process.env.REACT_APP_SERVER_URL}api/${table}/[${recordsIds}]`,
+      method: "DELETE",
+    };
+    const { status, rowsDeleted } = await sendRequest(deleteRequestOptions);
+    if (status === "fail" || rowsDeleted === 0) return rejectFetch();
+
+    // update other data in DB
+    let body = tableData.filter((row) => !selectedRows.includes(row));
+    body = getOrderedData(body);
+    body = body.map((row) => {
+      const { tableData, createdAt, updatedAt, ...rowData } = row;
+      return rowData;
+    });
+
+    const PatchRequestOptions = {
+      url: `${process.env.REACT_APP_SERVER_URL}api/${table}`,
+      method: "PATCH",
+      body,
+    };
+    const { data } = await sendRequest(PatchRequestOptions);
+    if (!data) return rejectFetch();
+
+    const updates = [];
+    data.forEach((res, i) => {
+      if (res.status === "success") {
+        updates.push(res.data);
+      }
+    });
+
+    setTableData(updates);
+    return resolvFetch("הרשומות נמחקו בהצלחה");
   };
 
   return (
@@ -90,125 +310,11 @@ const MaterialTableComponent = (props) => {
             data={tableData}
             title={props.getTitle(table)}
             editable={{
-              onRowAdd: async (newRow) => {
-                let bodyData = newRow;
-
-                //check inputs validaty
-                let validationError = validateData(bodyData);
-                if (validationError) {
-                  setOpenSnackbar(true);
-                  setSnackbarDetails({
-                    message: validationError,
-                    isError: true,
-                  });
-                  return new Promise.reject();
-                } else {
-                  bodyData.order = tableData.length + 1;
-                  const requestOptions = {
-                    url: `${process.env.REACT_APP_SERVER_URL}api/${table}`,
-                    method: "POST",
-                    body: [bodyData],
-                  };
-                  const data = await sendRequest(requestOptions);
-                  if (error || data.message) {
-                    setOpenSnackbar(true);
-                    setSnackbarDetails({
-                      message: error || data.message,
-                      isError: true,
-                    });
-                    return new Promise.reject();
-                  } else {
-                    const newRow = data.data && data.data[0];
-                    setTableData((prevState) => [...prevState, newRow]);
-                    setOpenSnackbar(true);
-                    setSnackbarDetails({
-                      message: "הרשומה נוספה בהצלחה",
-                      isError: false,
-                    });
-
-                    return Promise.resolve("תקין");
-                  }
-                }
-              },
-              onRowUpdate: async (newRow, oldRow) => {
-                let body = { ...newRow };
-
-                delete body.createdAt;
-                delete body.updatedAt;
-                delete body.id;
-                delete body.order;
-                // delete body.departmentLinks;
-                let validationError = validateData(body);
-                if (validationError) {
-                  setOpenSnackbar(true);
-                  setSnackbarDetails({
-                    message: validationError,
-                    isError: true,
-                  });
-                  return new Promise.reject();
-                } else {
-                  const requestOptions = {
-                    url: `${process.env.REACT_APP_SERVER_URL}api/${table}/${oldRow.id}`,
-                    method: "PATCH",
-                    body,
-                  };
-
-                  const { data } = await sendRequest(requestOptions);
-                  if (!error) {
-                    const updatedData = [...tableData];
-                    let index = updatedData.indexOf(oldRow);
-                    updatedData[index] = data;
-                    setTableData((prevState) => updatedData);
-                    setOpenSnackbar(true);
-                    setSnackbarDetails({
-                      message: "הרשומה עודכנה בהצלחה",
-                      isError: false,
-                    });
-                  }
-                }
-              },
-              onRowDelete: async (selectedRow) => {
-                const requestOptions = {
-                  url: `${process.env.REACT_APP_SERVER_URL}api/${table}/${selectedRow.id}`,
-                  method: "DELETE",
-                };
-
-                let data = await sendRequest(requestOptions);
-
-                if (error) {
-                  setOpenSnackbar(true);
-                  setSnackbarDetails({
-                    message: error,
-                    isError: true,
-                  });
-                  return new Promise.reject();
-                } else {
-                  const updatedData = [...tableData];
-                  updatedData.splice(selectedRow.tableData.id, 1);
-                  fixOrderHandler(updatedData);
-                  setTableData(updatedData);
-                  setOpenSnackbar(true);
-                  setSnackbarDetails({
-                    message: data.message || "הרשומה נמחקה בהצלחה",
-                    isError: false,
-                  });
-                  return Promise.resolve("תקין");
-                }
-              },
-              onBulkUpdate: (selectedRows) =>
-                new Promise((resolve, reject) => {
-                  console.log("onBulkUpdate");
-                  const rows = Object.values(selectedRows);
-                  const updatedRows = [...tableData];
-                  rows.forEach((row) => {
-                    const index = row.oldData.tableData.id;
-                    updatedRows[index] = row.newData;
-                  });
-                  setTableData(updatedRows);
-                  resolve();
-                }),
+              onRowAdd: addRowHandler,
+              onRowUpdate: updateRowHandler,
+              onRowDelete: deleteRowHandler,
+              onBulkUpdate: bulkUpdateHandler,
             }}
-            // detailPanel={hasImageColumn}
             components={{
               Body: (props) => (
                 <DragDropContext onDragEnd={onDragEnd}>
@@ -310,7 +416,7 @@ const MaterialTableComponent = (props) => {
               {
                 icon: tableIcons.Delete,
                 tooltip: "מחק את כל השורות שנבחרו",
-                onClick: () => handleBulkDelete(),
+                onClick: () => bulkDeleteHandler(selectedRows),
               },
             ]}
           />

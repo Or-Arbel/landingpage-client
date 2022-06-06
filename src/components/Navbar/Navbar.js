@@ -8,16 +8,6 @@ const Navbar = (props) => {
   return (
     <AppBar position="sticky" id={styles.appBar}>
       <Toolbar>
-        <IconButton
-          size="large"
-          edge="end"
-          color="inherit"
-          aria-label="logo"
-          // href="/"
-        >
-          <EmojiFlagsIcon />
-        </IconButton>
-
         <Stack direction="row" spacing={4}>
           <Button color="inherit">
             <NavLink

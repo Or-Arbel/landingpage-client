@@ -31,7 +31,7 @@ function App() {
             setSnackbarDetails,
           }}
         >
-          <Snackbar />
+          {openSnackbar && snackbarDetails.message && <Snackbar />}
           <Navbar setOpenModal={setOpenModal} />
           <AnimatedRoutes />
         </SnackbarContext.Provider>

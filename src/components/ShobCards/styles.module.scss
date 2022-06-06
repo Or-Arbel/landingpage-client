@@ -7,6 +7,24 @@
 
   .card {
     margin: 10px;
-    max-width: 45%;
+    width: 45%;
+  }
+}
+
+/* On screens that are 992px or less */
+@media screen and (max-width: 992px) {
+  .container {
+    .card {
+      width: 60%;
+    }
+  }
+}
+
+/* On screens that are 600px or less */
+@media screen and (max-width: 600px) {
+  .container {
+    .card {
+      width: 90%;
+    }
   }
 }
