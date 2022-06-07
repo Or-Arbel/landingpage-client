@@ -4,6 +4,15 @@ import useHttp from "../../../Hooks/use-http";
 const demoImg = require("../../../images/m2e.jpg");
 const dateFormat = "dd/MM/yyyy, hh:mm:ss";
 
+const testUrlRegex = (str) => {
+  //checks if url is valid with https, returns boolean(valid=true, invalid=false)
+  let res =
+    /((https):\/\/)(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/.test(
+      str
+    );
+  return res;
+};
+
 const useHebrewColumns = (tableName) => {
   const { isLoading, error, sendRequest } = useHttp();
   const [columnsArr, setColumnsArr] = useState([]);
@@ -49,6 +58,8 @@ const useHebrewColumns = (tableName) => {
             validate: (rowData) =>
               rowData.url === undefined || rowData.url.trim() == ""
                 ? "נא הזן url"
+                : !testUrlRegex(rowData.url)
+                ? "נא הזן url תקין עם https"
                 : true,
           },
           {
@@ -124,6 +135,8 @@ const useHebrewColumns = (tableName) => {
               rowData.url.length < 2 ||
               rowData.url > 40
                 ? "נא הזן url באורך 2-40 תווים"
+                : !testUrlRegex(rowData.url)
+                ? "נא הזן url תקין עם https"
                 : true,
           },
           {
@@ -222,9 +235,10 @@ const useHebrewColumns = (tableName) => {
             title: "לינק",
             field: "url",
             validate: (rowData) =>
-              rowData.description === undefined ||
-              rowData.description.trim() == ""
+              rowData.url === undefined || rowData.url.trim() == ""
                 ? "נא הזן url"
+                : !testUrlRegex(rowData.url)
+                ? "נא הזן url תקין עם https"
                 : true,
           },
           {
