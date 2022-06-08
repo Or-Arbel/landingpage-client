@@ -12,8 +12,8 @@ import Snackbar from "./components/Assets/Snackbar/Snackbar";
 export const SnackbarContext = createContext({});
 function App() {
   const [openModal, setOpenModal] = useState(false);
-  const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarDetails, setSnackbarDetails] = useState({
+    open: false,
     message: undefined,
     isError: false,
   });
@@ -24,14 +24,11 @@ function App() {
         <ScrollToTop /> {/* scroll to top on route change */}
         <SnackbarContext.Provider
           value={{
-            openSnackbar,
-            setOpenSnackbar,
-
             snackbarDetails,
             setSnackbarDetails,
           }}
         >
-          {openSnackbar && snackbarDetails.message && <Snackbar />}
+          {snackbarDetails.open && snackbarDetails.message && <Snackbar />}
           <Navbar setOpenModal={setOpenModal} />
           <AnimatedRoutes />
         </SnackbarContext.Provider>

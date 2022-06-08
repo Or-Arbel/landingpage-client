@@ -7,17 +7,15 @@ import { SnackbarContext } from "../../../App";
 import styles from "./styles.module.scss";
 
 export default function SimpleSnackbar() {
-  const { openSnackbar, setOpenSnackbar, snackbarDetails, setSnackbarDetails } =
+  const { snackbarDetails, setSnackbarDetails } =
     React.useContext(SnackbarContext);
-  let open = openSnackbar;
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
 
-    setOpenSnackbar(false);
-    setSnackbarDetails({ message: undefined, isError: false });
+    setSnackbarDetails({ open: false, message: undefined, isError: false });
   };
 
   const action = (
@@ -37,7 +35,7 @@ export default function SimpleSnackbar() {
   return (
     <div>
       <Snackbar
-        open={open}
+        open={snackbarDetails.open}
         autoHideDuration={3000}
         onClose={handleClose}
         action={action}

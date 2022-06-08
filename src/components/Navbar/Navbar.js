@@ -1,6 +1,5 @@
 import React from "react";
 import { AppBar, Toolbar, IconButton, Stack, Button } from "@mui/material";
-import EmojiFlagsIcon from "@mui/icons-material/EmojiFlags";
 import { NavLink } from "react-router-dom";
 import styles from "./styles.module.scss";
 

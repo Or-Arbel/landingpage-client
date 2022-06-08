@@ -17,8 +17,7 @@ const MaterialTableComponent = (props) => {
 
   const { tableData, setTableData, columns, selectedRows, setSelectedRows } =
     useContext(TableDataContext);
-  const { setOpenSnackbar, setSnackbarDetails } =
-    React.useContext(SnackbarContext);
+  const { setSnackbarDetails } = React.useContext(SnackbarContext);
 
   //Get table data from db
   let { isLoading, error, sendRequest } = useHttp();
@@ -40,8 +39,8 @@ const MaterialTableComponent = (props) => {
 
   const resolvFetch = (successMessage) => {
     if (successMessage) {
-      setOpenSnackbar(true);
       setSnackbarDetails({
+        open: true,
         message: successMessage,
         isError: false,
       });
@@ -50,8 +49,8 @@ const MaterialTableComponent = (props) => {
   };
   const rejectFetch = (errorMessage) => {
     if (errorMessage) {
-      setOpenSnackbar(true);
       setSnackbarDetails({
+        open: true,
         message: errorMessage,
         isError: true,
       });
@@ -110,8 +109,8 @@ const MaterialTableComponent = (props) => {
         columns[i].validate(bodyData) !== undefined
       ) {
         let errorMessage = columns[i].validate(bodyData);
-        setOpenSnackbar(true);
         setSnackbarDetails({
+          open: true,
           message: errorMessage,
           isError: true,
         });

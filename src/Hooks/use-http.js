@@ -5,7 +5,7 @@ import { SnackbarContext } from "../App";
 const useHttp = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const { setOpenSnackbar, setSnackbarDetails } = useContext(SnackbarContext);
+  const { setSnackbarDetails } = useContext(SnackbarContext);
 
   const headers = {
     "Content-Type": "application/json",
@@ -38,8 +38,8 @@ const useHttp = () => {
       setError(
         err.message ?? "ארעה שגיאה בגישה לשרת, נא בדקו את חיבור הרשת ונסו שנית"
       );
-      setOpenSnackbar(true);
       setSnackbarDetails({
+        open: true,
         message:
           err.message ??
           "ארעה שגיאה בגישה לשרת, נא בדקו את חיבור הרשת ונסו שנית",
