@@ -13,3 +13,11 @@
   display: flex;
   justify-content: center;
 }
+
+.MuiTypography-noWrap,
+.css-2uchni {
+  color: white;
+  letter-spacing: 0.3rem !important;
+  font-weight: 700 !important;
+  font-family: "Rubik" !important;
+}

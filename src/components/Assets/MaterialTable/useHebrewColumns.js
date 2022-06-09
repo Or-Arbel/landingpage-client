@@ -38,12 +38,12 @@ const useHebrewColumns = (tableName) => {
       //build columns array for departmentsLink page
       if (departmentsList.length === data.length) {
         columns = [
-          {
-            title: "סדר",
-            field: "order",
-            defaultSort: "asc",
-            editable: "never",
-          },
+          // {
+          //   title: "סדר",
+          //   field: "order",
+          //   defaultSort: "asc",
+          //   editable: "never",
+          // },
           {
             title: "שם",
             field: "name",
@@ -108,12 +108,12 @@ const useHebrewColumns = (tableName) => {
     switch (tableName) {
       case "links":
         columns = [
-          {
-            title: "סדר",
-            field: "order",
-            defaultSort: "asc",
-            editable: "never",
-          },
+          // {
+          //   title: "סדר",
+          //   field: "order",
+          //   defaultSort: "asc",
+          //   editable: "never",
+          // },
           {
             title: "שם",
             field: "name",
@@ -157,12 +157,12 @@ const useHebrewColumns = (tableName) => {
         break;
       case "departments":
         columns = [
-          {
-            title: "סדר",
-            field: "order",
-            defaultSort: "asc",
-            editable: "never",
-          },
+          // {
+          //   title: "סדר",
+          //   field: "order",
+          //   defaultSort: "asc",
+          //   editable: "never",
+          // },
           {
             title: "שם",
             field: "name",
@@ -192,12 +192,12 @@ const useHebrewColumns = (tableName) => {
         break;
       case "shobDevelopments":
         columns = [
-          {
-            title: "סדר",
-            field: "order",
-            defaultSort: "asc",
-            editable: "never",
-          },
+          // {
+          //   title: "סדר",
+          //   field: "order",
+          //   defaultSort: "asc",
+          //   editable: "never",
+          // },
           {
             title: "כותרת",
             field: "title",

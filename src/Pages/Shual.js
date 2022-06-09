@@ -7,9 +7,11 @@ import MainLinks from "../components/MainLinks/MainLinks";
 const Shual = () => {
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
+      initial={{ opacity: 0, x: 100 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: -100 }}
+      transition={{ duration: 1 }}
+      style={{ minHeight: "100vh" }}
     >
       <MainLinks />
       <LinksList />

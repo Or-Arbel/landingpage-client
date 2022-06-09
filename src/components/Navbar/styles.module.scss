@@ -3,6 +3,7 @@
   color: rgb(230, 245, 241, 0.6);
   text-decoration: none;
   padding: 10px;
+  font-family: "Rubik", sans-serif;
 }
 .activeNavLink {
   font-size: 16px;
@@ -10,7 +11,15 @@
   text-decoration: none;
   border-bottom: 3px solid #e6f4f1;
   padding: 10px;
+  font-family: "Rubik", sans-serif;
 }
 #appBar {
   background-color: #1976d2;
+}
+
+.mobileMenuLink {
+  color: "#308f89";
+  text-decoration: none;
+  font-weight: 600;
+  font-family: "Rubik", sans-serif;
 }

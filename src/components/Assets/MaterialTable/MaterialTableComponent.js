@@ -145,36 +145,43 @@ const MaterialTableComponent = (props) => {
   };
 
   const updateRowHandler = async (newRow, oldRow) => {
-    let body = { ...newRow };
-    delete body.createdAt;
-    delete body.updatedAt;
-    delete body.id;
-    delete body.order;
-    let validationError = validateData(body);
+    const oldData = { ...oldRow };
+    ["createdAt", "updatedAt", "id", "order", "tableData"].forEach((key) => {
+      delete oldData[key];
+    });
 
-    if (validationError) {
-      return new Promise.reject();
+    const newData = { ...newRow };
+    ["createdAt", "updatedAt", "id", "order"].forEach((key) => {
+      delete newData[key];
+    });
+
+    if (JSON.stringify(oldData) === JSON.stringify(newData)) {
+      rejectFetch("לא בוצעו עדכונים");
     } else {
-      const requestOptions = {
-        url: `${process.env.REACT_APP_SERVER_URL}api/${table}/${oldRow.id}`,
-        method: "PATCH",
-        body,
-      };
+      let validationError = validateData(newData);
+      if (validationError) {
+        rejectFetch();
+      } else {
+        const requestOptions = {
+          url: `${process.env.REACT_APP_SERVER_URL}api/${table}/${oldRow.id}`,
+          method: "PATCH",
+          body: newData,
+        };
 
-      const { data } = await sendRequest(requestOptions);
+        const { data } = await sendRequest(requestOptions);
 
-      if (!data) return rejectFetch();
+        if (!data) return rejectFetch();
 
-      const updatedData = [...tableData];
-      let index = updatedData.indexOf(oldRow);
-      updatedData[index] = data;
-      setTableData(updatedData);
-      return resolvFetch("הרשומה עודכנה בהצלחה");
+        const updatedData = [...tableData];
+        let index = updatedData.indexOf(oldRow);
+        updatedData[index] = data;
+        setTableData(updatedData);
+        return resolvFetch("הרשומה עודכנה בהצלחה");
+      }
     }
   };
 
   const deleteRowHandler = async (selectedRow) => {
-    console.log("delete func");
     const requestOptions = {
       url: `${process.env.REACT_APP_SERVER_URL}api/${table}/${selectedRow.id}`,
       method: "DELETE",
@@ -192,7 +199,6 @@ const MaterialTableComponent = (props) => {
       const { tableData, createdAt, updatedAt, ...fields } = row;
       return fields;
     });
-    console.log(body);
 
     const patchRequestOptions = {
       url: `${process.env.REACT_APP_SERVER_URL}api/${table}`,
@@ -220,7 +226,6 @@ const MaterialTableComponent = (props) => {
   };
 
   const bulkUpdateHandler = async (selectedRows) => {
-    console.log(selectedRows);
     let indexesChanged = Object.keys(selectedRows);
     indexesChanged = indexesChanged.map((e) => Number(e));
 
