@@ -32,6 +32,7 @@ const Navbar = (props) => {
     setAnchorElNav(null);
   };
 
+  console.log("navbar render");
   return (
     <AppBar position="sticky" id={styles.appBar}>
       <Container maxWidth="xl">
@@ -160,4 +161,4 @@ const Navbar = (props) => {
     </AppBar>
   );
 };
-export default Navbar;
+export default React.memo(Navbar);

@@ -9,7 +9,7 @@ import { Alert } from "@mui/material";
 
 export const TableDataContext = React.createContext([]);
 const Data = () => {
-  const [tableData, setTableData] = useState([]);
+  const [tableData, setTableData] = useState(undefined);
   const [columns, setColumns] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
 
@@ -31,7 +31,7 @@ const Data = () => {
         url: `${process.env.REACT_APP_SERVER_URL}api/${table}`,
       });
       if (data.status === "success") {
-        setTableData(data.data);
+        setTableData((prev) => data.data);
       }
     };
 
@@ -76,7 +76,7 @@ const Data = () => {
             {error}
           </Alert>
         )}
-        {!isLoading && !error && table && (
+        {!isLoading && !error && table && tableData && (
           <>
             <h3>{getTitle(table)}</h3>
             <MaterialTableComponent getTitle={getTitle} />

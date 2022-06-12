@@ -41,4 +41,4 @@ const SideNav = () => {
   );
 };
 
-export default SideNav;
+export default React.memo(SideNav);

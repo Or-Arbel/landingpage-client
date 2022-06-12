@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import styles from './LoginModal.module.scss';
-import { Button, Modal, TextField } from '@mui/material';
-import { Box } from '@mui/system';
-import useInput from '../../Hooks/use-input';
+import React, { useState, useEffect } from "react";
+import styles from "./LoginModal.module.scss";
+import { Button, Modal, TextField } from "@mui/material";
+import { Box } from "@mui/system";
+import useInput from "../../Hooks/use-input";
 
 const LoginModal = (props) => {
   const {
@@ -12,7 +12,7 @@ const LoginModal = (props) => {
     valueChangeHandler: emailChanged,
     inputBlurHandler: emailTouched,
     reset: resetEmail,
-  } = useInput((value) => value.trim() !== '');
+  } = useInput((value) => value.trim() !== "");
 
   const {
     value: enteredPassword,
@@ -21,7 +21,7 @@ const LoginModal = (props) => {
     valueChangeHandler: passwordChanged,
     inputBlurHandler: passwordTouched,
     reset: resetPassword,
-  } = useInput((value) => value.trim() !== '');
+  } = useInput((value) => value.trim() !== "");
 
   const loginHandler = (event) => {
     event.preventDefault();
@@ -33,7 +33,7 @@ const LoginModal = (props) => {
 
   const [formIsValid, setFormIsValid] = useState(false);
   useEffect(() => {
-    setFormIsValid(emailIsValid && passwordIsValid ? true : false);
+    setFormIsValid(emailIsValid && passwordIsValid);
   }, [enteredEmail, enteredPassword]);
 
   if (!props.openModal) return null;
@@ -58,7 +58,7 @@ const LoginModal = (props) => {
               required
               error={emailError}
               helperText={
-                emailError ? 'שדה זה הוא חובה, נא הזן כתובת אימייל' : ''
+                emailError ? "שדה זה הוא חובה, נא הזן כתובת אימייל" : ""
               }
               onChange={emailChanged}
               onBlur={emailTouched}
@@ -73,7 +73,7 @@ const LoginModal = (props) => {
               variant="standard"
               required
               error={passwordError}
-              helperText={passwordError ? 'שדה זה הוא חובה, נא הזן סיסמה' : ''}
+              helperText={passwordError ? "שדה זה הוא חובה, נא הזן סיסמה" : ""}
               onChange={passwordChanged}
               onBlur={passwordTouched}
             />
