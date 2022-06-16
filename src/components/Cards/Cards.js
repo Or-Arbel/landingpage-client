@@ -21,6 +21,23 @@ const Cards = () => {
     renderData();
   }, []);
 
+  //Get longest department title , to set the width of the cards
+  const getWidthByLongestTitle = (departmentsArr) => {
+    if (departmentsArr !== undefined && departmentsArr.length > 0) {
+      let longestTitle = Math.max(
+        ...departmentsArr.map((department) => department.name.length)
+      );
+      if (longestTitle > 20) {
+        return longestTitle + 420 + "px";
+      } else {
+        return "250px";
+      }
+    } else {
+      console.log("stil here didnt make it");
+      return "400px";
+    }
+  };
+
   const generalImage = require("../../images/general_image.svg");
 
   const tryRequireImage = (index) => {
@@ -43,7 +60,11 @@ const Cards = () => {
         !isLoading &&
         !error &&
         departments.map((d, i) => (
-          <Card className={styles.departmentCard} key={i}>
+          <Card
+            className={styles.departmentCard}
+            key={i}
+            style={{ width: getWidthByLongestTitle(departments) }}
+          >
             <CardHeader
               title={d.name}
               className={styles.cardTitle}

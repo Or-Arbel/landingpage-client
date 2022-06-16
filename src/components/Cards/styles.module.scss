@@ -38,6 +38,13 @@
   min-width: 250px;
   height: 300px;
   margin: 10px;
+  position: relative;
+  top: 0;
+  transition: top ease 0.5s;
+}
+
+.departmentCard:hover {
+  top: -10px;
 }
 
 .singleLink {

@@ -122,7 +122,7 @@ const useHebrewColumns = (tableName) => {
               rowData.name === undefined ||
               rowData.name.trim() == "" ||
               rowData.name.length < 2 ||
-              rowData.name > 40
+              rowData.name.length > 40
                 ? "נא הזן שם באורך 2-40 תווים"
                 : true,
           },
@@ -133,7 +133,7 @@ const useHebrewColumns = (tableName) => {
               rowData.url === undefined ||
               rowData.url.trim() == "" ||
               rowData.url.length < 2 ||
-              rowData.url > 40
+              rowData.url.length > 40
                 ? "נא הזן url באורך 2-40 תווים"
                 : !testUrlRegex(rowData.url)
                 ? "נא הזן url תקין עם https"
@@ -170,7 +170,7 @@ const useHebrewColumns = (tableName) => {
               rowData.name === undefined ||
               rowData.name.trim() == "" ||
               rowData.name.length < 2 ||
-              rowData.name > 40
+              rowData.name.length > 40
                 ? "נא הזן שם באורך 2-40 תווים"
                 : true,
           },
@@ -205,7 +205,7 @@ const useHebrewColumns = (tableName) => {
               rowData.title === undefined ||
               rowData.title.trim() == "" ||
               rowData.title.length < 3 ||
-              rowData.title > 40
+              rowData.title.length > 40
                 ? "נא הזן כותרת באורך 3-40 תווים"
                 : true,
           },
@@ -216,7 +216,7 @@ const useHebrewColumns = (tableName) => {
               rowData.subTitle === undefined ||
               rowData.subTitle.trim() == "" ||
               rowData.subTitle.length < 3 ||
-              rowData.subTitle > 150
+              rowData.subTitle.length > 150
                 ? "נא הזן כותרת משנה באורך 3-150 תווים"
                 : true,
           },
@@ -227,7 +227,7 @@ const useHebrewColumns = (tableName) => {
               rowData.description === undefined ||
               rowData.description.trim() == "" ||
               rowData.description.length < 3 ||
-              rowData.description > 1500
+              rowData.description.length > 1500
                 ? "נא הזן תיאור באורך 3-1500 תווים"
                 : true,
           },
