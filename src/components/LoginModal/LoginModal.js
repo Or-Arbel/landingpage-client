@@ -27,6 +27,10 @@ const LoginModal = (props) => {
     event.preventDefault();
     console.log(enteredEmail);
     console.log(enteredPassword);
+
+    props.loginFunc();
+    props.closeModal();
+
     resetEmail();
     resetPassword();
   };
@@ -36,7 +40,14 @@ const LoginModal = (props) => {
     setFormIsValid(emailIsValid && passwordIsValid);
   }, [enteredEmail, enteredPassword]);
 
+  const closeLoginModal = () => {
+    resetEmail();
+    resetPassword();
+    props.closeModal();
+  };
+
   if (!props.openModal) return null;
+
   return (
     <Modal dir="rtl" open={props.openModal} onClose={props.closeModal}>
       <Box className={styles.modalContainer}>
@@ -82,11 +93,7 @@ const LoginModal = (props) => {
             <Button variant="contained" type="submit" disabled={!formIsValid}>
               התחבר
             </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={() => props.closeModal()}
-            >
+            <Button variant="contained" color="error" onClick={closeLoginModal}>
               סגור
             </Button>
           </div>

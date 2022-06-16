@@ -23,3 +23,20 @@
   font-weight: 600;
   font-family: "Rubik", sans-serif;
 }
+
+.dateAndTime {
+  .time {
+    font-size: 2rem;
+    color: #e6f4f1;
+  }
+}
+@media only screen and (max-width: 992px) {
+  .dateAndTime {
+    display: none;
+  }
+}
+
+.updateIcon {
+  display: -webkit-inline-flex;
+  color: white;
+}

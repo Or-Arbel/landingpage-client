@@ -7,22 +7,33 @@ import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import LogoutIcon from "@mui/icons-material/Logout";
 import { NavLink } from "react-router-dom";
 import styles from "./styles.module.scss";
+import SettingsIcon from "@mui/icons-material/Settings";
+import dateFormat from "dateformat";
 
 const pages = [
   { name: 'מעבדת פיתוח שו"ב', url: "/shob" },
   { name: "דיווח תקלה ויצירת קשר", url: "/report" },
-  { name: "עדכון", url: "/update" },
 ];
 
 const Navbar = (props) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
+  // const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  const [currentTime, setCurrentTime] = React.useState("");
+
+  // Set Current Date And Time
+  React.useEffect(() => {
+    setInterval(() => {
+      let now = new Date();
+      let nowTime = dateFormat(now, "HH:MM");
+      setCurrentTime(nowTime);
+    }, 1000);
+  }, []);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -34,7 +45,7 @@ const Navbar = (props) => {
 
   console.log("navbar render");
   return (
-    <AppBar position="sticky" id={styles.appBar}>
+    <AppBar position="sticky" id={styles.appBar} key={props.isLoggedIn}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           {/* desktop */}
@@ -45,7 +56,6 @@ const Navbar = (props) => {
               variant="h6"
               noWrap
               component="a"
-              // href="/"
               sx={{
                 mx: 2,
                 display: { xs: "none", md: "flex" },
@@ -143,19 +153,62 @@ const Navbar = (props) => {
                 </NavLink>
               </Button>
             ))}
-            <Button
-              style={{
-                color: "rgb(230, 245, 241, 0.6)",
-                fontSize: "16px",
-                padding: "10px",
-                fontFamily: "Rubik",
-              }}
-              onClick={() => props.setOpenModal(true)}
-            >
-              התחברות
-            </Button>
           </Box>
-          <Box sx={{ flexGrow: 0 }}>{new Date().toLocaleDateString()}</Box>
+          <Box
+            sx={{
+              flexGrow: 0,
+              display: "flex",
+              alignItems: "center",
+              padding: "10px",
+              justifyContent: "space-between",
+              maxWidth: "20%",
+            }}
+          >
+            {props.isLoggedIn ? (
+              <div>
+                <IconButton
+                  size="large"
+                  aria-label="log out current user"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  onClick={props.logOutFunc}
+                  color="inherit"
+                >
+                  <LogoutIcon />
+                </IconButton>
+
+                <IconButton
+                  size="large"
+                  aria-label="update"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  color="inherit"
+                >
+                  <NavLink className={styles.updateIcon} exact to="/update">
+                    <SettingsIcon />
+                  </NavLink>
+                </IconButton>
+                {/* </Button> */}
+              </div>
+            ) : (
+              <IconButton
+                size="large"
+                aria-label="log in user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={() => props.setOpenModal(true)}
+                color="inherit"
+              >
+                <AccountCircleIcon />
+              </IconButton>
+            )}
+
+            <div className={styles.dateAndTime}>
+              {new Date().toLocaleDateString()}
+              <br />
+              <div className={styles.time}>{currentTime}</div>
+            </div>
+          </Box>
         </Toolbar>
       </Container>
     </AppBar>

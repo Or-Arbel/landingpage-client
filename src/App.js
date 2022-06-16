@@ -11,12 +11,13 @@ import Snackbar from "./components/Assets/Snackbar/Snackbar";
 
 export const SnackbarContext = createContext({});
 function App() {
-  const [openModal, setOpenModal] = useState(false);
+  const [openLoginModal, setOpenLoginModal] = useState(false);
   const [snackbarDetails, setSnackbarDetails] = useState({
     open: false,
     message: undefined,
     isError: false,
   });
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   return (
     <Router>
@@ -29,12 +30,17 @@ function App() {
           }}
         >
           {snackbarDetails.open && snackbarDetails.message && <Snackbar />}
-          <Navbar setOpenModal={setOpenModal} />
-          <AnimatedRoutes />
+          <Navbar
+            setOpenModal={setOpenLoginModal}
+            isLoggedIn={isLoggedIn}
+            logOutFunc={() => setIsLoggedIn((prevValue) => false)}
+          />
+          <AnimatedRoutes isLoggedIn={isLoggedIn} />
         </SnackbarContext.Provider>
         <LoginModal
-          openModal={openModal}
-          closeModal={() => setOpenModal(false)}
+          openModal={openLoginModal}
+          closeModal={() => setOpenLoginModal((prevValue) => false)}
+          loginFunc={() => setIsLoggedIn((prevValue) => true)}
         />
         <Footer />
       </div>
