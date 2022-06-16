@@ -49,12 +49,12 @@ const Cards = () => {
               className={styles.cardTitle}
               style={{ paddingBottom: "40px" }}
             />
+            <div className={styles.imageContainer}>
+              {/* Image is desplayed from frontend */}
+              <img src={tryRequireImage(i)} width={50} height={50} />
+            </div>
             <CardContent>
               <div className={styles.linksContainer}>
-                <div className={styles.imageContainer}>
-                  {/* Image is desplayed from frontend */}
-                  <img src={tryRequireImage(i)} width={50} height={50} />
-                </div>
                 {d.departmentLinks.map((e, i) => (
                   <a
                     key={i}
