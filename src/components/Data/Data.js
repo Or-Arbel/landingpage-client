@@ -54,6 +54,9 @@ const Data = () => {
       case "shobDevelopments": {
         return "פיתוחי מעבדה";
       }
+      case "mainLinks": {
+        return "לינקים ראשיים";
+      }
       default:
         return table;
     }

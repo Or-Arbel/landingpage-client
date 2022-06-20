@@ -106,6 +106,55 @@ const useHebrewColumns = (tableName) => {
     };
 
     switch (tableName) {
+      case "mainLinks":
+        columns = [
+          // {
+          //   title: "סדר",
+          //   field: "order",
+          //   defaultSort: "asc",
+          //   editable: "never",
+          // },
+          {
+            title: "שם",
+            field: "name",
+
+            validate: (rowData) =>
+              rowData.name === undefined ||
+              rowData.name.trim() == "" ||
+              rowData.name.length < 2 ||
+              rowData.name.length > 40
+                ? "נא הזן שם באורך 2-40 תווים"
+                : true,
+          },
+          {
+            title: "לינק",
+            field: "url",
+            validate: (rowData) =>
+              rowData.url === undefined ||
+              rowData.url.trim() == "" ||
+              rowData.url.length < 2 ||
+              rowData.url.length > 40
+                ? "נא הזן url באורך 2-40 תווים"
+                : !testUrlRegex(rowData.url)
+                ? "נא הזן url תקין עם https"
+                : true,
+          },
+          {
+            title: "נוצר בתאריך",
+            field: "createdAt",
+            editable: "never",
+            type: "datetime",
+            dateSetting: { format: dateFormat },
+          },
+          {
+            title: "עודכן בתאריך",
+            field: "updatedAt",
+            editable: "never",
+            type: "datetime",
+            dateSetting: { format: dateFormat },
+          },
+        ];
+        break;
       case "links":
         columns = [
           // {

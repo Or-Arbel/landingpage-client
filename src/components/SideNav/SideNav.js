@@ -24,6 +24,9 @@ const SideNav = () => {
         </MenuItem>
         <SubMenu title="עריכת נתונים" icon={<FaEdit />} defaultOpen>
           <MenuItem>
+            <Link to="/update/mainLinks">לינקים ראשיים</Link>
+          </MenuItem>
+          <MenuItem>
             <Link to="/update/links">לינקים</Link>
           </MenuItem>
           <MenuItem>
