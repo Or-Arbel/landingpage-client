@@ -24,19 +24,36 @@
   font-family: "Rubik", sans-serif;
 }
 
-.dateAndTime {
+#dateAndTime {
+  color: white;
+  padding: 0 10px;
+
   .time {
     font-size: 2rem;
     color: #e6f4f1;
   }
 }
 @media only screen and (max-width: 992px) {
-  .dateAndTime {
+  #dateAndTime {
     display: none;
   }
 }
 
 .updateIcon {
-  display: -webkit-inline-flex;
+  padding: 0;
+  a {
+    padding: 0 10px;
+    display: -webkit-inline-flex;
+    color: white;
+  }
+}
+
+.logoutIcon svg {
+  padding: 0 10px;
+  color: white;
+}
+
+.loginIcon svg {
+  padding: 0 10px;
   color: white;
 }

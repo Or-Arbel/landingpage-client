@@ -23,7 +23,6 @@ const pages = [
 
 const Navbar = (props) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
-  // const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [currentTime, setCurrentTime] = React.useState("");
 
   // Set Current Date And Time
@@ -172,7 +171,7 @@ const Navbar = (props) => {
                   aria-controls="menu-appbar"
                   aria-haspopup="true"
                   onClick={props.logOutFunc}
-                  color="inherit"
+                  className={styles.logoutIcon}
                 >
                   <LogoutIcon />
                 </IconButton>
@@ -182,13 +181,12 @@ const Navbar = (props) => {
                   aria-label="update"
                   aria-controls="menu-appbar"
                   aria-haspopup="true"
-                  color="inherit"
+                  className={styles.updateIcon}
                 >
-                  <NavLink className={styles.updateIcon} exact to="/update">
+                  <NavLink exact to="/update">
                     <SettingsIcon />
                   </NavLink>
                 </IconButton>
-                {/* </Button> */}
               </div>
             ) : (
               <IconButton
@@ -197,13 +195,13 @@ const Navbar = (props) => {
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
                 onClick={() => props.setOpenModal(true)}
-                color="inherit"
+                className={styles.loginIcon}
               >
                 <AccountCircleIcon />
               </IconButton>
             )}
 
-            <div className={styles.dateAndTime}>
+            <div id={styles.dateAndTime}>
               {new Date().toLocaleDateString()}
               <br />
               <div className={styles.time}>{currentTime}</div>

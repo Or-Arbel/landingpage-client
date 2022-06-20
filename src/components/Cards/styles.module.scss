@@ -1,59 +1,79 @@
 .cardsContainer {
   padding: 10px;
+  margin: 0 auto;
+  width: 80%;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
-
-  .linksContainer {
-    display: flex;
-    flex-direction: column;
+  .departmentCard {
+    min-width: 250px;
+    height: 300px;
+    margin: 10px;
     position: relative;
-    top: -35px;
-    overflow-y: auto;
-    max-height: 120px;
+    top: 0;
+    transition: top ease 0.5s;
+
+    .cardTitle {
+      color: white;
+      font-weight: 800;
+      background-color: #308f89;
+      padding-bottom: 40px;
+    }
+
+    .imageContainer {
+      border: 3px solid white;
+      width: 70px;
+      height: 70px;
+      border-radius: 50px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: wheat;
+      position: relative;
+      top: -35px;
+    }
+
+    .linksContainer {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      top: -35px;
+      overflow-y: auto;
+      max-height: 120px;
+
+      .singleLink {
+        text-decoration: none;
+        color: black;
+        margin-bottom: 5px;
+        font-weight: normal;
+        &:hover {
+          -webkit-text-stroke-width: 1px;
+          -webkit-text-stroke-color: black;
+        }
+      }
+    }
+  }
+
+  .departmentCard:hover {
+    top: -10px;
   }
 }
 
-.cardTitle {
-  color: white;
-  font-weight: 800;
-  background-color: #308f89;
-}
+@media screen and (max-width: 992px) {
+  .cardsContainer {
+    width: 100%;
+    padding: 0;
+    display: grid;
 
-.imageContainer {
-  border: 3px solid white;
-  width: 70px;
-  height: 70px;
-  border-radius: 50px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: wheat;
-  position: relative;
-  top: -35px;
+    .departmentCard {
+      height: initial;
+    }
+  }
 }
-.departmentCard {
-  min-width: 250px;
-  height: 300px;
-  margin: 10px;
-  position: relative;
-  top: 0;
-  transition: top ease 0.5s;
-}
-
-.departmentCard:hover {
-  top: -10px;
-}
-
-.singleLink {
-  text-decoration: none;
-  color: black;
-  margin-bottom: 5px;
-  font-weight: normal;
-  &:hover {
-    -webkit-text-stroke-width: 1px;
-    -webkit-text-stroke-color: black;
+@media screen and (max-width: 600px) {
+  .cardsContainer {
+    display: grid;
+    grid-template-columns: 1fr;
   }
 }

@@ -33,8 +33,7 @@ const LinksList = () => {
           </Alert>
         ) : null}
 
-        {links &&
-          links.length > 0 &&
+        {links?.length > 0 &&
           !isLoading &&
           !error &&
           links.map((e, i) => (

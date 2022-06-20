@@ -17,7 +17,7 @@ function App() {
     message: undefined,
     isError: false,
   });
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   return (
     <Router>

@@ -1,61 +1,38 @@
 .container {
   margin: 0 auto;
-
   background-color: rgb(48, 143, 137, 0.3);
   padding: 70px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
 
+  .mainLinkCard {
+    margin: 10px;
+    min-width: 300px;
+  }
+
   h1 {
     width: 100%;
   }
 
-  a {
-    padding: 10px 50px;
-    margin: 10px 20px;
-    min-width: 30%;
-
-    border: 2px solid #2d3436;
-    border-radius: 25px;
-    box-shadow: rgba(149, 157, 165, 0.5) 0px 8px 14px;
-    background-color: #e6f4f1;
-
-    text-align: center;
-    text-decoration: none;
-    color: black;
-    font-weight: 600;
-    font-size: 1.5em;
-    line-height: 1.5em;
-    transition: all 0.5s ease-out;
-
-    &:hover {
-      background-color: #0984e3;
-      cursor: pointer;
-      color: white;
-    }
+  .cardMedia {
+    width: 300px;
+    height: 10px;
+    background-image: linear-gradient(to left, #1976d2, #308f89);
   }
 }
 
-/* On screens that are 992px or less */
-@media screen and (max-width: 992px) {
-  .container {
-    padding: 60px 20px;
-  }
-  .container a {
-    margin: 10px;
-    min-width: 60%;
-    padding: 10px;
-  }
-}
+.colorfulDiv {
+  margin: 10px auto;
 
-/* On screens that are 600px or less */
-@media screen and (max-width: 600px) {
-  .container {
-    padding: 50px 20px;
-  }
-  .container a {
-    min-width: 100%;
-    padding: 10px;
+  width: 10em;
+  height: 10em;
+  border: 10px solid;
+  border-image-slice: 1;
+  border-width: 5px;
+  border-image-source: linear-gradient(to left, #1976d2, #308f89);
+  transition: all 0.5s;
+  &:hover {
+    background-color: white;
   }
 }

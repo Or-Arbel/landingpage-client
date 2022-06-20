@@ -39,8 +39,7 @@ const ShobCards = () => {
         </Alert>
       ) : null}
 
-      {shobData &&
-        shobData.length > 0 &&
+      {shobData?.length > 0 &&
         !isLoading &&
         !error &&
         shobData.map((e, i) => (

@@ -21,23 +21,6 @@ const Cards = () => {
     renderData();
   }, []);
 
-  //Get longest department title , to set the width of the cards
-  const getWidthByLongestTitle = (departmentsArr) => {
-    if (departmentsArr !== undefined && departmentsArr.length > 0) {
-      let longestTitle = Math.max(
-        ...departmentsArr.map((department) => department.name.length)
-      );
-      if (longestTitle > 20) {
-        return longestTitle + 420 + "px";
-      } else {
-        return "250px";
-      }
-    } else {
-      console.log("stil here didnt make it");
-      return "400px";
-    }
-  };
-
   const generalImage = require("../../images/general_image.svg");
 
   const tryRequireImage = (index) => {
@@ -55,23 +38,13 @@ const Cards = () => {
 
   return (
     <div className={styles.cardsContainer}>
-      {departments &&
-        departments.length > 0 &&
+      {departments?.length > 0 &&
         !isLoading &&
         !error &&
         departments.map((d, i) => (
-          <Card
-            className={styles.departmentCard}
-            key={i}
-            style={{ width: getWidthByLongestTitle(departments) }}
-          >
-            <CardHeader
-              title={d.name}
-              className={styles.cardTitle}
-              style={{ paddingBottom: "40px" }}
-            />
+          <Card className={styles.departmentCard} key={i}>
+            <CardHeader title={d.name} className={styles.cardTitle} />
             <div className={styles.imageContainer}>
-              {/* Image is desplayed from frontend */}
               <img src={tryRequireImage(i)} width={50} height={50} />
             </div>
             <CardContent>
