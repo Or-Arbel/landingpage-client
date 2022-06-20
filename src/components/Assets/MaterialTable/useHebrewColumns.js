@@ -71,11 +71,16 @@ const useHebrewColumns = (tableName) => {
               );
               return department.label;
             },
-            editComponent: ({ value, onChange }) => (
+            editComponent: ({ value, onChange, rowData }) => (
               <Select
                 options={departmentsList}
                 name="departmentsSelect"
                 onChange={(selectedOption) => onChange(selectedOption.value)}
+                defaultValue={() =>
+                  departmentsList.find(
+                    (element) => element.value == rowData.departmentId
+                  )
+                }
                 value={value ? value.value : value}
                 placeholder="בחר מחלקה"
               />
