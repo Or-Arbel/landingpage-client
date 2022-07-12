@@ -18,6 +18,8 @@ const MainLinks = () => {
 
   const { isLoading, error, sendRequest } = useHttp();
 
+  const demoImage = require("../../images/m2e.jpg");
+
   useEffect(() => {
     const renderData = async () => {
       let { data } = await sendRequest({
@@ -49,11 +51,16 @@ const MainLinks = () => {
                 target="_blank"
                 rel="noreferrer"
               >
-                {/* <CardMedia
-                component="div"
-                height="140"
-                className={styles.cardMedia}
-              /> */}
+                <CardMedia
+                  component="img"
+                  height="100"
+                  image={
+                    element.image
+                      ? process.env.REACT_APP_SERVER_URL + element.image
+                      : demoImage
+                  }
+                  alt={element.name}
+                />
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="div">
                     {element.name}

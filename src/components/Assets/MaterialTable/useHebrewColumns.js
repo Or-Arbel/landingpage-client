@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import useHttp from "../../../Hooks/use-http";
+import ImageUpload from "../ImageUpload/ImageUpload";
 const demoImg = require("../../../images/m2e.jpg");
 const dateFormat = "dd/MM/yyyy, hh:mm:ss";
 
@@ -145,6 +146,38 @@ const useHebrewColumns = (tableName) => {
                 : true,
           },
           {
+            title: "תמונה",
+            field: "image",
+            render: (rowData) => (
+              <img
+                src={
+                  process.env.REACT_APP_SERVER_URL +
+                  (rowData.image?.length > 0
+                    ? rowData.image
+                    : "uploads/noimage.png")
+                }
+                style={{ borderRadius: "50%", width: "70px", height: "70px" }}
+              />
+            ),
+            editComponent: ({ value, onChange, rowData }) => (
+              <>
+                <input
+                  type="text"
+                  name="image"
+                  id="file"
+                  style={{ display: "none" }}
+                />
+                <label for="file">
+                  <ImageUpload
+                    currentImage={rowData.image ?? null}
+                    rowId={rowData.id}
+                    onChange={onChange}
+                  />
+                </label>
+              </>
+            ),
+          },
+          {
             title: "נוצר בתאריך",
             field: "createdAt",
             editable: "never",
@@ -229,6 +262,38 @@ const useHebrewColumns = (tableName) => {
                 : true,
           },
           {
+            title: "תמונה",
+            field: "image",
+            render: (rowData) => (
+              <img
+                src={
+                  process.env.REACT_APP_SERVER_URL +
+                  (rowData.image?.length > 0
+                    ? rowData.image
+                    : "uploads/noimage.png")
+                }
+                style={{ borderRadius: "50%", width: "70px", height: "70px" }}
+              />
+            ),
+            editComponent: ({ value, onChange, rowData }) => (
+              <>
+                <input
+                  type="text"
+                  name="image"
+                  id="file"
+                  style={{ display: "none" }}
+                />
+                <label for="file">
+                  <ImageUpload
+                    currentImage={rowData.image ?? null}
+                    rowId={rowData.id}
+                    onChange={onChange}
+                  />
+                </label>
+              </>
+            ),
+          },
+          {
             title: "נוצר בתאריך",
             field: "createdAt",
             editable: "never",
@@ -299,7 +364,32 @@ const useHebrewColumns = (tableName) => {
             title: "תמונה",
             field: "image",
             render: (rowData) => (
-              <img src={rowData.image || demoImg} width="50" height="60" />
+              <img
+                src={
+                  process.env.REACT_APP_SERVER_URL +
+                  (rowData.image?.length > 0
+                    ? rowData.image
+                    : "uploads/noimage.png")
+                }
+                style={{ borderRadius: "50%", width: "70px", height: "70px" }}
+              />
+            ),
+            editComponent: ({ value, onChange, rowData }) => (
+              <>
+                <input
+                  type="text"
+                  name="image"
+                  id="file"
+                  style={{ display: "none" }}
+                />
+                <label for="file">
+                  <ImageUpload
+                    currentImage={rowData.image ?? null}
+                    rowId={rowData.id}
+                    onChange={onChange}
+                  />
+                </label>
+              </>
             ),
           },
           {

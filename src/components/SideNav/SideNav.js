@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   ProSidebar,
@@ -8,13 +8,16 @@ import {
   SubMenu,
 } from "react-pro-sidebar";
 import { FaGem, FaEdit } from "react-icons/fa";
+import { BsArrowsAngleExpand, BsArrowsAngleContract } from "react-icons/bs";
 
 import "react-pro-sidebar/dist/css/styles.css";
 import styles from "./styles.module.scss";
 
 const SideNav = () => {
+  const [collapsed, setCollapsed] = useState(false);
+
   return (
-    <ProSidebar rtl={true}>
+    <ProSidebar rtl={true} collapsed={collapsed}>
       <SidebarHeader>
         <div className={styles.header}>ניהול נתונים</div>
       </SidebarHeader>
@@ -39,6 +42,12 @@ const SideNav = () => {
             <Link to="/update/shobDevelopments">פיתוחי מעבדה</Link>
           </MenuItem>
         </SubMenu>
+        <MenuItem
+          onClick={() => setCollapsed((prev) => !prev)}
+          icon={collapsed ? <BsArrowsAngleExpand /> : <BsArrowsAngleContract />}
+        >
+          סגור תפריט
+        </MenuItem>
       </Menu>
     </ProSidebar>
   );

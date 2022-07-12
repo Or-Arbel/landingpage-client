@@ -23,19 +23,6 @@ const Cards = () => {
 
   const generalImage = require("../../images/general_image.svg");
 
-  const tryRequireImage = (index) => {
-    try {
-      let img = require(`../../images/img${index + 1}.svg`);
-      if (img) {
-        return require(`../../images/img${index + 1}.svg`);
-      } else {
-        return generalImage.default;
-      }
-    } catch (err) {
-      return generalImage.default;
-    }
-  };
-
   return (
     <div className={styles.cardsContainer}>
       {departments?.length > 0 &&
@@ -45,7 +32,16 @@ const Cards = () => {
           <Card className={styles.departmentCard} key={i}>
             <CardHeader title={d.name} className={styles.cardTitle} />
             <div className={styles.imageContainer}>
-              <img src={tryRequireImage(i)} width={50} height={50} />
+              <img
+                src={
+                  d.image
+                    ? process.env.REACT_APP_SERVER_URL + d.image
+                    : generalImage.default
+                }
+                width={60}
+                height={60}
+                style={{ borderRadius: "50%" }}
+              />
             </div>
             <CardContent>
               <div className={styles.linksContainer}>

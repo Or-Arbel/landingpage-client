@@ -11,6 +11,7 @@ import "./MaterialTable.css";
 import useHttp from "../../../Hooks/use-http";
 import { TableDataContext } from "../../Data/Data";
 import { SnackbarContext } from "../../../App";
+import useFormDataFetch from "../../../Hooks/useFormDataFetch";
 
 const MaterialTableComponent = (props) => {
   let { table } = useParams(); // Get table name from url
@@ -19,7 +20,7 @@ const MaterialTableComponent = (props) => {
     useContext(TableDataContext);
   const { setSnackbarDetails } = React.useContext(SnackbarContext);
 
-  //Get table data from db
+  let { sendFormDataRequest } = useFormDataFetch();
   let { isLoading, error, sendRequest } = useHttp();
 
   const getOrderedData = (
@@ -129,18 +130,29 @@ const MaterialTableComponent = (props) => {
     } else {
       bodyData.order = tableData.length;
 
+      let fetchResult;
       const requestOptions = {
         url: `${process.env.REACT_APP_SERVER_URL}api/${table}`,
         method: "POST",
-        body: [bodyData],
+        body: bodyData,
       };
 
-      const { data, message } = await sendRequest(requestOptions);
-      if (!data) return rejectFetch();
+      if (bodyData.image) {
+        // add row using formdata
+        fetchResult = await sendFormDataRequest(requestOptions);
+      } else {
+        // add row using json
+        fetchResult = await sendRequest(requestOptions);
+      }
 
-      const newRow = data && data[0];
-      setTableData((prevState) => [...prevState, newRow]);
-      return resolvFetch(message ?? "הרשומה נוספה בהצלחה");
+      // add new row to tableData state
+      let newRow = fetchResult && fetchResult.data;
+      if (fetchResult.status === "success") {
+        setTableData((prevState) => [...prevState, newRow]);
+        return resolvFetch(fetchResult.message ?? "הרשומה נוספה בהצלחה");
+      } else {
+        return new Promise.reject();
+      }
     }
   };
 
@@ -151,9 +163,11 @@ const MaterialTableComponent = (props) => {
     });
 
     const newData = { ...newRow };
-    ["createdAt", "updatedAt", "id", "order"].forEach((key) => {
-      delete newData[key];
-    });
+    ["createdAt", "updatedAt", "id", "order", "departmentLinks"].forEach(
+      (key) => {
+        delete newData[key];
+      }
+    );
 
     if (JSON.stringify(oldData) === JSON.stringify(newData)) {
       rejectFetch("לא בוצעו עדכונים");
@@ -162,20 +176,27 @@ const MaterialTableComponent = (props) => {
       if (validationError) {
         rejectFetch();
       } else {
+        let fetchResult;
         const requestOptions = {
           url: `${process.env.REACT_APP_SERVER_URL}api/${table}/${oldRow.id}`,
           method: "PATCH",
           body: newData,
         };
+        //if image updated
+        if (newData.image && typeof newData.image !== "string") {
+          // update row using formdata
+          fetchResult = await sendFormDataRequest(requestOptions);
+        } else {
+          // update row using json
+          fetchResult = await sendRequest(requestOptions);
+        }
 
-        const { data } = await sendRequest(requestOptions);
+        if (!fetchResult.data) return rejectFetch();
+        const updatedTableData = [...tableData];
+        let index = updatedTableData.indexOf(oldRow);
+        updatedTableData[index] = fetchResult.data;
 
-        if (!data) return rejectFetch();
-
-        const updatedData = [...tableData];
-        let index = updatedData.indexOf(oldRow);
-        updatedData[index] = data;
-        setTableData(updatedData);
+        setTableData(updatedTableData);
         return resolvFetch("הרשומה עודכנה בהצלחה");
       }
     }
@@ -187,13 +208,15 @@ const MaterialTableComponent = (props) => {
       method: "DELETE",
     };
 
+    //delete row from db
     const { status, rowsDeleted } = await sendRequest(requestOptions);
     if (status !== "success" || rowsDeleted === 0) return rejectFetch();
 
-    //delete from state and update other of data in the server
+    //delete from state
     const updatedData = [...tableData];
-    const rowIndex = selectedRow.tableData.id;
+    const rowIndex = updatedData.indexOf(selectedRow);
     updatedData.splice(rowIndex, 1);
+    //fix rows order on db
     const orderedData = getOrderedData(updatedData, rowIndex);
     const body = orderedData.slice(rowIndex).map((row) => {
       const { tableData, createdAt, updatedAt, ...fields } = row;
@@ -229,7 +252,7 @@ const MaterialTableComponent = (props) => {
     let indexesChanged = Object.keys(selectedRows);
     indexesChanged = indexesChanged.map((e) => Number(e));
 
-    if (indexesChanged.length == 0) {
+    if (indexesChanged.length === 0) {
       return rejectFetch("לא בוצעו עדכונים");
     }
 

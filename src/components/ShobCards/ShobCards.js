@@ -48,7 +48,11 @@ const ShobCards = () => {
               <CardMedia
                 component="img"
                 height="140"
-                image={e.image ?? demoImage}
+                image={
+                  e.image
+                    ? process.env.REACT_APP_SERVER_URL + e.image
+                    : demoImage
+                }
                 alt={e.title}
               />
               <CardContent>
