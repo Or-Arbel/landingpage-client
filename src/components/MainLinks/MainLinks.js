@@ -11,8 +11,6 @@ import {
 import CircularProgress from "@mui/material/CircularProgress";
 import { Alert } from "@mui/material";
 
-import { CardHeader } from "@mui/material";
-
 const MainLinks = () => {
   const [mainLinks, setMainLinks] = useState();
 
@@ -26,7 +24,6 @@ const MainLinks = () => {
         url: `${process.env.REACT_APP_SERVER_URL}api/mainLinks`,
       });
       setMainLinks(data);
-      console.log(data);
     };
 
     renderData();
@@ -45,7 +42,11 @@ const MainLinks = () => {
         {!isLoading &&
           !error &&
           mainLinks?.map((element, index) => (
-            <Card sx={{ maxWidth: 345 }} className={styles.mainLinkCard}>
+            <Card
+              sx={{ maxWidth: 345 }}
+              className={styles.mainLinkCard}
+              key={index}
+            >
               <CardActionArea
                 href={element.url}
                 target="_blank"
@@ -74,4 +75,4 @@ const MainLinks = () => {
   );
 };
 
-export default MainLinks;
+export default React.memo(MainLinks);

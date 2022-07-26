@@ -9,6 +9,7 @@ import {
 } from "react-pro-sidebar";
 import { FaGem, FaEdit } from "react-icons/fa";
 import { BsArrowsAngleExpand, BsArrowsAngleContract } from "react-icons/bs";
+import { MdOutlineReportProblem } from "react-icons/md";
 
 import "react-pro-sidebar/dist/css/styles.css";
 import styles from "./styles.module.scss";
@@ -42,6 +43,9 @@ const SideNav = () => {
             <Link to="/update/shobDevelopments">פיתוחי מעבדה</Link>
           </MenuItem>
         </SubMenu>
+        <MenuItem icon={<MdOutlineReportProblem />}>
+          <Link to="/update/reportUrl">עדכון url לעמוד דיווח תקלה</Link>
+        </MenuItem>
         <MenuItem
           onClick={() => setCollapsed((prev) => !prev)}
           icon={collapsed ? <BsArrowsAngleExpand /> : <BsArrowsAngleContract />}

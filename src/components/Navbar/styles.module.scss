@@ -18,10 +18,11 @@
 }
 
 .mobileMenuLink {
-  color: "#308f89";
+  color: #308f89;
   text-decoration: none;
   font-weight: 600;
   font-family: "Rubik", sans-serif;
+  padding: 5px;
 }
 
 #dateAndTime {
@@ -56,4 +57,41 @@
 .loginIcon svg {
   padding: 0 10px;
   color: white;
+}
+
+.css-6hp17o-MuiList-root-MuiMenu-list,
+ul.MuiList-root.MuiList-padding.MuiMenu-list.css-6hp17o-MuiList-root-MuiMenu-list {
+  // padding: initial !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.desktopLogo {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin: 0 5px;
+}
+
+.mobileLogo {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin: 0 5px;
+  display: none;
+}
+
+@media screen and (max-width: 900px) {
+  .desktopLogo {
+    display: none;
+  }
+  .mobileLogo {
+    display: block;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .mobileLogo {
+    display: none;
+  }
 }

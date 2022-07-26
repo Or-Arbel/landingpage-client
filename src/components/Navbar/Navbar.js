@@ -14,7 +14,11 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import { NavLink } from "react-router-dom";
 import styles from "./styles.module.scss";
 import SettingsIcon from "@mui/icons-material/Settings";
-import dateFormat from "dateformat";
+import DateAndTime from "./DateAndTime";
+import { style } from "@mui/system";
+
+const pikudLogo = require("../../images/pikudHaorefLogo.png");
+const madorLogo = require("../../images/madorLogo.jpg");
 
 const pages = [
   { name: 'מעבדת פיתוח שו"ב', url: "/shob" },
@@ -23,16 +27,6 @@ const pages = [
 
 const Navbar = (props) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [currentTime, setCurrentTime] = React.useState("");
-
-  // Set Current Date And Time
-  React.useEffect(() => {
-    setInterval(() => {
-      let now = new Date();
-      let nowTime = dateFormat(now, "HH:MM");
-      setCurrentTime(nowTime);
-    }, 1000);
-  }, []);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -42,14 +36,18 @@ const Navbar = (props) => {
     setAnchorElNav(null);
   };
 
-  console.log("navbar render");
   return (
     <AppBar position="sticky" id={styles.appBar} key={props.isLoggedIn}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           {/* desktop */}
-          {/* LOGO */}
+
+          {/* desktop LOGO */}
+          <img src={pikudLogo} className={styles.desktopLogo} />
+          <img src={madorLogo} className={styles.desktopLogo} />
+
           {/* <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} /> */}
+
           <NavLink className={styles.mobileMenuLink} exact to="/">
             <Typography
               variant="h6"
@@ -68,9 +66,9 @@ const Navbar = (props) => {
             </Typography>
           </NavLink>
 
-          {/* responsive */}
+          {/* responsive mode*/}
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            {/* mobile logo */}
+            {/* Hamburger icon - shown on mobile */}
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -97,7 +95,20 @@ const Navbar = (props) => {
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{
-                display: { xs: "block", md: "none" },
+                display: {
+                  xs: "block",
+                  md: "none",
+                  display: "flex",
+                  flexDirection: "column",
+                },
+              }}
+              sm={{
+                display: {
+                  xs: "block",
+                  md: "none",
+                  display: "flex",
+                  flexDirection: "column",
+                },
               }}
             >
               {pages.map((page, i) => (
@@ -115,7 +126,10 @@ const Navbar = (props) => {
               ))}
             </Menu>
           </Box>
+          {/* mobile logo */}
+          <img src={pikudLogo} className={styles.mobileLogo} />
 
+          {/* כותרת פורטל שועל במצב מובייל , מופיעה באמצע */}
           <Typography
             variant="h5"
             noWrap
@@ -129,9 +143,11 @@ const Navbar = (props) => {
               letterSpacing: ".3rem",
               textDecoration: "none",
               fontFamily: "Rubik",
+              alignItems: "center",
             }}
           >
             פורטל שוע"ל
+            <img src={madorLogo} className={styles.mobileLogo} />
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
@@ -201,11 +217,12 @@ const Navbar = (props) => {
               </IconButton>
             )}
 
-            <div id={styles.dateAndTime}>
+            <DateAndTime />
+            {/* <div id={styles.dateAndTime}>
               {new Date().toLocaleDateString()}
               <br />
               <div className={styles.time}>{currentTime}</div>
-            </div>
+            </div> */}
           </Box>
         </Toolbar>
       </Container>

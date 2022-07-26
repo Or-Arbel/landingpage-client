@@ -1,5 +1,4 @@
 .container {
-  padding: 5px;
   margin: 20px auto;
   display: flex;
   flex-wrap: wrap;
@@ -14,9 +13,7 @@
 /* On screens that are 992px or less */
 @media screen and (max-width: 992px) {
   .container {
-    .card {
-      width: 60%;
-    }
+    padding: 0;
   }
 }
 
@@ -24,7 +21,7 @@
 @media screen and (max-width: 600px) {
   .container {
     .card {
-      width: 90%;
+      width: 100%;
     }
   }
 }

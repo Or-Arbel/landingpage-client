@@ -1,12 +1,12 @@
 .cardsContainer {
-  padding: 10px;
+  padding: 30px 70px;
   margin: 0 auto;
-  width: 80%;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   .departmentCard {
     min-width: 250px;
+    min-width: 20%;
     height: 300px;
     margin: 10px;
     position: relative;
@@ -62,18 +62,20 @@
 
 @media screen and (max-width: 992px) {
   .cardsContainer {
-    width: 100%;
-    padding: 0;
-    display: grid;
-
+    padding: 10px;
     .departmentCard {
       height: initial;
+      min-width: 30%;
     }
   }
 }
 @media screen and (max-width: 600px) {
   .cardsContainer {
-    display: grid;
-    grid-template-columns: 1fr;
+    padding: 0;
+
+    .departmentCard {
+      height: initial;
+      min-width: 45%;
+    }
   }
 }

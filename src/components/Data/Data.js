@@ -6,6 +6,7 @@ import useHebrewColumns from "../Assets/MaterialTable/useHebrewColumns";
 import useHttp from "../../Hooks/use-http";
 import LinearIndeterminate from "../Assets/loadingSpinners/LinearIndeterminate";
 import { Alert } from "@mui/material";
+import ReportUrlUpdate from "../ReportUrlUpdate/ReportUrlUpdate";
 
 export const TableDataContext = React.createContext([]);
 const Data = () => {
@@ -57,6 +58,9 @@ const Data = () => {
       case "mainLinks": {
         return "לינקים ראשיים";
       }
+      case "reportUrl": {
+        return "עדכון url לעמוד דיווח תקלה";
+      }
       default:
         return table;
     }
@@ -82,7 +86,11 @@ const Data = () => {
         {!isLoading && !error && table && tableData && (
           <>
             <h3>{getTitle(table)}</h3>
-            <MaterialTableComponent getTitle={getTitle} />
+            {table === "reportUrl" ? (
+              <ReportUrlUpdate />
+            ) : (
+              <MaterialTableComponent getTitle={getTitle} />
+            )}
           </>
         )}
         {!isLoading && !error && !table && <p>מסך מנהל לניהול נתונים</p>}

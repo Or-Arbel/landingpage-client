@@ -1,7 +1,6 @@
 .linksContainer {
-  width: 70%;
-  padding: 10px;
-  margin: 20px auto;
+  padding: 30px 70px;
+  margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -12,7 +11,7 @@
   transition: background-color 0.5s ease-out;
   margin: 5px 20px;
   padding: 10px;
-  min-width: 25%;
+  min-width: 30%;
   border-radius: 25px;
   color: white;
   text-decoration: none;
@@ -36,10 +35,10 @@
 /* On screens that are 992px or less */
 @media screen and (max-width: 992px) {
   .linksContainer {
-    width: 80%;
+    padding: 0 10px;
     justify-content: space-around;
     .singleLink {
-      min-width: 40%;
+      margin: 5px auto;
     }
   }
   .singleLink {
@@ -50,9 +49,8 @@
 /* On screens that are 600px or less */
 @media screen and (max-width: 600px) {
   .linksContainer {
-    width: 90%;
     .singleLink {
-      min-width: 80%;
+      min-width: 90%;
     }
   }
 }

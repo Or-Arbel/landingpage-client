@@ -1,14 +1,14 @@
 .container {
   margin: 0 auto;
   background-color: rgb(48, 143, 137, 0.3);
-  padding: 70px;
+  padding: 30px 70px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
 
   .mainLinkCard {
     margin: 10px;
-    min-width: 300px;
+    min-width: 30%;
   }
 
   h1 {
@@ -16,17 +16,18 @@
   }
 }
 
-.colorfulDiv {
-  margin: 10px auto;
-
-  width: 10em;
-  height: 10em;
-  border: 10px solid;
-  border-image-slice: 1;
-  border-width: 5px;
-  border-image-source: linear-gradient(to left, #1976d2, #308f89);
-  transition: all 0.5s;
-  &:hover {
-    background-color: white;
+@media screen and (max-width: 992px) {
+  .container {
+    padding: 0;
+    .mainLinkCard {
+      width: 45%;
+    }
+  }
+}
+@media screen and (max-width: 600px) {
+  .container {
+    .mainLinkCard {
+      width: 100%;
+    }
   }
 }
