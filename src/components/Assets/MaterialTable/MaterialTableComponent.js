@@ -134,6 +134,10 @@ const MaterialTableComponent = (props) => {
       const requestOptions = {
         url: `${process.env.REACT_APP_SERVER_URL}api/${table}`,
         method: "POST",
+        headers: {
+          Authorization:
+            "Bearer " + JSON.parse(localStorage.getItem("userData")).token,
+        },
         body: bodyData,
       };
 
@@ -180,6 +184,10 @@ const MaterialTableComponent = (props) => {
         const requestOptions = {
           url: `${process.env.REACT_APP_SERVER_URL}api/${table}/${oldRow.id}`,
           method: "PATCH",
+          headers: {
+            Authorization:
+              "Bearer " + JSON.parse(localStorage.getItem("userData")).token,
+          },
           body: newData,
         };
         //if image updated
@@ -226,6 +234,10 @@ const MaterialTableComponent = (props) => {
     const patchRequestOptions = {
       url: `${process.env.REACT_APP_SERVER_URL}api/${table}`,
       method: "PATCH",
+      headers: {
+        Authorization:
+          "Bearer " + JSON.parse(localStorage.getItem("userData")).token,
+      },
       body,
     };
 
@@ -271,6 +283,10 @@ const MaterialTableComponent = (props) => {
     const requestOptions = {
       url: `${process.env.REACT_APP_SERVER_URL}api/${table}`,
       method: "PATCH",
+      headers: {
+        Authorization:
+          "Bearer " + JSON.parse(localStorage.getItem("userData")).token,
+      },
       body,
     };
 
@@ -309,6 +325,10 @@ const MaterialTableComponent = (props) => {
     const PatchRequestOptions = {
       url: `${process.env.REACT_APP_SERVER_URL}api/${table}`,
       method: "PATCH",
+      headers: {
+        Authorization:
+          "Bearer " + JSON.parse(localStorage.getItem("userData")).token,
+      },
       body,
     };
     const { data } = await sendRequest(PatchRequestOptions);

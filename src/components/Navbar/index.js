@@ -15,7 +15,6 @@ import { NavLink } from "react-router-dom";
 import styles from "./styles.module.scss";
 import SettingsIcon from "@mui/icons-material/Settings";
 import DateAndTime from "./DateAndTime";
-import { style } from "@mui/system";
 
 const pikudLogo = require("../../images/pikudHaorefLogo.png");
 const madorLogo = require("../../images/madorLogo.jpg");
@@ -34,6 +33,11 @@ const Navbar = (props) => {
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
+  };
+
+  const logOutFunc = () => {
+    props.setIsLoggedIn((prev) => false);
+    localStorage.removeItem("userData");
   };
 
   return (
@@ -186,7 +190,7 @@ const Navbar = (props) => {
                   aria-label="log out current user"
                   aria-controls="menu-appbar"
                   aria-haspopup="true"
-                  onClick={props.logOutFunc}
+                  onClick={logOutFunc}
                   className={styles.logoutIcon}
                 >
                   <LogoutIcon />

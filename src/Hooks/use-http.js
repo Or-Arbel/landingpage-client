@@ -19,10 +19,13 @@ const useHttp = () => {
       : "";
     setIsLoading(true);
     setError(null);
+
     try {
       const response = await fetch(requestConfig.url + params, {
         method: requestConfig.method ? requestConfig.method : "GET",
-        headers: requestConfig.headers ? requestConfig.headers : headers,
+        headers: requestConfig.headers
+          ? { ...headers, ...requestConfig.headers }
+          : headers,
         body: requestConfig.body ? JSON.stringify(requestConfig.body) : null,
         redirect: "follow",
       });

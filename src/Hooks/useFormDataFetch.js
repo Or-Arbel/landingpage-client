@@ -18,6 +18,7 @@ const useFormDataFetch = () => {
     const requestOptions = {
       method: method ?? "GET",
       body: formdata,
+      headers,
       redirect: "follow",
     };
 

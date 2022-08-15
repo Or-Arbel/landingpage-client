@@ -15,14 +15,18 @@ const AnimatedRoutes = (props) => {
   return (
     <AnimatePresence exitBeforeEnter>
       <Routes location={location} key={location.pathname}>
+        {/* דף הבית */}
         <Route path="/" element={<Shual />} />
+        {/* עמוד פיתוחי מעבדת שוב */}
         <Route path="/shob" element={<Shob />} />
+        {/* עמוד דיווח תקלה ויצירת קשר */}
         <Route path="/report" element={<Report />} />
+
         <Route path="/update">
           <Route
             index={true}
             element={
-              <Protected isLoggedIn={props.isLoggedIn}>
+              <Protected>
                 <UpdateData />
               </Protected>
             }
@@ -30,7 +34,8 @@ const AnimatedRoutes = (props) => {
           <Route
             path=":table"
             element={
-              <Protected isLoggedIn={props.isLoggedIn}>
+              // <Protected isLoggedIn={props.isLoggedIn}>
+              <Protected>
                 <UpdateData />
               </Protected>
             }
