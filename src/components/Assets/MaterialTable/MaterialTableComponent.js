@@ -211,6 +211,7 @@ const MaterialTableComponent = (props) => {
   };
 
   const deleteRowHandler = async (selectedRow) => {
+    console.log("Bearer " + JSON.parse(localStorage.getItem("userData")).token);
     const requestOptions = {
       url: `${process.env.REACT_APP_SERVER_URL}api/${table}/${selectedRow.id}`,
       method: "DELETE",
@@ -347,8 +348,6 @@ const MaterialTableComponent = (props) => {
 
   return (
     <div style={{ width: "100%", margin: "auto" }}>
-      {error && <p>{error}</p>}
-
       {tableData && columns && (
         <>
           <MaterialTable
