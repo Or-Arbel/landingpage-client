@@ -6,6 +6,7 @@ import Shob from "../../../Pages/Shob";
 import Report from "../../../Pages/Report";
 import ErrorPage from "../../../Pages/ErrorPage";
 import UpdateData from "../../../Pages/UpdateData";
+
 import Protected from "../Protected";
 
 import { AnimatePresence } from "framer-motion";
@@ -34,7 +35,6 @@ const AnimatedRoutes = (props) => {
           <Route
             path=":table"
             element={
-              // <Protected isLoggedIn={props.isLoggedIn}>
               <Protected>
                 <UpdateData />
               </Protected>

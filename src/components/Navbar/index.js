@@ -1,236 +1,72 @@
 import * as React from "react";
-import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
+
 import Container from "@mui/material/Container";
-import Button from "@mui/material/Button";
-import MenuItem from "@mui/material/MenuItem";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import LogoutIcon from "@mui/icons-material/Logout";
-import { NavLink } from "react-router-dom";
+
 import styles from "./styles.module.scss";
-import SettingsIcon from "@mui/icons-material/Settings";
 import DateAndTime from "./DateAndTime";
+import AuthIcon from "./AuthIcon";
+import NavbarTitle from "./NavbarTitle";
+import MobileMenu from "./MobileMenu";
+import DesktopMenu from "./DesktopMenu";
 
 const pikudLogo = require("../../images/pikudHaorefLogo.png");
 const madorLogo = require("../../images/madorLogo.jpg");
 
-const pages = [
-  { name: 'מעבדת פיתוח שו"ב', url: "/shob" },
-  { name: "דיווח תקלה ויצירת קשר", url: "/report" },
-];
-
 const Navbar = (props) => {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
-
-  const logOutFunc = () => {
-    props.setIsLoggedIn((prev) => false);
-    localStorage.removeItem("userData");
-  };
-
   return (
-    <AppBar position="sticky" id={styles.appBar} key={props.isLoggedIn}>
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          {/* desktop */}
+    <Container id={styles.navbarContainer}>
+      {/* key={props.isLoggedIn} */}
+      <Toolbar
+        disableGutters
+        sx={{
+          justifyContent: "space-between",
+        }}
+      >
+        {/* צד ימין */}
+        {/* תפריט המבורגר במובייל*/}
+        <MobileMenu
+          isLoggedIn={props.isLoggedIn}
+          setIsLoggedIn={props.setIsLoggedIn}
+          setOpenModal={props.setOpenModal}
+        />
 
-          {/* desktop LOGO */}
-          <img src={pikudLogo} className={styles.desktopLogo} />
-          <img src={madorLogo} className={styles.desktopLogo} />
+        {/* תפריט דסקטופ כולל לוגוים, כותרת ותפריט */}
+        <DesktopMenu />
+        {/* סוף צד ימין*/}
 
-          {/* <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} /> */}
+        {/* כותרת פורטל שועל במצב מובייל , מופיעה באמצע בין 2 לוגוים */}
+        <div id={styles.mobileTitleWrapper}>
+          <img
+            src={pikudLogo}
+            className={` ${styles.logo} ${styles.tabletOnly}`}
+          />
+          <NavbarTitle />
+          <img
+            src={madorLogo}
+            className={` ${styles.logo} ${styles.tabletOnly}`}
+          />
+        </div>
 
-          <NavLink className={styles.mobileMenuLink} exact to="/">
-            <Typography
-              variant="h6"
-              noWrap
-              component="a"
-              sx={{
-                mx: 2,
-                display: { xs: "none", md: "flex" },
-                fontWeight: 700,
-                letterSpacing: ".3rem",
-                textDecoration: "none",
-                fontFamily: "Rubik",
-              }}
-            >
-              פורטל שוע"ל
-            </Typography>
-          </NavLink>
+        {/* צד שמאל */}
+        <Box className={styles.dateAuthWrapper}>
+          <AuthIcon
+            isLoggedIn={props.isLoggedIn}
+            setIsLoggedIn={props.setIsLoggedIn}
+            setOpenModal={props.setOpenModal}
+          />
+          <DateAndTime />
+        </Box>
 
-          {/* responsive mode*/}
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            {/* Hamburger icon - shown on mobile */}
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
+        <div className={styles.mobileLogos}>
+          <img src={pikudLogo} className={` ${styles.logo}`} />
+          {/* <img src={madorLogo} className={` ${styles.logo}`} /> */}
+        </div>
 
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: {
-                  xs: "block",
-                  md: "none",
-                  display: "flex",
-                  flexDirection: "column",
-                },
-              }}
-              sm={{
-                display: {
-                  xs: "block",
-                  md: "none",
-                  display: "flex",
-                  flexDirection: "column",
-                },
-              }}
-            >
-              {pages.map((page, i) => (
-                <MenuItem key={i} onClick={handleCloseNavMenu}>
-                  <Button key={i} onClick={handleCloseNavMenu} color="inherit">
-                    <NavLink
-                      className={styles.mobileMenuLink}
-                      exact
-                      to={page.url}
-                    >
-                      {page.name}
-                    </NavLink>
-                  </Button>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
-          {/* mobile logo */}
-          <img src={pikudLogo} className={styles.mobileLogo} />
-
-          {/* כותרת פורטל שועל במצב מובייל , מופיעה באמצע */}
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href="/"
-            sx={{
-              mx: 2,
-              display: { xs: "flex", md: "none" },
-              flexGrow: 1,
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              textDecoration: "none",
-              fontFamily: "Rubik",
-              alignItems: "center",
-            }}
-          >
-            פורטל שוע"ל
-            <img src={madorLogo} className={styles.mobileLogo} />
-          </Typography>
-
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page, i) => (
-              <Button
-                key={i}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
-                <NavLink
-                  className={({ isActive }) =>
-                    !isActive ? styles.navLink : styles.activeNavLink
-                  }
-                  exact
-                  to={page.url}
-                >
-                  {page.name}
-                </NavLink>
-              </Button>
-            ))}
-          </Box>
-          <Box
-            sx={{
-              flexGrow: 0,
-              display: "flex",
-              alignItems: "center",
-              padding: "10px",
-              justifyContent: "space-between",
-              maxWidth: "20%",
-            }}
-          >
-            {props.isLoggedIn ? (
-              <div>
-                <IconButton
-                  size="large"
-                  aria-label="log out current user"
-                  aria-controls="menu-appbar"
-                  aria-haspopup="true"
-                  onClick={logOutFunc}
-                  className={styles.logoutIcon}
-                >
-                  <LogoutIcon />
-                </IconButton>
-
-                <IconButton
-                  size="large"
-                  aria-label="update"
-                  aria-controls="menu-appbar"
-                  aria-haspopup="true"
-                  className={styles.updateIcon}
-                >
-                  <NavLink exact to="/update">
-                    <SettingsIcon />
-                  </NavLink>
-                </IconButton>
-              </div>
-            ) : (
-              <IconButton
-                size="large"
-                aria-label="log in user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={() => props.setOpenModal(true)}
-                className={styles.loginIcon}
-              >
-                <AccountCircleIcon />
-              </IconButton>
-            )}
-
-            <DateAndTime />
-            {/* <div id={styles.dateAndTime}>
-              {new Date().toLocaleDateString()}
-              <br />
-              <div className={styles.time}>{currentTime}</div>
-            </div> */}
-          </Box>
-        </Toolbar>
-      </Container>
-    </AppBar>
+        {/* סוף צד שמאל */}
+      </Toolbar>
+    </Container>
   );
 };
 export default React.memo(Navbar);

@@ -1,8 +1,38 @@
+#navbarContainer {
+  top: 0;
+  position: sticky;
+  background-color: #1976d2;
+  z-index: 5;
+  max-width: 100%;
+}
+
+#desktopMenu {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-decoration: none;
+  font-weight: 600;
+  font-family: "Rubik", sans-serif;
+  padding: 5px 0;
+}
+.mobileMenuContainer {
+  display: none;
+}
+
+#mobileTitleWrapper {
+  display: none;
+  text-decoration: none;
+  font-weight: 600;
+  font-family: "Rubik", sans-serif;
+  padding: 5px;
+  align-items: center;
+}
+
 .navLink {
   font-size: 16px;
   color: rgb(230, 245, 241, 0.6);
   text-decoration: none;
-  padding: 10px;
+  padding: 5px;
   font-family: "Rubik", sans-serif;
 }
 .activeNavLink {
@@ -13,8 +43,15 @@
   padding: 10px;
   font-family: "Rubik", sans-serif;
 }
-#appBar {
-  background-color: #1976d2;
+
+//mobile menu
+#hamburger {
+  color: white !important;
+  padding: 10px;
+}
+
+.liWrapper {
+  width: 100%;
 }
 
 .mobileMenuLink {
@@ -23,6 +60,46 @@
   font-weight: 600;
   font-family: "Rubik", sans-serif;
   padding: 5px;
+  div {
+    ul {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}
+
+.dateAuthWrapper {
+  display: flex;
+  flex-grow: 0;
+  align-items: center;
+  justify-content: left;
+
+  width: 33%;
+}
+.mobileLogos {
+  display: none;
+}
+
+.authLi {
+  display: none;
+}
+
+@media only screen and (max-width: 600px) {
+  .dateAuthWrapper {
+    display: none;
+  }
+  .mobileLogos {
+    display: flex;
+    width: 33%;
+    justify-content: left;
+    img {
+      margin: 5px 0 5px 10px;
+    }
+  }
+
+  .authLi {
+    display: block;
+  }
 }
 
 #dateAndTime {
@@ -43,55 +120,56 @@
 .updateIcon {
   padding: 0;
   a {
-    padding: 0 10px;
+    padding: 10px;
     display: -webkit-inline-flex;
     color: white;
   }
 }
 
 .logoutIcon svg {
-  padding: 0 10px;
+  padding: 10px;
   color: white;
 }
 
 .loginIcon svg {
-  padding: 0 10px;
+  padding: 10px;
   color: white;
 }
 
-.css-6hp17o-MuiList-root-MuiMenu-list,
-ul.MuiList-root.MuiList-padding.MuiMenu-list.css-6hp17o-MuiList-root-MuiMenu-list {
-  // padding: initial !important;
-  display: flex !important;
-  flex-direction: column !important;
-}
-
-.desktopLogo {
+.logo {
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  margin: 0 5px;
+  padding-right: 5px;
 }
 
-.mobileLogo {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  margin: 0 5px;
+.tabletOnly {
   display: none;
 }
 
 @media screen and (max-width: 900px) {
-  .desktopLogo {
+  .desktopOnly {
     display: none;
   }
-  .mobileLogo {
+  .tabletOnly {
     display: block;
+  }
+
+  #mobileTitleWrapper {
+    display: flex;
+  }
+
+  .mobileMenuContainer {
+    display: flex;
+    width: 33%;
+  }
+  #desktopMenu {
+    display: none;
   }
 }
 
 @media screen and (max-width: 600px) {
-  .mobileLogo {
+  .tabletOnly {
     display: none;
   }
 }
