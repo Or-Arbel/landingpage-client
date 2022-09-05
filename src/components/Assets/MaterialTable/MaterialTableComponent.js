@@ -9,7 +9,7 @@ import tableIcons from "./MaterialTableIcons";
 import { useParams } from "react-router-dom";
 import "./MaterialTable.css";
 import useHttp from "../../../Hooks/use-http";
-import { TableDataContext } from "../../Data/Data";
+import { TableDataContext } from "../../UpdateTableData";
 import { SnackbarContext } from "../../../App";
 import useFormDataFetch from "../../../Hooks/useFormDataFetch";
 
@@ -21,7 +21,7 @@ const MaterialTableComponent = (props) => {
   const { setSnackbarDetails } = React.useContext(SnackbarContext);
 
   let { sendFormDataRequest } = useFormDataFetch();
-  let { isLoading, error, sendRequest } = useHttp();
+  let { sendRequest } = useHttp();
 
   const getOrderedData = (
     array,

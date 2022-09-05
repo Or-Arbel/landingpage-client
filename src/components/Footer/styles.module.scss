@@ -7,6 +7,8 @@
   //   position: fixed;
   //   bottom: 0;
   //   width: 100%;
+
+  position: relative;
 }
 
 .content {
@@ -18,7 +20,7 @@
 }
 
 @media screen and (max-width: 992px) {
-  .content{
+  .content {
     width: 100%;
   }
 }
@@ -45,7 +47,7 @@
 }
 
 @media screen and (max-width: 600px) {
-  .contact{
+  .contact {
     width: 80%;
     margin: 0;
   }

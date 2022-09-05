@@ -10,6 +10,9 @@ import UpdateData from "../../../Pages/UpdateData";
 import Protected from "../Protected";
 
 import { AnimatePresence } from "framer-motion";
+import UpdateTableData from "../../UpdateTableData";
+import ReportUrlUpdate from "../../ReportUrlUpdate/ReportUrlUpdate";
+import UpdateMainPage from "../../UpdateTableData/UpdateMainPage";
 
 const AnimatedRoutes = (props) => {
   const location = useLocation();
@@ -23,24 +26,20 @@ const AnimatedRoutes = (props) => {
         {/* עמוד דיווח תקלה ויצירת קשר */}
         <Route path="/report" element={<Report />} />
 
-        <Route path="/update">
-          <Route
-            index={true}
-            element={
-              <Protected>
-                <UpdateData />
-              </Protected>
-            }
-          />
-          <Route
-            path=":table"
-            element={
-              <Protected>
-                <UpdateData />
-              </Protected>
-            }
-          />
+        <Route
+          path="/update"
+          element={
+            <Protected>
+              <UpdateData />
+            </Protected>
+          }
+        >
+          <Route index element={<UpdateMainPage />} />
+          <Route exact path="reportUrl" element={<ReportUrlUpdate />} />
+          <Route path=":table" element={<UpdateTableData />} />
+          <Route path="*" element={<ErrorPage />} />
         </Route>
+
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </AnimatePresence>

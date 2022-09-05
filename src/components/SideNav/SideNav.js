@@ -18,7 +18,11 @@ const SideNav = () => {
   const [collapsed, setCollapsed] = useState(false);
 
   return (
-    <ProSidebar rtl={true} collapsed={collapsed}>
+    <ProSidebar
+      rtl={true}
+      collapsed={collapsed}
+      className={styles.sideNavContainer}
+    >
       <SidebarHeader>
         <div className={styles.header}>ניהול נתונים</div>
       </SidebarHeader>

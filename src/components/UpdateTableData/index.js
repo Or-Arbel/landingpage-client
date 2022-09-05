@@ -6,10 +6,9 @@ import useHebrewColumns from "../Assets/MaterialTable/useHebrewColumns";
 import useHttp from "../../Hooks/use-http";
 import LinearIndeterminate from "../Assets/loadingSpinners/LinearIndeterminate";
 import { Alert } from "@mui/material";
-import ReportUrlUpdate from "../ReportUrlUpdate/ReportUrlUpdate";
 
 export const TableDataContext = React.createContext([]);
-const Data = () => {
+const UpdateTableData = () => {
   const [tableData, setTableData] = useState(undefined);
   const [columns, setColumns] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
@@ -66,6 +65,7 @@ const Data = () => {
     }
   };
 
+  console.log("data: " + table);
   return (
     <TableDataContext.Provider
       value={{
@@ -83,20 +83,15 @@ const Data = () => {
             {error}
           </Alert>
         )}
-        {!isLoading && !error && table && tableData && (
+        {!isLoading && !error && tableData && (
           <>
             <h3>{getTitle(table)}</h3>
-            {table === "reportUrl" ? (
-              <ReportUrlUpdate />
-            ) : (
-              <MaterialTableComponent getTitle={getTitle} />
-            )}
+            <MaterialTableComponent getTitle={getTitle} />
           </>
         )}
-        {!isLoading && !error && !table && <p>מסך מנהל לניהול נתונים</p>}
       </div>
     </TableDataContext.Provider>
   );
 };
 
-export default Data;
+export default UpdateTableData;

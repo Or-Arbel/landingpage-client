@@ -2,8 +2,9 @@
   top: 0;
   position: sticky;
   background-color: #1976d2;
-  z-index: 5;
+  z-index: 102;
   max-width: 100%;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
 }
 
 #desktopMenu {
@@ -32,7 +33,7 @@
   font-size: 16px;
   color: rgb(230, 245, 241, 0.6);
   text-decoration: none;
-  padding: 5px;
+  padding: 10px;
   font-family: "Rubik", sans-serif;
 }
 .activeNavLink {
@@ -73,8 +74,6 @@
   flex-grow: 0;
   align-items: center;
   justify-content: left;
-
-  width: 33%;
 }
 .mobileLogos {
   display: none;
@@ -163,8 +162,17 @@
     display: flex;
     width: 33%;
   }
+
+  .dateAuthWrapper {
+    width: 33%;
+  }
+
   #desktopMenu {
     display: none;
+  }
+  .logo {
+    width: 40px;
+    height: 40px;
   }
 }
 
