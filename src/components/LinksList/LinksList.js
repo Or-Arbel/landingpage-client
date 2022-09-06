@@ -1,37 +1,35 @@
-import React, { useState, useEffect } from "react";
-import styles from "./styles.module.scss";
+import React from "react";
 // import { linksData } from '../linksData';
-import CircularProgress from "@mui/material/CircularProgress";
-import LinkIcon from "@mui/icons-material/Link";
-import useHttp from "../../Hooks/use-http";
+import { useQuery } from "react-query";
+import axios from "axios";
+
+//UI and styles
+import styles from "./styles.module.scss";
 import { Alert } from "@mui/material";
 import NoData from "../Assets/NoData/NoData";
+import LinkIcon from "@mui/icons-material/Link";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const LinksList = () => {
-  const [links, setLinks] = useState();
-
-  const { isLoading, error, sendRequest } = useHttp();
-
-  useEffect(() => {
-    const renderData = async () => {
-      let { data } = await sendRequest({
-        url: `${process.env.REACT_APP_SERVER_URL}api/links`,
-      });
-      setLinks(data);
-    };
-
-    renderData();
-  }, []);
+  const {
+    isLoading,
+    error,
+    data: links,
+  } = useQuery("links", () =>
+    axios
+      .get(`${process.env.REACT_APP_SERVER_URL}api/links?order=order`)
+      .then((res) => res.data.data)
+  );
 
   return (
     <div>
       <div className={styles.linksContainer}>
-        {isLoading ? <CircularProgress /> : null}
-        {error ? (
+        {isLoading && <CircularProgress />}
+        {error && (
           <Alert severity="error" variant="filled">
-            {error}
+            {error.message}
           </Alert>
-        ) : null}
+        )}
 
         {links?.length > 0 &&
           !isLoading &&

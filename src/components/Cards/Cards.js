@@ -1,25 +1,22 @@
-import React, { useState, useEffect } from "react";
-import styles from "./styles.module.scss";
+import React from "react";
+import { useQuery } from "react-query";
+import axios from "axios";
 // import { cardsData } from '../cardsData';
+
+//UI and styles
+import styles from "./styles.module.scss";
 import { Card, CardContent, CardHeader } from "@mui/material";
-import CircularProgress from "@mui/material/CircularProgress";
-import useHttp from "../../Hooks/use-http";
 
 const Cards = () => {
-  const [departments, setDepartments] = useState();
-
-  const { isLoading, error, sendRequest } = useHttp();
-
-  useEffect(() => {
-    const renderData = async () => {
-      let { data } = await sendRequest({
-        url: `${process.env.REACT_APP_SERVER_URL}api/departments`,
-      });
-      setDepartments(data);
-    };
-
-    renderData();
-  }, []);
+  const {
+    isLoading,
+    error,
+    data: departments,
+  } = useQuery("departments", () =>
+    axios
+      .get(`${process.env.REACT_APP_SERVER_URL}api/departments?order=order`)
+      .then((res) => res.data.data)
+  );
 
   const generalImage = require("../../images/general_image.svg");
 

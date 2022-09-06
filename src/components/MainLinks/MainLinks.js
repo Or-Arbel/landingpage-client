@@ -1,5 +1,8 @@
-import React, { useState, useEffect } from "react";
-import useHttp from "../../Hooks/use-http";
+import React from "react";
+import { useQuery } from "react-query";
+import axios from "axios";
+
+//UI and styles
 import styles from "./styles.module.scss";
 import {
   Card,
@@ -12,33 +15,28 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { Alert } from "@mui/material";
 
 const MainLinks = () => {
-  const [mainLinks, setMainLinks] = useState();
-
-  const { isLoading, error, sendRequest } = useHttp();
-
   const demoImage = require("../../images/m2e.jpg");
 
-  useEffect(() => {
-    const renderData = async () => {
-      let { data } = await sendRequest({
-        url: `${process.env.REACT_APP_SERVER_URL}api/mainLinks`,
-      });
-      setMainLinks(data);
-    };
-
-    renderData();
-  }, []);
+  const {
+    isLoading,
+    error,
+    data: mainLinks,
+  } = useQuery("mainLinks", () =>
+    axios
+      .get(`${process.env.REACT_APP_SERVER_URL}api/mainLinks?order=order`)
+      .then((res) => res.data.data)
+  );
 
   return (
     <>
       <div className={styles.container}>
         <h1>פורטל שוע"ל מפקדות</h1>
-        {isLoading ? <CircularProgress /> : null}
-        {error ? (
+        {isLoading && <CircularProgress />}
+        {error && (
           <Alert severity="error" variant="filled">
-            {error}
+            {error.message}
           </Alert>
-        ) : null}
+        )}
         {!isLoading &&
           !error &&
           mainLinks?.map((element, index) => (

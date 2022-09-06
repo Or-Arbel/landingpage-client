@@ -1,6 +1,7 @@
 import React, { useState, createContext, useEffect } from "react";
 import "./App.css";
 import { BrowserRouter as Router } from "react-router-dom";
+import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 
 import ScrollToTop from "./components/Assets/ScrollToTop";
 import Navbar from "./components/Navbar";
@@ -10,6 +11,7 @@ import AnimatedRoutes from "./components/Assets/AnimatedRoutes";
 import Snackbar from "./components/Assets/Snackbar";
 
 export const SnackbarContext = createContext({});
+const queryClient = new QueryClient();
 
 function App() {
   const [openLoginModal, setOpenLoginModal] = useState(false);
@@ -56,34 +58,36 @@ function App() {
   }, [isLoggedIn]);
 
   return (
-    <Router>
-      <div className="App">
-        <ScrollToTop /> {/* scroll to top on route change */}
-        <SnackbarContext.Provider
-          value={{
-            snackbarDetails,
-            setSnackbarDetails,
-          }}
-        >
-          {snackbarDetails.open && snackbarDetails.message && <Snackbar />}
-          <Navbar
-            setOpenModal={setOpenLoginModal}
-            isLoggedIn={isLoggedIn}
-            setIsLoggedIn={setIsLoggedIn}
-          />
-          <AnimatedRoutes
-            isLoggedIn={isLoggedIn}
-            setIsLoggedIn={setIsLoggedIn}
-          />
-          <LoginModal
-            openModal={openLoginModal}
-            closeModal={() => setOpenLoginModal((prevValue) => false)}
-            setIsLoggedIn={setIsLoggedIn}
-          />
-        </SnackbarContext.Provider>
-        <Footer />
-      </div>
-    </Router>
+    <QueryClientProvider client={queryClient}>
+      <Router>
+        <div className="App">
+          <ScrollToTop /> {/* scroll to top on route change */}
+          <SnackbarContext.Provider
+            value={{
+              snackbarDetails,
+              setSnackbarDetails,
+            }}
+          >
+            {snackbarDetails.open && snackbarDetails.message && <Snackbar />}
+            <Navbar
+              setOpenModal={setOpenLoginModal}
+              isLoggedIn={isLoggedIn}
+              setIsLoggedIn={setIsLoggedIn}
+            />
+            <AnimatedRoutes
+              isLoggedIn={isLoggedIn}
+              setIsLoggedIn={setIsLoggedIn}
+            />
+            <LoginModal
+              openModal={openLoginModal}
+              closeModal={() => setOpenLoginModal((prevValue) => false)}
+              setIsLoggedIn={setIsLoggedIn}
+            />
+          </SnackbarContext.Provider>
+          <Footer />
+        </div>
+      </Router>
+    </QueryClientProvider>
   );
 }
 
