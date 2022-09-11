@@ -5,7 +5,7 @@ import useHttp from "../Hooks/use-http";
 
 const Report = () => {
   const [url, setUrl] = useState();
-  let { isLoading, error, sendRequest } = useHttp();
+  let { sendRequest } = useHttp();
 
   useEffect(() => {
     const getData = async () => {

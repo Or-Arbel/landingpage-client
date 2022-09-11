@@ -1,7 +1,10 @@
 import React from "react";
 // import { linksData } from '../linksData';
-import { useQuery } from "react-query";
-import axios from "axios";
+// import { useQuery } from "react-query";
+// import axios from "axios";
+
+//usequeryget hook
+import useQueryGet from "../../Hooks/useQueryGet";
 
 //UI and styles
 import styles from "./styles.module.scss";
@@ -11,15 +14,16 @@ import LinkIcon from "@mui/icons-material/Link";
 import CircularProgress from "@mui/material/CircularProgress";
 
 const LinksList = () => {
-  const {
-    isLoading,
-    error,
-    data: links,
-  } = useQuery("links", () =>
-    axios
-      .get(`${process.env.REACT_APP_SERVER_URL}api/links?order=order`)
-      .then((res) => res.data.data)
-  );
+  //   const {
+  //     isLoading,
+  //     error,
+  //     data: links,
+  //   } = useQuery("links", () =>
+  //     axios
+  //       .get(`${process.env.REACT_APP_SERVER_URL}api/links?order=order`)
+  //       .then((res) => res.data.data)
+  //   );
+  const { data: links, error, isLoading } = useQueryGet("links");
 
   return (
     <div>

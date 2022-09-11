@@ -1,6 +1,11 @@
-import React, { useEffect, useState } from "react";
-import styles from "./styles.module.scss";
+import React from "react";
 // import { shobData } from '../ShobCardsData';
+
+//usequeryget hook
+import useQueryGet from "../../Hooks/useQueryGet";
+
+//UI and styles
+import styles from "./styles.module.scss";
 import {
   Card,
   CardMedia,
@@ -10,34 +15,27 @@ import {
   Alert,
 } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
-import useHttp from "../../Hooks/use-http";
 import NoData from "../Assets/NoData/NoData";
 const demoImage = require("../../images/m2e.jpg");
 
 const ShobCards = () => {
-  const [shobData, setShobData] = useState();
+  const { data: shobData, error, isLoading } = useQueryGet("shobDevelopments");
 
-  const { isLoading, error, sendRequest } = useHttp();
-
-  useEffect(() => {
-    const renderData = async () => {
-      let { data } = await sendRequest({
-        url: `${process.env.REACT_APP_SERVER_URL}api/shobDevelopments`,
-      });
-      setShobData(data);
-    };
-
-    renderData();
-  }, []);
-
+  if (isLoading) {
+    return (
+      <div className={styles.container}>
+        <CircularProgress />
+      </div>
+    );
+  }
   return (
     <div className={styles.container}>
-      {isLoading ? <CircularProgress /> : null}
-      {error ? (
+      {/* {isLoading && <CircularProgress />} */}
+      {error && (
         <Alert severity="error" variant="filled">
-          {error}
+          {error.message}
         </Alert>
-      ) : null}
+      )}
 
       {shobData?.length > 0 &&
         !isLoading &&

@@ -1,23 +1,15 @@
 import React from "react";
-import { useQuery } from "react-query";
-import axios from "axios";
 // import { cardsData } from '../cardsData';
+
+//usequeryget hook
+import useQueryGet from "../../Hooks/useQueryGet";
 
 //UI and styles
 import styles from "./styles.module.scss";
 import { Card, CardContent, CardHeader } from "@mui/material";
 
 const Cards = () => {
-  const {
-    isLoading,
-    error,
-    data: departments,
-  } = useQuery("departments", () =>
-    axios
-      .get(`${process.env.REACT_APP_SERVER_URL}api/departments?order=order`)
-      .then((res) => res.data.data)
-  );
-
+  const { data: departments, isLoading, error } = useQueryGet("departments");
   const generalImage = require("../../images/general_image.svg");
 
   return (
@@ -42,7 +34,7 @@ const Cards = () => {
             </div>
             <CardContent>
               <div className={styles.linksContainer}>
-                {d.departmentLinks.map((e, i) => (
+                {d.departmentLinks?.map((e, i) => (
                   <a
                     key={i}
                     href={e.url}

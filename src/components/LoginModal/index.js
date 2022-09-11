@@ -31,6 +31,19 @@ const LoginModal = (props) => {
   const [hidePassword, setHidePassword] = useState(true);
   const { setSnackbarDetails } = useContext(SnackbarContext);
 
+  const successfulLoginHandler = (res) => {
+    console.log(res);
+    props.setIsLoggedIn(true);
+    localStorage.setItem(
+      "userData",
+      JSON.stringify({
+        name: res.name,
+        tokenExpiration: res.tokenExpiration,
+        token: res.token,
+      })
+    );
+  };
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -47,16 +60,7 @@ const LoginModal = (props) => {
         });
       }
       if (res.status === "success") {
-        console.log(res);
-        props.setIsLoggedIn(true);
-        localStorage.setItem(
-          "userData",
-          JSON.stringify({
-            name: res.name,
-            tokenExpiration: res.tokenExpiration,
-            token: res.token,
-          })
-        );
+        successfulLoginHandler(res);
       }
     },
   });
@@ -65,8 +69,6 @@ const LoginModal = (props) => {
     formik.resetForm();
     props.closeModal();
   };
-
-  if (!props.openModal) return null;
 
   const validateEmailPassword = async (email, password) => {
     try {
@@ -85,6 +87,8 @@ const LoginModal = (props) => {
     }
   };
 
+  if (!props.openModal) return null;
+
   return (
     <Modal dir="rtl" open={props.openModal} onClose={closeLoginModal}>
       <Box className={styles.modalContainer}>
@@ -96,6 +100,7 @@ const LoginModal = (props) => {
 
         <form onSubmit={formik.handleSubmit}>
           <div className={styles.body}>
+            {/* Email Field :  */}
             <TextField
               id="email"
               name="email"
@@ -117,6 +122,8 @@ const LoginModal = (props) => {
               }}
             />
             <br />
+
+            {/* Password Field :  */}
             <TextField
               id="password"
               name="password"
@@ -140,6 +147,7 @@ const LoginModal = (props) => {
                       onMouseDown={() => {
                         setHidePassword((prev) => true);
                       }}
+                      // onClick={() => setHidePassword((prev) => !prev)}
                       edge="end"
                     >
                       {hidePassword ? <Visibility /> : <VisibilityOff />}

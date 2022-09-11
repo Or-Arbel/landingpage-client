@@ -1,6 +1,7 @@
 import React from "react";
-import { useQuery } from "react-query";
-import axios from "axios";
+
+//usequeryget hook
+import useQueryGet from "../../Hooks/useQueryGet";
 
 //UI and styles
 import styles from "./styles.module.scss";
@@ -16,16 +17,7 @@ import { Alert } from "@mui/material";
 
 const MainLinks = () => {
   const demoImage = require("../../images/m2e.jpg");
-
-  const {
-    isLoading,
-    error,
-    data: mainLinks,
-  } = useQuery("mainLinks", () =>
-    axios
-      .get(`${process.env.REACT_APP_SERVER_URL}api/mainLinks?order=order`)
-      .then((res) => res.data.data)
-  );
+  const { data: mainLinks, isLoading, error } = useQueryGet("mainLinks");
 
   return (
     <>
