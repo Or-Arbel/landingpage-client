@@ -42,6 +42,9 @@ const UpdateTableData = () => {
 
   const getTitle = (table) => {
     switch (table) {
+      case "mainLinks": {
+        return "לינקים ראשיים";
+      }
       case "links": {
         return "לינקים";
       }
@@ -54,8 +57,8 @@ const UpdateTableData = () => {
       case "shobDevelopments": {
         return "פיתוחי מעבדה";
       }
-      case "mainLinks": {
-        return "לינקים ראשיים";
+      case "sela": {
+        return 'פורטל סל"ע - סלולר עורף';
       }
       case "reportUrl": {
         return "עדכון url לעמוד דיווח תקלה";

@@ -1,0 +1,43 @@
+.selaContainer {
+  margin: 0 auto;
+  padding: 30px 70px;
+  @media screen and (max-width: 992px) {
+    padding: 0;
+  }
+}
+
+.selaCardsContainer {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.classificationInstructions {
+  background-color: rgb(255, 99, 71);
+  padding: 10px;
+  border-radius: 4px;
+  ul {
+    text-align: right;
+  }
+}
+
+.card {
+  width: 30%;
+  margin: 5px;
+  box-sizing: border-box;
+  @media screen and (max-width: 992px) {
+    width: 40%;
+    margin: 5px;
+  }
+  @media screen and (max-width: 600px) {
+    width: 100%;
+  }
+}
+
+.cardTitle {
+  font-weight: bold; // לא עובד בלי אימפורטנט
+}
+
+.security {
+  text-shadow: 2px 2px 5px blue;
+}

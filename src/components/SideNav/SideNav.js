@@ -46,6 +46,9 @@ const SideNav = () => {
           <MenuItem>
             <Link to="/update/shobDevelopments">פיתוחי מעבדה</Link>
           </MenuItem>
+          <MenuItem>
+            <Link to="/update/sela">פורטל סל"ע - סלולר עורף</Link>
+          </MenuItem>
         </SubMenu>
         <MenuItem icon={<MdOutlineReportProblem />}>
           <Link to="/update/reportUrl">עדכון url לעמוד דיווח תקלה</Link>

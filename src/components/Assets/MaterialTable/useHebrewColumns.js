@@ -408,6 +408,94 @@ const useHebrewColumns = (tableName) => {
           },
         ];
         break;
+      case "sela":
+        columns = [
+          // {
+          //   title: "סדר",
+          //   field: "order",
+          //   defaultSort: "asc",
+          //   editable: "never",
+          // },
+          {
+            title: "כותרת",
+            field: "title",
+            validate: (rowData) =>
+              rowData.title === undefined ||
+              rowData.title.trim() == "" ||
+              rowData.title.length < 3 ||
+              rowData.title.length > 40
+                ? "נא הזן כותרת באורך 3-40 תווים"
+                : true,
+          },
+          {
+            title: "תיאור",
+            field: "description",
+            validate: (rowData) =>
+              rowData.description === undefined ||
+              rowData.description.trim() == "" ||
+              rowData.description.length < 3 ||
+              rowData.description.length > 1500
+                ? "נא הזן תיאור באורך 3-1500 תווים"
+                : true,
+          },
+          {
+            title: "לינק",
+            field: "url",
+            validate: (rowData) =>
+              rowData.url === undefined || rowData.url.trim() == ""
+                ? "נא הזן url"
+                : !testUrlRegex(rowData.url)
+                ? "נא הזן url תקין עם https"
+                : true,
+          },
+          {
+            title: "תמונה",
+            field: "image",
+            render: (rowData) => (
+              <img
+                src={
+                  process.env.REACT_APP_SERVER_URL +
+                  (rowData.image?.length > 0
+                    ? rowData.image
+                    : "uploads/noimage.png")
+                }
+                style={{ borderRadius: "50%", width: "70px", height: "70px" }}
+              />
+            ),
+            editComponent: ({ value, onChange, rowData }) => (
+              <>
+                <input
+                  type="text"
+                  name="image"
+                  id="file"
+                  style={{ display: "none" }}
+                />
+                <label for="file">
+                  <ImageUpload
+                    currentImage={rowData.image ?? null}
+                    rowId={rowData.id}
+                    onChange={onChange}
+                  />
+                </label>
+              </>
+            ),
+          },
+          {
+            title: "נוצר בתאריך",
+            field: "createdAt",
+            editable: "never",
+            type: "datetime",
+            dateSetting: { format: dateFormat },
+          },
+          {
+            title: "עודכן בתאריך",
+            field: "updatedAt",
+            editable: "never",
+            type: "datetime",
+            dateSetting: { format: dateFormat },
+          },
+        ];
+        break;
       case "departmentLinks":
         getDepartmentsLinksColumnsArray();
         break;
