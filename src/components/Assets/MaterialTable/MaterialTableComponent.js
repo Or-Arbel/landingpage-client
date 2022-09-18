@@ -211,10 +211,13 @@ const MaterialTableComponent = (props) => {
   };
 
   const deleteRowHandler = async (selectedRow) => {
-    console.log("Bearer " + JSON.parse(localStorage.getItem("userData")).token);
     const requestOptions = {
       url: `${process.env.REACT_APP_SERVER_URL}api/${table}/${selectedRow.id}`,
       method: "DELETE",
+      headers: {
+        Authorization:
+          "Bearer " + JSON.parse(localStorage.getItem("userData")).token,
+      },
     };
 
     //delete row from db
