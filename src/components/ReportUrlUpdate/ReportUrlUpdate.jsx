@@ -26,7 +26,7 @@ const ReportUrlUpdate = () => {
   };
   useEffect(() => {
     getUrlFromDb();
-  });
+  }, []);
 
   const updateReportUrl = async () => {
     if (reportUrl === oldUrl) {
