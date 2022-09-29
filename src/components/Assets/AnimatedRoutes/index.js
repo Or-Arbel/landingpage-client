@@ -15,7 +15,7 @@ import ReportUrlUpdate from "../../ReportUrlUpdate/ReportUrlUpdate";
 import UpdateMainPage from "../../UpdateTableData/UpdateMainPage";
 import Sela from "../../../Pages/Sela/Sela";
 
-const AnimatedRoutes = (props) => {
+const AnimatedRoutes = () => {
   const location = useLocation();
   return (
     <AnimatePresence exitBeforeEnter>

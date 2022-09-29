@@ -9,6 +9,9 @@
   // box-shadow: 24px;
   border-radius: 15px;
   padding: 40px;
+  @media screen and (max-width: 600px) {
+    width: 70%;
+  }
 
   .titleCloseBtn {
     display: flex;

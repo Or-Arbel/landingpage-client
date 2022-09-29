@@ -87,10 +87,8 @@ const LoginModal = (props) => {
     }
   };
 
-  if (!props.openModal) return null;
-
   return (
-    <Modal dir="rtl" open={props.openModal} onClose={closeLoginModal}>
+    <Modal dir="rtl" open={true} onClose={closeLoginModal}>
       <Box className={styles.modalContainer}>
         <div className={styles.titleCloseBtn}>
           <button onClick={closeLoginModal}>X</button>
@@ -141,13 +139,7 @@ const LoginModal = (props) => {
                   <InputAdornment position="end">
                     <IconButton
                       aria-label="toggle password visibility"
-                      onClick={() => {
-                        setHidePassword((prev) => false);
-                      }}
-                      onMouseDown={() => {
-                        setHidePassword((prev) => true);
-                      }}
-                      // onClick={() => setHidePassword((prev) => !prev)}
+                      onClick={() => setHidePassword((prev) => !prev)}
                       edge="end"
                     >
                       {hidePassword ? <Visibility /> : <VisibilityOff />}

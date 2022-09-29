@@ -71,15 +71,13 @@ function App() {
             isLoggedIn={isLoggedIn}
             setIsLoggedIn={setIsLoggedIn}
           />
-          <AnimatedRoutes
-            isLoggedIn={isLoggedIn}
-            setIsLoggedIn={setIsLoggedIn}
-          />
-          <LoginModal
-            openModal={openLoginModal}
-            closeModal={() => setOpenLoginModal((prevValue) => false)}
-            setIsLoggedIn={setIsLoggedIn}
-          />
+          <AnimatedRoutes />
+          {openLoginModal && (
+            <LoginModal
+              closeModal={() => setOpenLoginModal((prevValue) => false)}
+              setIsLoggedIn={setIsLoggedIn}
+            />
+          )}
         </SnackbarContext.Provider>
         <Footer />
       </div>
